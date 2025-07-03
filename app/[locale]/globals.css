@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+/* 🌗 Light & Dark Theme Variables */
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  /* APEX Brand Colors */
+  --primary: #b70501;
+  --neutral-light: #f4f4f4;
+  --neutral-softer: #fdfafa;
+
+  /* Default Fonts (can be overridden per locale) */
+  --font-base: 'Inter', sans-serif;
+  --font-arabic:  "El Messiri", sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+/* 🎨 Tailwind Theme Tokens */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-sans: var(--font-base); /* default font */
+}
+
+/* 🌍 Direction-based font override */
+html[dir="rtl"] {
+  font-family: var(--font-arabic);
+}
+body {
+   font-family: "El Messiri", sans-serif;
+}
+/* إعدادات الخطوط حسب اللغة */
+html[dir="rtl"] {
+font-family: "El Messiri", sans-serif;
+}
+
+html[dir="ltr"] {
+ font-family: "Changa", sans-serif;
+}
+/* ✅ Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::selection{
+  background-color: #b70501;
+  color:white; 
+  border-radius: 30px;
+}
+
+::-webkit-scrollbar{
+  z-index: -1;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b70501; /* لون الشريط نفسه */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #930400; /* لون عند الـ hover */
+}
+
+/* 🎨 Optional utility classes for color usage */
+.bg-primary {
+  background-color: var(--primary);
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.bg-background {
+  background-color: var(--background);
+}
+
+.text-foreground {
+  color: var(--foreground);
+}
+
+.bg-neutral-light {
+  background-color: var(--neutral-light);
+}
+
+.bg-neutral-softer {
+  background-color: var(--neutral-softer);
+}
+@keyframes zoomInOut {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.bg-zoom {
+  animation: zoomInOut 15s ease-in-out infinite;
+}
+

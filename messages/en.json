@@ -1,0 +1,106 @@
+{"hero": {
+    "title": "Together we build a new meaning of life",
+    "description": "At Al Apex, we create real estate projects that combine comfort, prime locations, and modern design. Whether you're looking for a home, an investment, or a vacation escape, your perfect property starts here.",
+    "cta": "Book Your Free Consultation"
+  },
+
+  "HomePage": {
+    "title": "Hello world!",
+    "about": "Go to the about page"
+  },
+  
+  "navigation": {
+    "home": "Home",
+    "search": "Search",
+    "developers": "Developers",
+    "zones": "Zones",
+    "projects": "Projects",
+    "units": "Units",
+    "about": "About Us",
+    "contact": "Contact"
+  },
+  
+  "Footer":{
+
+  "companyDescription": "نحن نقدم حلولاً احترافية في التسويق والاستثمار العقاري في الإسكندرية، ونسعى لمساعدة العملاء في إيجاد أفضل الفرص من خلال المعرفة المحلية والتوجيه الاستراتيجي.",
+  "quickLinksTitle": "روابط سريعة",
+  "home": "الرئيسية",
+  "properties": "الوحدات",
+  "about": "من نحن",
+  "contact": "تواصل معنا",
+  "contactTitle": "معلومات التواصل",
+  "addressLabel": "العنوان",
+  "address": "الطابق الأول، جرين بلازا مول، سموحة – أمام مكتب الشهر العقاري، الإسكندرية، مصر",
+  "emailLabel": "البريد الإلكتروني",
+  "mobileLabel": "الموبايل",
+  "phoneLabel": "الهاتف"
+  },
+  
+  "About_Us": {
+    
+  "about": "About Us",
+  "whoWeAreTitle": "Who We Are",
+  "whoWeAreText": "Apex Real Estate Investment is a leading company in real estate marketing and investment based in Alexandria, Egypt. We offer specialized experience and comprehensive solutions for both residential and commercial projects.",
+  "whyChooseTitle": "Why Choose Us?",
+  "point1": "Comprehensive local market coverage in Alexandria.",
+  "point2": "Strategic partnerships and modern marketing techniques.",
+  "point3": "Building long-term trusted relationships with our clients.",
+  "point4": "Continuous expansion across various sectors and projects.",
+  "visionTitle": "Our Vision",
+  "visionText": "We aspire to be the leading choice for real estate investment and marketing in Alexandria by offering a transparent, innovative experience.",
+  "servicesTitle": "Our Services",
+  "service1": "Marketing and selling residential and commercial properties.",
+  "service2": "Investment consultancy based on market analysis.",
+  "service3": "Legal support and assistance in contracts and negotiations.",
+  "contactTitle": "Contact Information",
+  "address": "Amin Hassouna Street, Syouf, Alexandria – Next to Carrefour City Light",
+  "phone": "+20 123 456 7890",
+  "email": "info@apex-realestate.com",
+  "facebook": "Our Facebook Page"
+  
+},
+
+
+   "form": {
+    "title": "Consultation Request",
+    "submit": "Submit",
+    "name": "Name",
+    "enterName": "Enter your name",
+    "phone": "Phone Number",
+    "enterPhone": "Enter your phone number",
+    "project": "Project Name",
+    "selectProject": "Select a project",
+    "unitType": "Unit Type",
+    "selectUnitType": "Select unit type",
+    "residential": "Residential",
+    "commercial": "Commercial",
+    "priceRange": "Price Range",
+    "from": "From",
+    "to": "To",
+    "notes": "Notes",
+    "notesPlaceholder": "Enter any additional notes here",
+    "reviewTitle": "Add Your Review",
+    "writeReview": "Write your review here",
+    "sendReview": "Send Review",
+     "consalte":"Request a consultation",
+     "opinion":"Share your opinion"
+  },"cntactText":{
+    "text":"Contact us"
+  },
+  "contactDetails":{
+ "title": "Contact Information",
+  "addressLabel": "Address",
+  "address": "First floor, in front of the Real Estate Registry",
+  "workingHoursLabel": "Working Hours",
+  "workingHours": "Every day from 10 AM to 12 midnight",
+  "emailLabel": "Email",
+  "email": "inf@jamesmap.com",
+  "mobileLabel": "Mobile",
+  "mobile": "01559778200",
+  "landlineLabel": "Landline",
+  "landline": "---"
+  }
+ 
+
+
+}
