@@ -5,6 +5,15 @@ import ImageBG from '../components/ImageBG';
 import { FaWhatsapp, FaMapMarkerAlt, FaBuilding } from 'react-icons/fa';
 import { useTranslations } from 'next-intl';
 
+interface Project {
+  _id: string;
+  name: string;
+  image?: string[];
+  zone?: string;
+  developer?: string;
+  isUnique?: boolean;
+}
+
 export default function ProjectsPage() {
   const t = useTranslations('common');
   const { projects, loading } = useAppContext();
@@ -27,7 +36,7 @@ export default function ProjectsPage() {
         ) : (
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project: any) => (
+            {projects.map((project: Project) => (
               <div
                 key={project._id}
                   className="group relative h-80 rounded-2xl overflow-hidden shadow-xl hover:scale-105 transition-all duration-300 border border-white/20"

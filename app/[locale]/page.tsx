@@ -10,6 +10,25 @@ import ReviewsSlider from './sections/review';
 import { useEffect } from 'react';
 import Link from 'next/link';
 
+interface Project {
+  _id: string;
+  name: string;
+  image?: string[];
+  zone?: string;
+  developer?: string;
+  isUnique?: boolean;
+}
+
+interface Unit {
+  _id: string;
+  title: string;
+  images?: string[];
+  bedrooms: number;
+  bathrooms: number;
+  price: number;
+  isUnique?: boolean;
+}
+
 export default function HomePage() {
   const t = useTranslations('common');
   const { projects, inventory, loading } = useAppContext();
@@ -19,10 +38,11 @@ export default function HomePage() {
     const cards = document.querySelectorAll('.card-3d-interactive');
     
     cards.forEach((card) => {
-      const handleMouseMove = (e: any) => {
+      const handleMouseMove = (e: Event) => {
+        const mouseEvent = e as MouseEvent;
         const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        const x = mouseEvent.clientX - rect.left;
+        const y = mouseEvent.clientY - rect.top;
         
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
@@ -48,7 +68,7 @@ export default function HomePage() {
   }, [projects, featuredUnits]);
 
   return (
-    <div className="font-[Vazirmatn,cursive] bg-black/60">
+    <div className="font-cairo bg-black/60">
       {/* HomeVideo Component في البداية */}
       <HomeVideo />
 
@@ -209,11 +229,7 @@ export default function HomePage() {
                                 <span>{unit.bathrooms}</span>
                               </div>
                               <div className="flex items-center gap-2">
-                                <FaMapMarkerAlt className="text-white" />
-                                <span>{unit.region || 'غير محدد'}</span>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <span>السعر:</span>
+                                <span>{t('price')}:</span>
                                 <span>{unit.price?.toLocaleString()} ج.م</span>
                               </div>
                             </div>
@@ -232,16 +248,26 @@ export default function HomePage() {
 
                       {unit.isUnique && (
                         <div className="absolute top-4 right-4 bg-[#b70501] text-white text-xs px-3 py-1 rounded-full font-bold z-20">
-                          مميز
+                          {t('unique')}
                         </div>
                       )}
                     </Link>
                   )) : (
                     <div className="text-center py-12 col-span-full">
                       <div className="text-5xl mb-4">🏠</div>
-                      <p className="text-lg font-medium text-white">{t('noFeaturedUnits')}</p>
+                      <p className="text-lg font-medium text-white">{t('noUnits')}</p>
                     </div>
                   )}
+                </div>
+                
+                {/* زر عرض جميع الشقق في النص */}
+                <div className="text-center mt-12">
+                  <Link
+                    href="/units"
+                    className="inline-block bg-[#b70501] hover:bg-[#a00401] text-white px-8 py-3 rounded-xl transition-all duration-300 font-medium text-lg shadow-lg hover:shadow-xl transform hover:scale-105"
+                  >
+                    {t('viewAllUnits')}
+                  </Link>
                 </div>
               </div>
             )}

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-const connectDB = require('@/lib/DBConection');
-const User = require('@/models/user');
+import connectDB from '@/lib/DBConection';
+import User from '@/models/user';
 
 // ✅ helper للتحقق من صلاحية الأدمن
 async function isAdmin(adminId) {

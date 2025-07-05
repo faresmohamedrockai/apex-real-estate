@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 import { useAppContext } from '@/app/[locale]/context/contextData';
 
 // Dynamic import for React Leaflet components
-let MapContainer: any = null;
-let TileLayer: any = null;
-let Marker: any = null;
-let Popup: any = null;
+let MapContainer: React.ComponentType<any> | null = null;
+let TileLayer: React.ComponentType<any> | null = null;
+let Marker: React.ComponentType<any> | null = null;
+let Popup: React.ComponentType<any> | null = null;
 let L: any = null;
 
 interface Project {
@@ -37,18 +37,20 @@ interface InventoryItem {
 
 interface InventoryMapProps {
   inventory: InventoryItem[];
-  onMarkerClick?: (item: InventoryItem) => void;
-  selectedItem?: InventoryItem | null;
 }
 
 const InventoryMap: React.FC<InventoryMapProps> = ({ 
-  inventory, 
-  onMarkerClick, 
-  selectedItem 
+  inventory
 }) => {
   const { projects } = useAppContext();
   const [isClient, setIsClient] = useState(false);
-  const [mapComponents, setMapComponents] = useState<any>(null);
+  const [mapComponents, setMapComponents] = useState<{
+    MapContainer: React.ComponentType<any>;
+    TileLayer: React.ComponentType<any>;
+    Marker: React.ComponentType<any>;
+    Popup: React.ComponentType<any>;
+    L: any;
+  } | null>(null);
 
   useEffect(() => {
     setIsClient(true);
@@ -91,7 +93,7 @@ const InventoryMap: React.FC<InventoryMapProps> = ({
     loadMapComponents();
   }, []);
 
-  const getPosition = (item: any): [number, number] | null => {
+  const getPosition = (item: InventoryItem): [number, number] | null => {
     if (item.latitude && item.longitude) {
       return [item.latitude, item.longitude];
     }
@@ -127,15 +129,7 @@ const InventoryMap: React.FC<InventoryMapProps> = ({
     shadowSize: [41, 41],
   });
 
-  const projectMarkers = projects
-    .filter((p: any) => p.latitude && p.longitude)
-    .map((p: any) => ({
-      lat: p.latitude,
-      lng: p.longitude,
-      title: p.name,
-      type: 'project',
-      data: p
-    }));
+
 
   return (
     <mapComponents.MapContainer

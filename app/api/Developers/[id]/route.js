@@ -2,7 +2,6 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/DBConection';
 import Developer from '@/models/Developers';
-import Project from '@/models/projects';
 
 export async function GET(req, { params }) {
   const id = await params.id
