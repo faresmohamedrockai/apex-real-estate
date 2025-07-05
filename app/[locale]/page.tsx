@@ -9,6 +9,7 @@ import ImageBG from './components/ImageBG';
 import ReviewsSlider from './sections/review';
 import { useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface Project {
   _id: string;
@@ -113,10 +114,11 @@ export default function HomePage() {
                       href={`/projects/${project._id}`}
                       className="card-3d-interactive relative h-80 rounded-2xl overflow-hidden shadow-xl block cursor-pointer"
                     >
-                      <img
+                      <Image
                         src={project.image?.[0] || '/images/no-image.png'}
                         alt={project.name}
-                        className="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-110 transition-transform duration-500"
+                        fill
+                        className="object-cover z-0 group-hover:scale-110 transition-transform duration-500"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10" />
                       <div className="card-glare"></div>
@@ -202,10 +204,11 @@ export default function HomePage() {
                       href={`/units/${unit._id}`}
                       className="card-3d-interactive relative h-80 rounded-2xl overflow-hidden shadow-xl block cursor-pointer"
                     >
-                      <img
+                      <Image
                         src={unit.images?.[0] || '/images/no-image.png'}
                         alt={unit.title}
-                        className="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-110 transition-transform duration-500"
+                        fill
+                        className="object-cover z-0 group-hover:scale-110 transition-transform duration-500"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10" />
                       <div className="card-glare"></div>
@@ -254,7 +257,7 @@ export default function HomePage() {
                     </Link>
                   )) : (
                     <div className="text-center py-12 col-span-full">
-                      <div className="text-5xl mb-4">🏠</div>
+                      <div className="text-5xl mb-4"></div>
                       <p className="text-lg font-medium text-white">{t('noUnits')}</p>
                     </div>
                   )}

@@ -52,18 +52,21 @@
   
   "Footer":{
 
-  "companyDescription": "نحن نقدم حلولاً احترافية في التسويق والاستثمار العقاري في الإسكندرية، ونسعى لمساعدة العملاء في إيجاد أفضل الفرص من خلال المعرفة المحلية والتوجيه الاستراتيجي.",
-  "quickLinksTitle": "روابط سريعة",
-  "home": "الرئيسية",
-  "properties": "الوحدات",
-  "about": "من نحن",
-  "contact": "تواصل معنا",
-  "contactTitle": "معلومات التواصل",
-  "addressLabel": "العنوان",
-  "address": "الطابق الأول، جرين بلازا مول، سموحة – أمام مكتب الشهر العقاري، الإسكندرية، مصر",
-  "emailLabel": "البريد الإلكتروني",
-  "mobileLabel": "الموبايل",
-  "phoneLabel": "الهاتف"
+  "companyDescription": "We provide professional solutions in real estate marketing and investment in Alexandria, and we strive to help clients find the best opportunities through local knowledge and strategic guidance.",
+  "quickLinksTitle": "Quick Links",
+  "home": "Home",
+  "properties": "Properties",
+  "about": "About Us",
+  "contact": "Contact",
+  "contactTitle": "Contact Information",
+  "addressLabel": "Address",
+  "address": "First Floor, Green Plaza Mall, Smouha – In front of the Real Estate Registry, Alexandria, Egypt",
+  "emailLabel": "Email",
+  "mobileLabel": "Mobile",
+  "phoneLabel": "Phone",
+  "allRightsReserved": "All Rights Reserved",
+  "termsConditions": "Terms & Conditions",
+  "privacyPolicy": "Privacy Policy"
   },
   
   "About_Us": {
@@ -179,6 +182,7 @@
     "projectsCount": "project",
     "viewProject": "View Project",
     "viewUnits": "View Units",
+    "viewAllUnits": "View All Units",
     "viewDeveloper": "View Developer",
     "noDevelopers": "No developers available",
     "developers": "Real Estate Developers",

@@ -21,6 +21,7 @@ import {
 } from 'react-icons/fa';
 import ImageBG from '../ImageBG';
 import Link from 'next/link';
+import Image from 'next/image';
 
 type ProjectType = {
   _id: string;
@@ -90,20 +91,26 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
                 {(data?.image?.length ?? 0) > 0 ? (
                   data.image.map((img, i) => (
                     <SwiperSlide key={i}>
-                      <img
-                        src={img}
-                        alt={`slide-${i}`}
-                        className="w-full h-[300px] sm:h-[400px] md:h-[500px] object-cover"
-                      />
+                      <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px]">
+                        <Image
+                          src={img}
+                          alt={`slide-${i}`}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
                     </SwiperSlide>
                   ))
                 ) : (
                   <SwiperSlide>
-                    <img
-                      src="/images/no-image.png"
-                      alt="no-image"
-                      className="w-full h-[300px] sm:h-[400px] md:h-[500px] object-cover"
-                    />
+                    <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px]">
+                      <Image
+                        src="/images/no-image.png"
+                        alt="no-image"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
                   </SwiperSlide>
                 )}
               </Swiper>
@@ -113,11 +120,12 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
             {data?.image && data.image.length > 1 && (
               <div className="grid grid-cols-4 gap-2 max-w-4xl mx-auto">
                 {data.image.slice(0, 4).map((img, i) => (
-                  <div key={i} className="bg-black/50 backdrop-blur-md rounded-lg overflow-hidden border border-white/20">
-                    <img
+                  <div key={i} className="bg-black/50 backdrop-blur-md rounded-lg overflow-hidden border border-white/20 relative h-20 sm:h-24">
+                    <Image
                       src={img}
                       alt={`thumbnail-${i}`}
-                      className="w-full h-20 sm:h-24 object-cover"
+                      fill
+                      className="object-cover"
                     />
                   </div>
                 ))}
@@ -267,10 +275,11 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
                     href={`/units/${unit._id}`}
                     className="card-3d-interactive relative h-80 rounded-2xl overflow-hidden shadow-xl block cursor-pointer"
                   >
-                    <img
+                    <Image
                       src={unit.images?.[0] || '/images/no-image.png'}
                       alt={unit.title}
-                      className="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-110 transition-transform duration-500"
+                      fill
+                      className="object-cover z-0 group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10" />
                     <div className="card-glare"></div>

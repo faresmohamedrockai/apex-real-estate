@@ -2,6 +2,7 @@
 
 import { Link } from "@/i18n/navigation";
 import ImageBG from './ImageBG';
+import Image from 'next/image';
 
 const ApexIntro = () => {
   return (
@@ -27,11 +28,12 @@ const ApexIntro = () => {
 
         {/* الصورة مع التصميم الدائري */}
         <div className="flex justify-center">
-          <div className="rounded-full  overflow-hidden shadow-lg w-52 h-52">
-            <img
+          <div className="rounded-full overflow-hidden shadow-lg w-52 h-52 relative">
+            <Image
               src="/red.logo.jpg"
               alt="Apex Logo"
-              className="object-cover w-full h-full"
+              fill
+              className="object-cover"
             />
           </div>
         </div>

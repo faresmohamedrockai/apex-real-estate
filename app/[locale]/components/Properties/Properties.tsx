@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 interface Project {
   _id: string;
@@ -74,10 +75,14 @@ export default function Properties({ inventory, loading }: PropertiesProps) {
           className="relative rounded-2xl overflow-hidden shadow-xl bg-white/10 backdrop-blur-md group hover:scale-105 transition-transform duration-300"
         >
           {/* صورة العقار */}
-          <div
-            className="w-full h-64 bg-cover bg-center"
-            style={{ backgroundImage: `url(${item.images?.[0] || '/default.jpg'})` }}
-          />
+          <div className="relative w-full h-64">
+            <Image
+              src={item.images?.[0] || '/default.jpg'}
+              alt={item.title}
+              fill
+              className="object-cover"
+            />
+          </div>
 
           {/* نوع العقار */}
           <div className="absolute top-3 right-3 bg-[#b70501] text-white px-3 py-1 rounded-full text-sm shadow-md">

@@ -7,6 +7,7 @@ import { FaWhatsapp, FaMapMarkerAlt, FaBuilding, FaArrowLeft } from 'react-icons
 import { Link } from '@/i18n/navigation';
 import ImageBG from '../../components/ImageBG';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 
 type Developer = {
   _id: string;
@@ -100,11 +101,14 @@ const Page = () => {
               >
                 <div className="flex flex-col sm:flex-row items-center gap-6">
                   <div className="relative">
-                    <img
-                      src={developer.logo || '/images/no-image.png'}
-                      alt={developer.name}
-                      className="w-32 h-32 sm:w-40 sm:h-40 object-cover rounded-full border-4 border-white/30 shadow-lg"
-                    />
+                    <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full border-4 border-white/30 shadow-lg overflow-hidden relative">
+                      <Image
+                        src={developer.logo || '/images/no-image.png'}
+                        alt={developer.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
                     <div className="absolute -bottom-2 -right-2 bg-[#b70501] text-white text-xs px-3 py-1 rounded-full font-bold">
                       {t('developer')}
                     </div>
@@ -159,10 +163,11 @@ const Page = () => {
                         transition={{ duration: 0.3 }}
                         className="group relative h-80 rounded-2xl overflow-hidden shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer"
                       >
-                        <img
+                        <Image
                           src={project.image?.[0] || '/images/no-image.png'}
                           alt={project.name}
-                          className="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-110 transition-transform duration-500"
+                          fill
+                          className="object-cover z-0 group-hover:scale-110 transition-transform duration-500"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10" />
                         

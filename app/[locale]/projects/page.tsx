@@ -4,6 +4,7 @@ import { useAppContext } from '@/app/[locale]/context/contextData';
 import ImageBG from '../components/ImageBG';
 import { FaWhatsapp, FaMapMarkerAlt, FaBuilding } from 'react-icons/fa';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 
 interface Project {
   _id: string;
@@ -42,10 +43,11 @@ export default function ProjectsPage() {
                   className="group relative h-80 rounded-2xl overflow-hidden shadow-xl hover:scale-105 transition-all duration-300 border border-white/20"
               >
                 {/* صورة كخلفية */}
-                <img
+                <Image
                     src={project.image?.[0] || '/images/no-image.png'}
                   alt={project.name}
-                    className="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-110 transition-transform duration-500"
+                    fill
+                    className="object-cover z-0 group-hover:scale-110 transition-transform duration-500"
                 />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10" />
 

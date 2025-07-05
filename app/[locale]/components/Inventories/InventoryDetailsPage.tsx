@@ -20,6 +20,7 @@ import {
 } from 'react-icons/fa';
 import ImageBG from '../ImageBG';
 import { Link } from '@/i18n/navigation';
+import Image from 'next/image';
 
 type InventoryType = {
   _id: string;
@@ -85,20 +86,26 @@ const InventoryDetailsPage = ({ data }: { data: InventoryType }) => {
               {(data?.images?.length ?? 0) > 0 ? (
                 data.images.map((img, i) => (
                   <SwiperSlide key={i}>
-                    <img
-                      src={img}
-                      alt={`slide-${i}`}
-                      className="w-full h-[300px] sm:h-[400px] md:h-[500px] object-cover"
-                    />
+                    <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px]">
+                      <Image
+                        src={img}
+                        alt={`slide-${i}`}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
                   </SwiperSlide>
                 ))
               ) : (
                 <SwiperSlide>
-                  <img
-                    src="/images/no-image.png"
-                    alt="no-image"
-                    className="w-full h-[300px] sm:h-[400px] md:h-[500px] object-cover"
-                  />
+                  <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px]">
+                    <Image
+                      src="/images/no-image.png"
+                      alt="no-image"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
                 </SwiperSlide>
               )}
             </Swiper>
@@ -108,11 +115,12 @@ const InventoryDetailsPage = ({ data }: { data: InventoryType }) => {
           {data?.images && data.images.length > 1 && (
             <div className="grid grid-cols-4 gap-2 max-w-4xl mx-auto">
               {data.images.slice(0, 4).map((img, i) => (
-                <div key={i} className="bg-black/50 backdrop-blur-md rounded-lg overflow-hidden border border-white/20">
-                  <img
+                <div key={i} className="bg-black/50 backdrop-blur-md rounded-lg overflow-hidden border border-white/20 relative h-20 sm:h-24">
+                  <Image
                     src={img}
                     alt={`thumbnail-${i}`}
-                    className="w-full h-20 sm:h-24 object-cover"
+                    fill
+                    className="object-cover"
                   />
                 </div>
               ))}

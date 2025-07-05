@@ -2,6 +2,7 @@ import React from 'react';
 import { FaWhatsapp, FaMapMarkerAlt, FaBed, FaBath } from 'react-icons/fa';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 
 interface UnitsGridProps {
   units: unknown[];
@@ -29,10 +30,11 @@ const UnitsGrid: React.FC<UnitsGridProps> = ({ units, loading, title = 'الشق
                 href={`/units/${unit._id}`}
                 className="group relative h-80 rounded-2xl overflow-hidden shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer"
               >
-                <img
+                <Image
                   src={unit.images?.[0] || '/images/no-image.png'}
                   alt={unit.title}
-                  className="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-110 transition-transform duration-500"
+                  fill
+                  className="object-cover z-0 group-hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10" />
                 

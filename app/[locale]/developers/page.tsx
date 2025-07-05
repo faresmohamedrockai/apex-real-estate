@@ -5,6 +5,7 @@ import { useAppContext } from '@/app/[locale]/context/contextData';
 import ImageBG from '../components/ImageBG';
 import { FaWhatsapp } from 'react-icons/fa';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 
 const Page = () => {
   const t = useTranslations('common');
@@ -35,11 +36,14 @@ const Page = () => {
                   className="group flex flex-col items-center bg-black/60 backdrop-blur-md rounded-2xl shadow-xl p-6 transition-all duration-300 hover:scale-105 border border-white/20"
                 >
                   <div className="relative">
-                    <img
-                      src={dev.logo || '/images/no-image.png'}
-                      alt={dev.name}
-                      className="w-32 h-32 object-cover rounded-full border-4 border-white/30 shadow-lg group-hover:border-[#b70501] transition-colors duration-300"
-                    />
+                    <div className="w-32 h-32 rounded-full border-4 border-white/30 shadow-lg group-hover:border-[#b70501] transition-colors duration-300 overflow-hidden relative">
+                      <Image
+                        src={dev.logo || '/images/no-image.png'}
+                        alt={dev.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
                     <div className="absolute -bottom-2 -right-2 bg-[#b70501] text-white text-xs px-2 py-1 rounded-full font-bold">
                       {t('developer')}
                     </div>

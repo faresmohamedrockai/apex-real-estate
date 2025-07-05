@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
+import Image from 'next/image';
 
 interface Inventory {
   _id: string;
@@ -92,11 +93,14 @@ const HoverCard = ({ inventory }: { inventory: Inventory }) => {
       >
         {/* صورة الوحدة */}
         {inventory.images?.[0] && (
-          <img
-            src={inventory.images[0]}
-            alt={inventory.title}
-            className="w-full h-48 object-cover"
-          />
+          <div className="relative w-full h-48">
+            <Image
+              src={inventory.images[0]}
+              alt={inventory.title}
+              fill
+              className="object-cover"
+            />
+          </div>
         )}
 
         {/* المحتوى */}
@@ -123,11 +127,14 @@ const HoverCard = ({ inventory }: { inventory: Inventory }) => {
                 {inventory.projectId.name}
               </h3>
               {inventory.projectId.logos && (
-                <img
-                  src={inventory.projectId.logos}
-                  alt={inventory.projectId.name}
-                  className="w-10 h-10 object-contain rounded-full border border-[#b70501]/40"
-                />
+                <div className="relative w-10 h-10 rounded-full border border-[#b70501]/40 overflow-hidden">
+                  <Image
+                    src={inventory.projectId.logos}
+                    alt={inventory.projectId.name}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
               )}</div>
             <a
               href={`https://wa.me/201111993383?text=مرحبًا، أريد معرفة تفاصيل عن ${inventory.title}`}

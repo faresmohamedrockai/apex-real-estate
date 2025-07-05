@@ -10,6 +10,7 @@ import {
   FaBuilding,
   FaWhatsapp,
 } from 'react-icons/fa';
+import Image from 'next/image';
 
 export default function UnitsPage() {
   const t = useTranslations('common');
@@ -42,12 +43,13 @@ export default function UnitsPage() {
                     className="relative bg-black/60 backdrop-blur-md rounded-2xl overflow-hidden shadow-xl hover:scale-105 transition-transform flex flex-col border border-white/20 min-h-[320px] md:min-h-[360px]"
                 >
                   <Link href={`/units/${item._id}`} className="flex flex-col cursor-pointer">
-                    <div className="relative">
-                      <img
+                    <div className="relative w-full h-32 sm:h-40">
+                      <Image
                         src={item.images?.[0] || '/images/no-image.png'}
                         alt={item.title}
-                          className="w-full h-32 sm:h-40 object-cover"
-                        />
+                        fill
+                        className="object-cover"
+                      />
                         <div className="absolute top-2 right-2 md:top-3 md:right-3 bg-black/70 text-white text-xs px-2 md:px-3 py-1 rounded-full shadow">
                           <span className="text-white">{item.unitType}</span>
                         </div>

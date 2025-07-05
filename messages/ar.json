@@ -18,7 +18,37 @@
     "projects": "المشاريع",
     "units": "الوحدات",
     "about": "من نحن",
-    "contact": "تواصل معنا"
+    "contact": "تواصل معنا",
+    "searchTitle": "البحث عن العقارات",
+    "searchSubtitle": "ابحث عن العقار المثالي لك",
+    "searchPlaceholder": "ابحث باسم العقار أو النوع...",
+    "filters": "الفلاتر",
+    "showFilters": "إظهار/إخفاء الفلاتر",
+    "results": "نتائج البحث",
+    "resultsCount": "نتيجة",
+    "noResults": "لا توجد نتائج مطابقة",
+    "noResultsSubtitle": "جرب تغيير معايير البحث",
+    "loadingMap": "جاري تحميل الخريطة...",
+    "error": "خطأ في جلب البيانات",
+    "previous": "السابق",
+    "next": "التالي",
+    "page": "من",
+    "areaPlaceholder": "أدخل المساحة",
+    "bedroomsPlaceholder": "عدد الغرف",
+    "bathroomsPlaceholder": "عدد الحمامات",
+    "regionPlaceholder": "المنطقة",
+    "projectPlaceholder": "المشروع",
+    "clearFilters": "مسح الفلاتر",
+    "applyFilters": "تطبيق الفلاتر",
+    "filtersTitle": "فلاتر البحث",
+    "close": "إغلاق",
+    "addressLabel": "العنوان:",
+    "emailLabel": "البريد الإلكتروني:",
+    "mobileLabel": "الجوال:",
+    "phoneLabel": "الهاتف:",
+    "allRightsReserved": "جميع الحقوق محفوظة",
+    "termsConditions": "الشروط والأحكام",
+    "privacyPolicy": "سياسة الخصوصية"
   },
   "About_Us":{
     
@@ -57,7 +87,10 @@
   "address": "الطابق الأول، جرين بلازا مول، سموحة – أمام مكتب الشهر العقاري، الإسكندرية، مصر",
   "emailLabel": "البريد الإلكتروني",
   "mobileLabel": "الموبايل",
-  "phoneLabel": "الهاتف"
+  "phoneLabel": "الهاتف",
+  "allRightsReserved": "جميع الحقوق محفوظة",
+  "termsConditions": "الشروط والأحكام",
+  "privacyPolicy": "سياسة الخصوصية"
   },
   
  
@@ -137,14 +170,7 @@
     "clearFilters": "مسح الفلاتر",
     "applyFilters": "تطبيق الفلاتر",
     "filtersTitle": "فلاتر البحث",
-    "close": "إغلاق",
-    "addressLabel": "العنوان:",
-    "emailLabel": "البريد الإلكتروني:",
-    "mobileLabel": "الجوال:",
-    "phoneLabel": "الهاتف:",
-    "allRightsReserved": "جميع الحقوق محفوظة",
-    "termsConditions": "الشروط والأحكام",
-    "privacyPolicy": "سياسة الخصوصية"
+    "close": "إغلاق"
   },
 
   "units": {
@@ -250,6 +276,7 @@
     "projectsCount": "مشروع",
     "viewProject": "عرض المشروع",
     "viewUnits": "عرض الوحدات",
+    "viewAllUnits": "عرض جميع الوحدات",
     "viewDeveloper": "عرض المطور",
     "noDevelopers": "لا يوجد مطورين حالياً",
     "developers": "المطورين العقاريين",

@@ -6,6 +6,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiSearch, FiFilter, FiDollarSign, FiX } from 'react-icons/fi';
 import { FaBed, FaBath, FaMapMarkerAlt, FaWhatsapp } from 'react-icons/fa';
+import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 
@@ -54,7 +55,7 @@ interface SearchResponse {
 }
 
 export default function SearchPage() {
-  const t = useTranslations('common');
+  const t = useTranslations('navigation');
   // State for filters
   const [searchTerm, setSearchTerm] = useState('');
   const [showFilters, setShowFilters] = useState(false);
@@ -256,10 +257,11 @@ export default function SearchPage() {
                               className="group relative h-80 rounded-3xl overflow-hidden shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer bg-transparent border-0"
                             >
                               <Link href={`/units/${item._id}`} className="block h-full">
-                                <img
+                                <Image
                                   src={item.images?.[0] || '/images/no-image.png'}
                                   alt={item.title}
-                                  className="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-100 ransition-transform duration-500 rounded-3xl"
+                                  fill
+                                  className="object-cover z-0 group-hover:scale-100 transition-transform duration-500 rounded-3xl"
                                 />
                                 {/* شارة مميز */}
                                 {item.isUnique && (

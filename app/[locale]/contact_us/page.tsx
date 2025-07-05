@@ -9,6 +9,7 @@ import MultiRangeSlider from '../components/MultiRangeSlider';
 
 export default function ConsultationForm() {
   const t = useTranslations('form');
+const contactT = useTranslations('cntactText');
   const [formType, setFormType] = useState<'review' | 'consultation'>('consultation');
   const [priceRange, setPriceRange] = useState<[number, number]>([250000, 100000000]);
   const [rating, setRating] = useState(5);
@@ -116,7 +117,7 @@ export default function ConsultationForm() {
           transition={{ duration: 0.6 }}
             className="text-4xl md:text-5xl text-center font-extrabold text-white mb-10"
         >
-          {t('cntactText.text')}
+          {contactT('text')}
         </motion.h1>
 
         {/* الأزرار */}
