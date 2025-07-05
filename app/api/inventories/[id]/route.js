@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import mongoose from 'mongoose';
 import connectDB from '@/lib/DBConection';
 import Inventory from '@/models/inventory';

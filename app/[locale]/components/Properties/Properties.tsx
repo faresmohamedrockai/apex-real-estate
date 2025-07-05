@@ -27,12 +27,24 @@ interface InventoryItem {
   isUnique?: boolean;
 }
 
-interface PropertiesProps {
-  inventory: InventoryItem[];
-  loading?: boolean;
+interface ProjectData {
+  _id: string;
+  name: string;
 }
 
-export default function Properties({ inventory, loading }: PropertiesProps) {
+interface InventoryData {
+  _id: string;
+  projectId: string;
+  title: string;
+  unitType: string;
+  area: number;
+  bedrooms: number;
+  bathrooms: number;
+  price: number;
+  images: string[];
+}
+
+export default function Properties() {
   const [inventories, setInventories] = useState<InventoryItem[]>([]);
 
   useEffect(() => {
@@ -44,12 +56,12 @@ export default function Properties({ inventory, loading }: PropertiesProps) {
         const projRes = await fetch('/api/projects');
         const projData = await projRes.json();
 
-        const projectMap = new Map();
-        projData.forEach((project: any) => {
+        const projectMap = new Map<string, string>();
+        projData.forEach((project: ProjectData) => {
           projectMap.set(project._id, project.name);
         });
 
-        const merged = invData.map((item: any) => ({
+        const merged = invData.map((item: InventoryData) => ({
           ...item,
           projectId: {
             _id: item.projectId,

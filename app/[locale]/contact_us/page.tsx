@@ -97,8 +97,8 @@ export default function ConsultationForm() {
       } else {
         setMessage({ type: 'error', text: result.error });
       }
-    } catch (error) {
-              setMessage({ type: 'error', text: t('error') });
+    } catch {
+      setMessage({ type: 'error', text: t('error') });
     } finally {
       setLoading(false);
     }

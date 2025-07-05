@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
-const connectDB = require('@/lib/DBConection');
-const Project = require('@/models/projects'); 
-const Inventory = require('@/models/inventory'); 
-const mongoose = require('mongoose');
+import connectDB from '@/lib/DBConection';
+import Project from '@/models/projects'; 
+import Inventory from '@/models/inventory'; 
+import mongoose from 'mongoose';
 
 export async function GET(request, { params }) {
   await connectDB();

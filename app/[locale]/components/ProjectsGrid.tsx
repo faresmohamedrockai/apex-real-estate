@@ -2,8 +2,17 @@ import React from 'react';
 import { FaWhatsapp, FaMapMarkerAlt, FaBuilding } from 'react-icons/fa';
 import { useTranslations } from 'next-intl';
 
+interface Project {
+  _id: string;
+  name: string;
+  image?: string[];
+  zone?: string;
+  developer?: string;
+  isUnique?: boolean;
+}
+
 interface ProjectsGridProps {
-  projects: unknown[];
+  projects: Project[];
   loading?: boolean;
 }
 
@@ -20,7 +29,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ projects, loading }) => {
     ) : (
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects && projects.length > 0 ? projects.map((project: any) => (
+          {projects && projects.length > 0 ? projects.map((project: Project) => (
             <div
               key={project._id}
               className="group relative h-80 rounded-2xl overflow-hidden shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer"

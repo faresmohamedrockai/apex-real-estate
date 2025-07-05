@@ -3,8 +3,19 @@ import { FaWhatsapp, FaMapMarkerAlt, FaBed, FaBath } from 'react-icons/fa';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
+interface Unit {
+  _id: string;
+  title: string;
+  images?: string[];
+  bedrooms: number;
+  bathrooms: number;
+  region?: string;
+  price: number;
+  isUnique?: boolean;
+}
+
 interface UnitsGridProps {
-  units: unknown[];
+  units: Unit[];
   loading?: boolean;
   title?: string;
 }
@@ -23,7 +34,7 @@ const UnitsGrid: React.FC<UnitsGridProps> = ({ units, loading, title = 'الشق
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {units.length > 0 ? (
-            units.map((unit: any) => (
+            units.map((unit: Unit) => (
               <Link
                 key={unit._id}
                 href={`/units/${unit._id}`}
