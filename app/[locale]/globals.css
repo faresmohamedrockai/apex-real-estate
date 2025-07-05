@@ -65,7 +65,7 @@ html[dir="ltr"] {
 
 ::-webkit-scrollbar-thumb {
   background: #b70501; /* لون الشريط نفسه */
-  border-radius: 10px;
+
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -107,5 +107,82 @@ html[dir="ltr"] {
 
 .bg-zoom {
   animation: zoomInOut 15s ease-in-out infinite;
+}
+
+/* 🎭 Simple 3D Card Effect */
+.card-3d-simple {
+  transform-style: preserve-3d;
+  transition: transform 0.2s ease-out, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.card-3d-simple:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  transform: scale(1.05);
+}
+
+/* Interactive 3D with CSS only */
+.card-3d-interactive {
+  transform-style: preserve-3d;
+  transition: transform 0.1s ease-out, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.card-3d-interactive:hover {
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+}
+
+/* 🎭 3D Card Effects */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.hover\:rotate-y-2:hover {
+  transform: rotateY(2deg);
+}
+
+.hover\:rotate-x-1:hover {
+  transform: rotateX(1deg);
+}
+
+/* Enhanced 3D Card Hover Effects */
+.group:hover .group-hover\:rotate-y-2 {
+  transform: rotateY(2deg);
+}
+
+.group:hover .group-hover\:rotate-x-1 {
+  transform: rotateX(1deg);
+}
+
+/* Smooth 3D transitions */
+.transform {
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Card content should maintain 3D positioning */
+.card-3d-content {
+  transform: translateZ(20px);
+}
+
+/* Glare effect */
+.card-glare {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card-3d-interactive:hover .card-glare {
+  opacity: 1;
 }
 

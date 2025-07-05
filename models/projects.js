@@ -1,4 +1,3 @@
-// models/Project.js
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
@@ -19,7 +18,17 @@ const ProjectSchema = new Schema({
   inventories: [{
     type: Schema.Types.ObjectId,
     ref: 'Inventory'
-  }]
+  }],
+
+  
+  latitude: {
+    type: Number,
+    required: false,
+  },
+  longitude: {
+    type: Number,
+    required: false,
+  },
 });
 
 const Project = mongoose.models.Project || mongoose.model('Project', ProjectSchema);

@@ -36,7 +36,27 @@ const InventorySchema = new Schema({
     required: true,
   },
 
+  region: {
+    type: String,
+    required: false,
+  },
+
+  project: {
+    type: String,
+    required: false,
+  },
+
   isUnique: Boolean,
+
+  
+  latitude: {
+    type: Number,
+    required: false,
+  },
+  longitude: {
+    type: Number,
+    required: false,
+  },
 });
 
 const inventory = mongoose.models.Inventory || mongoose.model('Inventory', InventorySchema);

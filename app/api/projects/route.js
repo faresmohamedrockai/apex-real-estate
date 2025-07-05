@@ -21,7 +21,7 @@ export async function POST(request) {
   try {
     const body = await request.json();
 
-    const { name, image, zone, developerId } = body;
+    const { name, image, zone, developerId,latitude,longitude } = body;
 
     // تحقق من وجود المطور
     const developer = await Developer.findById(new mongoose.Types.ObjectId(developerId));
@@ -33,7 +33,9 @@ export async function POST(request) {
   name,
   image,
   zone,
-  developerId
+  developerId,
+  latitude,
+  longitude
 });
 
 

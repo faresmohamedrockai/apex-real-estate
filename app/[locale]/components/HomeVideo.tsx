@@ -38,7 +38,7 @@ const HomeVideo = () => {
   }, []);
 
   return (
-    <div className="relative z-0 ">
+    <div className="relative z-0">
       
       <div className="absolute inset-0 w-full h-[100vh] overflow-hidden -z-10">
         {images.map((src, index) => (
@@ -60,24 +60,27 @@ const HomeVideo = () => {
         ))}
       </div>
 
+      {/* طبقة شفافة سوداء */}
+      <div className="absolute inset-0 w-full h-[100vh] bg-[#b70501]/40 z-10"></div>
+
       {/* المحتوى فوق الخلفية */}
-      <div className="relative z-20 h-[100vh] bg-[#b70501]/45 flex items-center justify-center px-4">
+      <div className="relative z-20 h-[100vh] flex items-center justify-center px-4">
         <div className="max-w-7xl w-full flex flex-col md:flex-row items-center justify-between gap-6 text-white text-center md:text-right rtl:text-right" style={{ fontFamily: '"El Messiri", sans-serif' }}>
           
         {/* النص والزر */}
-<div className="w-full flex flex-col items-center justify-center text-center space-y-6 " style={{ fontFamily: '"El Messiri", sans-serif' }}>
-  <div className="md:w-3/4 space-y-4">
-    <h1 className="text-5xl md:text-6xl font-extrabold leading-snug text-white">
+<div className="w-full flex flex-col items-center justify-center text-center space-y-8 pt-32 sm:pt-40 md:pt-48" style={{ fontFamily: '"El Messiri", sans-serif' }}>
+  <div className="md:w-3/4 space-y-6">
+    <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-snug text-white drop-shadow-2xl">
       {t('title')}
     </h1>
-    <p className="text-lg md:text-xl font-medium text-gray-200">
+    <p className="text-lg md:text-xl lg:text-2xl font-medium text-gray-200 drop-shadow-lg">
       {t('description')}
     </p>
   </div>
 
   {/* الزر */}
   <Link href="/contact_us">
-    <button className="group relative inline-block text-lg md:text-xl px-10 py-4 border border-white text-white font-semibold rounded-full overflow-hidden transition-all duration-300 hover:text-white hover:border-0">
+    <button className="group relative inline-block text-lg md:text-xl px-10 py-4 border-2 border-white text-white font-semibold rounded-full overflow-hidden transition-all duration-300 hover:text-white hover:border-0 shadow-2xl">
       <span className="absolute inset-0 w-full h-full bg-[#b70501] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 ease-out z-0" />
       <span className="relative z-10">{t('cta')}</span>
     </button>
@@ -89,9 +92,9 @@ const HomeVideo = () => {
             <Image
               src="/logo.jpg"
               alt="Site Logo"
-              width={800}
-              height={800}
-              className=" rounded-xl "
+              width={600}
+              height={600}
+              className=" shadow-2xl"
             />
           </div>
         </div>

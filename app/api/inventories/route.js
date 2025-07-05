@@ -21,7 +21,7 @@ export async function POST(req) {
 
   try {
     const body = await req.json();
-    const { title, price, unitType, images, bedrooms, bathrooms, area, projectId, isUnique } = body;
+    const { title, price, unitType, images, bedrooms, bathrooms, area, projectId, isUnique,latitude,longitude } = body;
 
     // تأكد من أن projectId موجود وصالح
     if (!mongoose.Types.ObjectId.isValid(projectId)) {
@@ -43,7 +43,9 @@ export async function POST(req) {
       bathrooms,
       area,
       projectId,
-      isUnique
+      isUnique,
+      longitude,
+      latitude
     });
 
     // تحديث المشروع لربط الوحدة به

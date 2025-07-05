@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 
 interface Inventory {
@@ -66,14 +66,14 @@ const HoverCard = ({ inventory }: { inventory: Inventory }) => {
     y.set(newY);
   };
 
-  const resetRotation = () => {
+  const resetRotation = useCallback(() => {
     x.set(0.5);
     y.set(0.5);
-  };
+  }, [x, y]);
 
   useEffect(() => {
     resetRotation();
-  }, []);
+  }, [resetRotation]);
 
   return (
     <div
@@ -130,7 +130,7 @@ const HoverCard = ({ inventory }: { inventory: Inventory }) => {
                 />
               )}</div>
             <a
-              href={`https://wa.me/201113199101?text=مرحبًا، أريد معرفة تفاصيل عن ${inventory.title}`}
+              href={`https://wa.me/201111993383?text=مرحبًا، أريد معرفة تفاصيل عن ${inventory.title}`}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-4 inline-flex items-center gap-3 text-green-600 hover:text-green-700 transition text-base font-semibold"

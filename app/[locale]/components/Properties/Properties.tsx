@@ -2,21 +2,38 @@
 
 import { useEffect, useState } from 'react';
 
-interface Inventory {
+interface Project {
   _id: string;
-  title: string;
-  price: number;
-  unitType: string;
-  images: string[];
-  projectId: {
-    _id: string;
-    name: string;
-  };
-  type: string;
+  name: string;
+  region?: string;
+  latitude?: number;
+  longitude?: number;
 }
 
-export default function Properties() {
-  const [inventories, setInventories] = useState<Inventory[]>([]);
+interface InventoryItem {
+  _id: string;
+  title: string;
+  unitType: string;
+  area: number;
+  bedrooms: number;
+  bathrooms: number;
+  region?: string;
+  project?: string;
+  projectId: Project;
+  price: number;
+  images: string[];
+  latitude?: number;
+  longitude?: number;
+  isUnique?: boolean;
+}
+
+interface PropertiesProps {
+  inventory: InventoryItem[];
+  loading?: boolean;
+}
+
+export default function Properties({ inventory, loading }: PropertiesProps) {
+  const [inventories, setInventories] = useState<InventoryItem[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -81,7 +98,7 @@ export default function Properties() {
               <div className="text-xs mt-1">المشروع: {item.projectId.name}</div>
             </div>
             <a
-              href={`https://wa.me/201000000000?text=مرحبًا، مهتم بالشقة: ${item.title}`}
+              href={`https://wa.me/201111993383?text=مرحبًا، مهتم بالشقة: ${item.title}`}
               target="_blank"
               rel="noopener noreferrer"
               className="hover:scale-110 transition-transform"

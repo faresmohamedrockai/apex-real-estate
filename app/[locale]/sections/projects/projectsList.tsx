@@ -1,9 +1,13 @@
+import ImageBG from '../../components/ImageBG';
 
 const projectsList = () => {
   return (
-    <div>
-      
-    </div>
+    <>
+      <ImageBG />
+      <div className="relative z-10">
+        {/* ... باقي الكود ... */}
+      </div>
+    </>
   )
 }
 

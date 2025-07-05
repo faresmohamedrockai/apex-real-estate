@@ -24,7 +24,7 @@ const DeveloperMarquee = () => {
           {Developers.map((dev) => (
             <div
               key={dev._id}
-              className="flex items-center justify-center mx-6 transition-transform hover:scale-110 p-8 cursor-pointer"
+              className="flex items-center justify-center mx-6 transition-transform hover:scale-110 p-6 cursor-pointer"
             >
               <Image
                 src={dev.logo}

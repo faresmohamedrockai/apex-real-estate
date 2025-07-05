@@ -3,10 +3,11 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 interface AppData {
-  user: any;
-  inventory: any[];
-  projects: any[];
-  Developers: any[];
+  user: unknown;
+  inventory: unknown[];
+  projects: unknown[];
+  Developers: unknown[];
+  reviews: unknown[];
   loading: boolean;
 }
 
@@ -15,6 +16,7 @@ const AppContext = createContext<AppData>({
   inventory: [],
   projects: [],
   Developers: [],
+  reviews: [],
   loading: true,
 });
 
@@ -23,28 +25,32 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [inventory, setInventory] = useState([]);
   const [projects, setProjects] = useState([]);
   const [Developers, setDevelopers] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
     try {
-      const [developersRes, inventoryRes, projectsRes, userRes] = await Promise.all([
+      const [developersRes, inventoryRes, projectsRes, userRes, reviewsRes] = await Promise.all([
         fetch('/api/Developers'),
         fetch('/api/inventories'),
         fetch('/api/projects'),
         fetch('/api/user'),
+        fetch('/api/review?canShow=true&limit=20'),
       ]);
 
-      const [developersData, inventoryData, projectsData, userData] = await Promise.all([
+      const [developersData, inventoryData, projectsData, userData, reviewsData] = await Promise.all([
         developersRes.json(),
         inventoryRes.json(),
         projectsRes.json(),
         userRes.json(),
+        reviewsRes.json(),
       ]);
 
       setDevelopers(developersData);
       setInventory(inventoryData);
       setProjects(projectsData);
       setUser(userData);
+      setReviews(reviewsData.reviews || []);
     } catch (error) {
       console.error('❌ خطأ أثناء تحميل البيانات:', error);
     } finally {
@@ -57,7 +63,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <AppContext.Provider value={{ user, inventory, projects, Developers, loading }}>
+    <AppContext.Provider value={{ user, inventory, projects, Developers, reviews, loading }}>
       {children}
     </AppContext.Provider>
   );
