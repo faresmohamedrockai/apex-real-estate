@@ -4,11 +4,11 @@ import { useEffect, useState } from 'react';
 import { useAppContext } from '@/app/[locale]/context/contextData';
 
 // Dynamic import for React Leaflet components
-let MapContainer: React.ComponentType<any> | null = null;
-let TileLayer: React.ComponentType<any> | null = null;
-let Marker: React.ComponentType<any> | null = null;
-let Popup: React.ComponentType<any> | null = null;
-let L: any = null;
+let MapContainer: React.ComponentType<unknown> | null = null;
+let TileLayer: React.ComponentType<unknown> | null = null;
+let Marker: React.ComponentType<unknown> | null = null;
+let Popup: React.ComponentType<unknown> | null = null;
+let L: unknown = null;
 
 interface Project {
   _id: string;
@@ -39,18 +39,20 @@ interface InventoryMapProps {
   inventory: InventoryItem[];
 }
 
+interface MapComponents {
+  MapContainer: React.ComponentType<unknown>;
+  TileLayer: React.ComponentType<unknown>;
+  Marker: React.ComponentType<unknown>;
+  Popup: React.ComponentType<unknown>;
+  L: unknown;
+}
+
 const InventoryMap: React.FC<InventoryMapProps> = ({ 
   inventory
 }) => {
   const { projects } = useAppContext();
   const [isClient, setIsClient] = useState(false);
-  const [mapComponents, setMapComponents] = useState<{
-    MapContainer: React.ComponentType<any>;
-    TileLayer: React.ComponentType<any>;
-    Marker: React.ComponentType<any>;
-    Popup: React.ComponentType<any>;
-    L: any;
-  } | null>(null);
+  const [mapComponents, setMapComponents] = useState<MapComponents | null>(null);
 
   useEffect(() => {
     setIsClient(true);
@@ -68,15 +70,18 @@ const InventoryMap: React.FC<InventoryMapProps> = ({
         L = Leaflet.default;
         
         // Import CSS
-        await import('leaflet/dist/leaflet.css' as any);
+        await import('leaflet/dist/leaflet.css');
         
         // Fix Leaflet icon issues
-        delete (L.Icon.Default as any).prototype._getIconUrl;
-        L.Icon.Default.mergeOptions({
-          iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon-2x.png',
-          iconUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png',
-          shadowUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
-        });
+        if (L && typeof L === 'object' && 'Icon' in L) {
+          const LeafletL = L as { Icon: { Default: { prototype: { _getIconUrl?: unknown }; mergeOptions: (options: unknown) => void } } };
+          delete LeafletL.Icon.Default.prototype._getIconUrl;
+          LeafletL.Icon.Default.mergeOptions({
+            iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon-2x.png',
+            iconUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png',
+            shadowUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
+          });
+        }
         
         setMapComponents({
           MapContainer,
@@ -98,9 +103,15 @@ const InventoryMap: React.FC<InventoryMapProps> = ({
       return [item.latitude, item.longitude];
     }
 
-    const project = projects.find(p => p._id === item.projectId);
-    if (project?.latitude && project?.longitude) {
-      return [project.latitude, project.longitude];
+    const project = projects.find((p: unknown) => {
+      const projectItem = p as Project;
+      return projectItem._id === item.projectId._id;
+    });
+    if (project && typeof project === 'object' && 'latitude' in project && 'longitude' in project) {
+      const projectItem = project as Project;
+      if (projectItem.latitude && projectItem.longitude) {
+        return [projectItem.latitude, projectItem.longitude];
+      }
     }
 
     return null;
@@ -121,15 +132,13 @@ const InventoryMap: React.FC<InventoryMapProps> = ({
   }
 
   // Create red icon for markers
-  const redIcon = new mapComponents.L.Icon({
+  const redIcon = new (mapComponents.L as { Icon: new (options: unknown) => unknown }).Icon({
     iconUrl: '/icon/apex_icon.png',
     iconSize: [50, 50],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
     shadowSize: [41, 41],
   });
-
-
 
   return (
     <mapComponents.MapContainer

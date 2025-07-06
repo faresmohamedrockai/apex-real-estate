@@ -1,5 +1,5 @@
 // models/Developer.js
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const DeveloperSchema = new Schema({
@@ -16,4 +16,4 @@ const DeveloperSchema = new Schema({
 });
 
 const Developer = mongoose.models.Developer || mongoose.model('Developer', DeveloperSchema);
-module.exports = Developer;
+export default Developer;

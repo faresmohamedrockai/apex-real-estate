@@ -25,15 +25,6 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Bree+Serif&family=Cairo:wght@200..1000&family=Changa:wght@200..800&family=Edu+SA+Hand:wght@400..700&family=Edu+VIC+WA+NT+Hand+Pre:wght@400..700&family=El+Messiri:wght@400..700&family=Playpen+Sans+Arabic:wght@100..800&family=Reem+Kufi:wght@400..700&family=Vazirmatn:wght@100..900&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-
       <body className={`${locale === 'ar' ? 'rtl' : 'ltr'} relative min-h-screen overflow-x-hidden`}>
         
         {/* ✅ كل المحتوى */}

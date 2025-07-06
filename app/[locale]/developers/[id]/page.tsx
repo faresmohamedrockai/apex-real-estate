@@ -8,6 +8,7 @@ import { Link } from '@/i18n/navigation';
 import ImageBG from '../../components/ImageBG';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import { Metadata } from 'next';
 
 type Developer = {
   _id: string;
@@ -25,6 +26,84 @@ type Project = {
   developer: string;
   isUnique?: boolean;
 };
+
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  try {
+    const { id } = await params;
+    const devRes = await fetch(`http://localhost:3000/api/Developers/${id}`);
+    const developer = await devRes.json();
+    
+    return {
+      title: `${developer.name} - Real Estate Developer | APEX Real Estate`,
+      description: `Discover ${developer.name} projects and properties in Alexandria, Egypt. ${developer.description || 'Leading real estate developer with premium properties and projects.'} Contact APEX Real Estate for more information.`,
+      keywords: `${developer.name}, real estate developer Egypt, property developer Alexandria, ${developer.name} projects, APEX real estate`,
+      openGraph: {
+        title: `${developer.name} - Real Estate Developer | APEX Real Estate`,
+        description: `Discover ${developer.name} projects and properties in Alexandria, Egypt. ${developer.description || 'Leading real estate developer with premium properties.'}`,
+        url: `https://apex-realestate.com/developers/${id}`,
+        siteName: 'APEX Real Estate',
+        images: [
+          {
+            url: developer.logo || '/images/og-default.jpg',
+            width: 1200,
+            height: 630,
+            alt: `${developer.name} - Real Estate Developer`,
+          },
+        ],
+        locale: 'en_US',
+        type: 'website',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${developer.name} - Real Estate Developer | APEX Real Estate`,
+        description: `Discover ${developer.name} projects and properties in Alexandria, Egypt.`,
+        images: [developer.logo || '/images/og-default.jpg'],
+      },
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-video-preview': -1,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+        },
+      },
+    };
+  } catch (error) {
+    return {
+      title: 'Real Estate Developer - APEX Real Estate',
+      description: 'Discover leading real estate developers and their projects in Alexandria, Egypt. Contact APEX Real Estate for more information.',
+      openGraph: {
+        title: 'Real Estate Developer - APEX Real Estate',
+        description: 'Discover leading real estate developers and their projects in Alexandria, Egypt.',
+        url: 'https://apex-realestate.com/developers',
+        siteName: 'APEX Real Estate',
+        images: [
+          {
+            url: '/images/og-default.jpg',
+            width: 1200,
+            height: 630,
+            alt: 'Real Estate Developer - APEX Real Estate',
+          },
+        ],
+        locale: 'en_US',
+        type: 'website',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: 'Real Estate Developer - APEX Real Estate',
+        description: 'Discover leading real estate developers and their projects in Alexandria, Egypt.',
+        images: ['/images/og-default.jpg'],
+      },
+    };
+  }
+}
 
 const Page = () => {
   const t = useTranslations('common');

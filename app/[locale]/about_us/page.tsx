@@ -4,6 +4,48 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 import ImageUnderWord from '../sections/Hero';
 import ImageBG from '../components/ImageBG';
+import { Metadata } from 'next';
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'About APEX Real Estate - Leading Property Marketing Company in Alexandria',
+    description: 'Learn about APEX Real Estate, the leading property marketing company in Alexandria, Egypt. Discover our vision, services, and commitment to excellence in real estate marketing and property consultation.',
+    keywords: 'about APEX real estate, property marketing company Alexandria, real estate services Egypt, APEX company profile, real estate marketing experts Egypt',
+    openGraph: {
+      title: 'About APEX Real Estate - Leading Property Marketing Company in Alexandria',
+      description: 'Learn about APEX Real Estate, the leading property marketing company in Alexandria, Egypt. Discover our vision, services, and commitment to excellence.',
+      url: 'https://apex-realestate.com/about_us',
+      siteName: 'APEX Real Estate',
+      images: [
+        {
+          url: '/images/og-default.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'About APEX Real Estate - Property Marketing Company',
+        },
+      ],
+      locale: 'en_US',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'About APEX Real Estate - Leading Property Marketing Company in Alexandria',
+      description: 'Learn about APEX Real Estate, the leading property marketing company in Alexandria, Egypt.',
+      images: ['/images/og-default.jpg'],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+  };
+}
 
 const Page = () => {
   const t = useTranslations('About_Us');

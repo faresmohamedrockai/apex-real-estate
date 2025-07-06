@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const consultationSchema = new mongoose.Schema({
   name: {
@@ -55,4 +55,4 @@ const consultationSchema = new mongoose.Schema({
 consultationSchema.index({ createdAt: -1 });
 consultationSchema.index({ status: 1 });
 
-module.exports = mongoose.model('Consultation', consultationSchema); 
+export default mongoose.model('Consultation', consultationSchema); 

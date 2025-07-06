@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const reviewSchema = new mongoose.Schema({
   name: {
@@ -72,4 +72,4 @@ reviewSchema.set('toJSON', { virtuals: true });
 reviewSchema.set('toObject', { virtuals: true });
 
 // Use singleton pattern to prevent model recompilation
-module.exports = mongoose.models.Review || mongoose.model('Review', reviewSchema);
+export default mongoose.models.Review || mongoose.model('Review', reviewSchema);

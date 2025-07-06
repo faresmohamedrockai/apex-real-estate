@@ -28,12 +28,29 @@ interface InventoryItem {
   isUnique?: boolean;
 }
 
-interface PropertiesProps {
-  inventory: InventoryItem[];
-  loading?: boolean;
+interface ApiProject {
+  _id: string;
+  name: string;
 }
 
-export default function Properties({ inventory, loading }: PropertiesProps) {
+interface ApiInventoryItem {
+  _id: string;
+  title: string;
+  unitType: string;
+  area: number;
+  bedrooms: number;
+  bathrooms: number;
+  region?: string;
+  project?: string;
+  projectId: string;
+  price: number;
+  images: string[];
+  latitude?: number;
+  longitude?: number;
+  isUnique?: boolean;
+}
+
+export default function Properties() {
   const [inventories, setInventories] = useState<InventoryItem[]>([]);
 
   useEffect(() => {
@@ -45,12 +62,12 @@ export default function Properties({ inventory, loading }: PropertiesProps) {
         const projRes = await fetch('/api/projects');
         const projData = await projRes.json();
 
-        const projectMap = new Map();
-        projData.forEach((project: any) => {
+        const projectMap = new Map<string, string>();
+        projData.forEach((project: ApiProject) => {
           projectMap.set(project._id, project.name);
         });
 
-        const merged = invData.map((item: any) => ({
+        const merged = invData.map((item: ApiInventoryItem) => ({
           ...item,
           projectId: {
             _id: item.projectId,

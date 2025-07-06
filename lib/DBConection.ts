@@ -1,19 +1,28 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-let cached = global.mongoose;
-
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
+interface CachedConnection {
+  conn: typeof mongoose | null;
+  promise: Promise<typeof mongoose> | null;
 }
 
-async function connectDB() {
+declare global {
+  var mongoose: { conn: null; promise: null } | undefined;
+}
+
+const cached: CachedConnection = global.mongoose || { conn: null, promise: null };
+
+if (!global.mongoose) {
+  global.mongoose = cached;
+}
+
+async function connectDB(): Promise<typeof mongoose> {
   if (cached.conn) {
     return cached.conn;
   }
 
   if (!cached.promise) {
     cached.promise = mongoose
-      .connect(process.env.MONGODB_URI, {
+      .connect(process.env.MONGODB_URI as string, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       })
@@ -31,4 +40,4 @@ async function connectDB() {
   return cached.conn;
 }
 
-module.exports = connectDB;
+export default connectDB;

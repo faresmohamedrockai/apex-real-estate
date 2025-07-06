@@ -4,6 +4,17 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
+interface Unit {
+  _id: string;
+  title: string;
+  images?: string[];
+  bedrooms: number;
+  bathrooms: number;
+  region?: string;
+  price: number;
+  isUnique?: boolean;
+}
+
 interface UnitsGridProps {
   units: unknown[];
   loading?: boolean;
@@ -24,15 +35,17 @@ const UnitsGrid: React.FC<UnitsGridProps> = ({ units, loading, title = 'الشق
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {units.length > 0 ? (
-            units.map((unit: any) => (
+            units.map((unit: unknown) => {
+              const unitItem = unit as Unit;
+              return (
               <Link
-                key={unit._id}
-                href={`/units/${unit._id}`}
+                key={unitItem._id}
+                href={`/units/${unitItem._id}`}
                 className="group relative h-80 rounded-2xl overflow-hidden shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer"
               >
                 <Image
-                  src={unit.images?.[0] || '/images/no-image.png'}
-                  alt={unit.title}
+                  src={unitItem.images?.[0] || '/images/no-image.png'}
+                  alt={unitItem.title}
                   fill
                   className="object-cover z-0 group-hover:scale-110 transition-transform duration-500"
                 />
@@ -41,7 +54,7 @@ const UnitsGrid: React.FC<UnitsGridProps> = ({ units, loading, title = 'الشق
                 {/* Title at top */}
                 <div className="relative z-20 p-6 pb-0">
                   <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#b70501] transition-colors duration-300">
-                    {unit.title}
+                    {unitItem.title}
                   </h3>
                 </div>
 
@@ -52,21 +65,21 @@ const UnitsGrid: React.FC<UnitsGridProps> = ({ units, loading, title = 'الشق
                       <div className="text-white text-sm space-y-1">
                         <div className="flex items-center gap-2">
                           <FaBed className="text-white" />
-                          <span>{unit.bedrooms}</span>
+                          <span>{unitItem.bedrooms}</span>
                           <FaBath className="text-white ml-2" />
-                          <span>{unit.bathrooms}</span>
+                          <span>{unitItem.bathrooms}</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <FaMapMarkerAlt className="text-white" />
-                          <span>{unit.region || 'غير محدد'}</span>
+                          <span>{unitItem.region || 'غير محدد'}</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <span>{t('price')}:</span>
-                          <span>{unit.price?.toLocaleString()} ج.م</span>
+                          <span>{unitItem.price?.toLocaleString()} ج.م</span>
                         </div>
                       </div>
                       <a
-                        href={`https://wa.me/201111993383?text=أنا مهتم بالوحدة: ${unit.title}`}
+                        href={`https://wa.me/201111993383?text=أنا مهتم بالوحدة: ${unitItem.title}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="bg-green-500 p-3 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 hover:scale-110"
@@ -79,13 +92,14 @@ const UnitsGrid: React.FC<UnitsGridProps> = ({ units, loading, title = 'الشق
                   </div>
                 </div>
 
-                {unit.isUnique && (
+                {unitItem.isUnique && (
                                   <div className="absolute top-4 right-4 bg-[#b70501] text-white text-xs px-3 py-1 rounded-full font-bold z-20">
                   {t('unique')}
                 </div>
                 )}
               </Link>
-            ))
+            );
+            })
           ) : (
             <div className="text-center py-12 col-span-full">
               <div className="text-5xl mb-4">🏠</div>

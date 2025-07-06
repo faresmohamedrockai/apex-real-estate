@@ -7,6 +7,53 @@ import { FaPhone, FaMapMarkerAlt, FaEnvelope, FaStar } from 'react-icons/fa';
 import ImageBG from '../components/ImageBG';
 import MultiRangeSlider from '../components/MultiRangeSlider';
 import { useAppContext } from '../context/contextData';
+import { Metadata } from 'next';
+
+interface Project {
+  _id: string;
+  name: string;
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Contact APEX Real Estate - Get Expert Property Consultation',
+    description: 'Contact APEX Real Estate for expert property consultation in Alexandria, Egypt. Get personalized advice on buying, selling, or renting properties. Call +20 111 199 3383.',
+    keywords: 'contact APEX real estate, property consultation Alexandria, real estate advice Egypt, property consultation services, APEX contact',
+    openGraph: {
+      title: 'Contact APEX Real Estate - Get Expert Property Consultation',
+      description: 'Contact APEX Real Estate for expert property consultation in Alexandria, Egypt. Get personalized advice on buying, selling, or renting properties.',
+      url: 'https://apex-realestate.com/contact_us',
+      siteName: 'APEX Real Estate',
+      images: [
+        {
+          url: '/images/og-default.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Contact APEX Real Estate - Property Consultation',
+        },
+      ],
+      locale: 'en_US',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Contact APEX Real Estate - Get Expert Property Consultation',
+      description: 'Contact APEX Real Estate for expert property consultation in Alexandria, Egypt.',
+      images: ['/images/og-default.jpg'],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+  };
+}
 
 export default function ConsultationForm() {
   const t = useTranslations('form');
@@ -100,8 +147,8 @@ export default function ConsultationForm() {
       } else {
         setMessage({ type: 'error', text: result.error });
       }
-    } catch (error) {
-              setMessage({ type: 'error', text: t('error') });
+    } catch {
+      setMessage({ type: 'error', text: t('error') });
     } finally {
       setLoading(false);
     }
@@ -226,9 +273,12 @@ export default function ConsultationForm() {
                     className="w-full bg-black text-white border border-white/30 px-3 py-2 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#b70501]"
                   >
                     <option value="" className="bg-black text-white">{t('selectProject')}</option>
-                    {projects && projects.length > 0 && projects.map((project: any) => (
-                      <option key={project._id} value={project.name} className="bg-black text-white">{project.name}</option>
-                    ))}
+                    {projects && projects.length > 0 && projects.map((project: unknown) => {
+                      const projectItem = project as Project;
+                      return (
+                        <option key={projectItem._id} value={projectItem.name} className="bg-black text-white">{projectItem.name}</option>
+                      );
+                    })}
                   </select>
 
                   <select 

@@ -10,6 +10,7 @@ import ReviewsSlider from './sections/review';
 import { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Metadata } from 'next';
 
 interface Project {
   _id: string;
@@ -30,10 +31,54 @@ interface Unit {
   isUnique?: boolean;
 }
 
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'APEX Real Estate - Leading Property Marketing in Alexandria, Egypt',
+    description: 'Discover premium properties for sale and rent in Alexandria, Egypt. APEX offers apartments, villas, and commercial properties with expert real estate services. Find your dream home today.',
+    keywords: 'real estate Alexandria, buy apartment Egypt, rent villa Alexandria, property developers Egypt, real estate marketing APEX',
+    openGraph: {
+      title: 'APEX Real Estate - Premium Properties in Alexandria, Egypt',
+      description: 'Leading real estate marketing company in Alexandria. Find apartments, villas, and commercial properties for sale and rent. Expert property services in Egypt.',
+      url: 'https://apex-realestate.com',
+      siteName: 'APEX Real Estate',
+      images: [
+        {
+          url: '/images/og-default.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'APEX Real Estate - Premium Properties in Alexandria',
+        },
+      ],
+      locale: 'en_US',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'APEX Real Estate - Premium Properties in Alexandria, Egypt',
+      description: 'Leading real estate marketing company in Alexandria. Find apartments, villas, and commercial properties for sale and rent.',
+      images: ['/images/og-default.jpg'],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+  };
+}
+
 export default function HomePage() {
   const t = useTranslations('common');
   const { projects, inventory, loading } = useAppContext();
-  const featuredUnits = (inventory || []).filter((unit: any) => unit.isUnique);
+  const featuredUnits = (inventory || []).filter((unit: unknown) => {
+    const unitItem = unit as Unit;
+    return unitItem.isUnique;
+  });
 
   useEffect(() => {
     const cards = document.querySelectorAll('.card-3d-interactive');
@@ -108,15 +153,17 @@ export default function HomePage() {
             ) : (
               <div className="max-w-7xl mx-auto">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {projects && projects.length > 0 ? projects.map((project: any) => (
+                  {projects && projects.length > 0 ? projects.map((project: unknown) => {
+                    const projectItem = project as Project;
+                    return (
                     <Link
-                      key={project._id}
-                      href={`/projects/${project._id}`}
+                      key={projectItem._id}
+                      href={`/projects/${projectItem._id}`}
                       className="card-3d-interactive relative h-80 rounded-2xl overflow-hidden shadow-xl block cursor-pointer"
                     >
                       <Image
-                        src={project.image?.[0] || '/images/no-image.png'}
-                        alt={project.name}
+                        src={projectItem.image?.[0] || '/images/no-image.png'}
+                        alt={projectItem.name}
                         fill
                         className="object-cover z-0 group-hover:scale-110 transition-transform duration-500"
                       />
@@ -126,7 +173,7 @@ export default function HomePage() {
                       {/* Title at top */}
                       <div className="relative z-20 p-6 pb-0">
                         <h2 className="text-xl font-bold text-white mb-2 group-hover:text-[#b70501] transition-colors duration-300">
-                          {project.name}
+                          {projectItem.name}
                         </h2>
                        
                       </div>
@@ -138,12 +185,12 @@ export default function HomePage() {
                             <div className="text-white text-sm space-y-1">
                               <div className="flex items-center gap-2">
                                 <FaMapMarkerAlt className="text-white" />
-                                <span>{project.zone || 'غير محدد'}</span>
+                                <span>{projectItem.zone || 'غير محدد'}</span>
                               </div>
-                              {project.developer && (
+                              {projectItem.developer && (
                                 <div className="flex items-center gap-2">
                                   <FaBuilding className="text-white" />
-                                  <span>{project.developer}</span>
+                                  <span>{projectItem.developer}</span>
                                 </div>
                               )}
                             </div>
@@ -151,7 +198,7 @@ export default function HomePage() {
                               className="bg-green-500 p-3 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 hover:scale-110"
                               onClick={(e) => {
                                 e.preventDefault();
-                                window.open(`https://wa.me/201111993383?text=أنا مهتم بمشروع ${project.name}`, '_blank');
+                                window.open(`https://wa.me/201111993383?text=أنا مهتم بمشروع ${projectItem.name}`, '_blank');
                               }}
                             >
                               <FaWhatsapp size={20} />
@@ -160,13 +207,14 @@ export default function HomePage() {
                         </div>
                       </div>
 
-                      {project.isUnique && (
+                      {projectItem.isUnique && (
                         <div className="absolute top-4 right-4 bg-[#b70501] text-white text-xs px-3 py-1 rounded-full font-bold z-20">
                           مميز
                         </div>
                       )}
                     </Link>
-                  )) : (
+                  );
+                  }) : (
                     <div className="text-center py-12 col-span-full">
                       <div className="text-6xl mb-4">🏗️</div>
                       <p className="text-xl font-medium text-white">{t('noProjects')}</p>
@@ -198,15 +246,17 @@ export default function HomePage() {
             ) : (
               <div className="max-w-7xl mx-auto">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {featuredUnits && featuredUnits.length > 0 ? featuredUnits.map((unit: any) => (
+                  {featuredUnits && featuredUnits.length > 0 ? featuredUnits.map((unit: unknown) => {
+                    const unitItem = unit as Unit;
+                    return (
                     <Link
-                      key={unit._id}
-                      href={`/units/${unit._id}`}
+                      key={unitItem._id}
+                      href={`/units/${unitItem._id}`}
                       className="card-3d-interactive relative h-80 rounded-2xl overflow-hidden shadow-xl block cursor-pointer"
                     >
                       <Image
-                        src={unit.images?.[0] || '/images/no-image.png'}
-                        alt={unit.title}
+                        src={unitItem.images?.[0] || '/images/no-image.png'}
+                        alt={unitItem.title}
                         fill
                         className="object-cover z-0 group-hover:scale-110 transition-transform duration-500"
                       />
@@ -216,7 +266,7 @@ export default function HomePage() {
                       {/* Title at top */}
                       <div className="relative z-20 p-6 pb-0">
                         <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#b70501] transition-colors duration-300">
-                          {unit.title}
+                          {unitItem.title}
                         </h3>
                       </div>
 
@@ -227,20 +277,20 @@ export default function HomePage() {
                             <div className="text-white text-sm space-y-1">
                               <div className="flex items-center gap-2">
                                 <FaBed className="text-white" />
-                                <span>{unit.bedrooms}</span>
+                                <span>{unitItem.bedrooms}</span>
                                 <FaBath className="text-white ml-2" />
-                                <span>{unit.bathrooms}</span>
+                                <span>{unitItem.bathrooms}</span>
                               </div>
                               <div className="flex items-center gap-2">
                                 <span>{t('price')}:</span>
-                                <span>{unit.price?.toLocaleString()} ج.م</span>
+                                <span>{unitItem.price?.toLocaleString()} ج.م</span>
                               </div>
                             </div>
                             <div
                               className="bg-green-500 p-3 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 hover:scale-110"
                               onClick={(e) => {
                                 e.preventDefault();
-                                window.open(`https://wa.me/201111993383?text=أنا مهتم بالوحدة: ${unit.title}`, '_blank');
+                                window.open(`https://wa.me/201111993383?text=أنا مهتم بالوحدة: ${unitItem.title}`, '_blank');
                               }}
                             >
                               <FaWhatsapp size={20} />
@@ -249,13 +299,14 @@ export default function HomePage() {
                         </div>
                       </div>
 
-                      {unit.isUnique && (
+                      {unitItem.isUnique && (
                         <div className="absolute top-4 right-4 bg-[#b70501] text-white text-xs px-3 py-1 rounded-full font-bold z-20">
                           {t('unique')}
                         </div>
                       )}
                     </Link>
-                  )) : (
+                  );
+                  }) : (
                     <div className="text-center py-12 col-span-full">
                       <div className="text-5xl mb-4"></div>
                       <p className="text-lg font-medium text-white">{t('noUnits')}</p>

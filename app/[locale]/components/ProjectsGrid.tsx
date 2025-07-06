@@ -3,6 +3,15 @@ import { FaWhatsapp, FaMapMarkerAlt, FaBuilding } from 'react-icons/fa';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
+interface Project {
+  _id: string;
+  name: string;
+  image?: string[];
+  zone?: string;
+  developer?: string;
+  isUnique?: boolean;
+}
+
 interface ProjectsGridProps {
   projects: unknown[];
   loading?: boolean;
@@ -21,14 +30,16 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ projects, loading }) => {
     ) : (
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects && projects.length > 0 ? projects.map((project: any) => (
+          {projects && projects.length > 0 ? projects.map((project: unknown) => {
+            const projectItem = project as Project;
+            return (
             <div
-              key={project._id}
+              key={projectItem._id}
               className="group relative h-80 rounded-2xl overflow-hidden shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer"
             >
               <Image
-                src={project.image?.[0] || '/images/no-image.png'}
-                alt={project.name}
+                src={projectItem.image?.[0] || '/images/no-image.png'}
+                alt={projectItem.name}
                 fill
                 className="object-cover z-0 group-hover:scale-110 transition-transform duration-500"
               />
@@ -37,7 +48,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ projects, loading }) => {
               {/* Title at top */}
               <div className="relative z-20 p-6 pb-0">
                 <h2 className="text-xl font-bold text-white mb-2 group-hover:text-[#b70501] transition-colors duration-300">
-                  {project.name}
+                  {projectItem.name}
                 </h2>
               </div>
 
@@ -48,17 +59,17 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ projects, loading }) => {
                     <div className="text-white text-sm space-y-1">
                       <div className="flex items-center gap-2">
                         <FaMapMarkerAlt className="text-white" />
-                        <span>{project.zone || 'غير محدد'}</span>
+                        <span>{projectItem.zone || 'غير محدد'}</span>
                       </div>
-                      {project.developer && (
+                      {projectItem.developer && (
                         <div className="flex items-center gap-2">
                           <FaBuilding className="text-white" />
-                          <span>{project.developer}</span>
+                          <span>{projectItem.developer}</span>
                         </div>
                       )}
                     </div>
                     <a
-                      href={`https://wa.me/201111993383?text=أنا مهتم بمشروع ${project.name}`}
+                      href={`https://wa.me/201111993383?text=أنا مهتم بمشروع ${projectItem.name}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="bg-green-500 p-3 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 hover:scale-110"
@@ -70,13 +81,14 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ projects, loading }) => {
                 </div>
               </div>
 
-              {project.isUnique && (
+              {projectItem.isUnique && (
                 <div className="absolute top-4 right-4 bg-[#b70501] text-white text-xs px-3 py-1 rounded-full font-bold z-20">
                   {t('unique')}
                 </div>
               )}
             </div>
-          )) : (
+          );
+          }) : (
             <div className="text-center py-12 col-span-full">
               <div className="text-6xl mb-4">🏗️</div>
               <p className="text-xl font-medium text-white">{t('noProjects')}</p>
