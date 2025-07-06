@@ -3,16 +3,61 @@ import InventoryDetailsPage from '@/app/[locale]/components/Inventories/Inventor
 import { headers } from 'next/headers';
 
 const getInventory = async (id: string) => {
-  const headersList = await headers();
-  const host = headersList.get('host');
-  const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
-  const baseUrl = `${protocol}://${host}`;
+  try {
+    const headersList = await headers();
+    const host = headersList.get('host');
+    
+    // في بيئة الإنتاج، استخدم نفس الخادم
+    const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
+    const baseUrl = `${protocol}://${host}`;
 
-  const res = await fetch(`${baseUrl}/api/inventories/${id}`);
-  const json = await res.json();
+    const res = await fetch(`${baseUrl}/api/inventories/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // إضافة timeout لتجنب الانتظار الطويل
+      signal: AbortSignal.timeout(10000), // 10 seconds timeout
+    });
 
-  if (!json.success) throw new Error('لم يتم العثور على الوحدة');
-  return json.data;
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
+    const json = await res.json();
+
+    if (!json.success) {
+      throw new Error(json.error || 'لم يتم العثور على الوحدة');
+    }
+    
+    return json.data;
+  } catch (error) {
+    console.error('Error fetching inventory:', error);
+    
+    // إرجاع بيانات افتراضية في حالة الخطأ
+    return {
+      _id: id,
+      title: 'وحدة غير متوفرة',
+      title_en: 'Unit Not Available',
+      price: 0,
+      unitType: 'سكني',
+      unitType_en: 'Residential',
+      bedrooms: 0,
+      bathrooms: 0,
+      area: 0,
+      images: ['/images/no-image.png'],
+      region: 'غير محدد',
+      region_en: 'Not Specified',
+      project: 'غير محدد',
+      project_en: 'Not Specified',
+      isUnique: false,
+      projectId: {
+        _id: 'default',
+        name: 'مشروع افتراضي',
+        name_en: 'Default Project'
+      }
+    };
+  }
 };
 
 type PageProps = {

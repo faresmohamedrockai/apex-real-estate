@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import DeveloperDetailsContent from './DeveloperDetailsContent';
+import { headers } from 'next/headers';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -8,7 +9,25 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
     const { id } = await params;
-    const devRes = await fetch(`http://localhost:3000/api/Developers/${id}`);
+    
+    const headersList = await headers();
+    const host = headersList.get('host');
+    
+    const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
+    const baseUrl = `${protocol}://${host}`;
+
+    const devRes = await fetch(`${baseUrl}/api/Developers/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      signal: AbortSignal.timeout(10000),
+    });
+
+    if (!devRes.ok) {
+      throw new Error(`HTTP error! status: ${devRes.status}`);
+    }
+
     const developer = await devRes.json();
     
     return {

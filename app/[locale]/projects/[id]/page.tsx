@@ -1,12 +1,55 @@
 import { Metadata } from 'next';
 import ProjectDetailsPage from '@/app/[locale]/components/Projects/ProjectDetailsPage';
+import { headers } from 'next/headers';
 
 const getProject = async (id: string) => {
-  const res = await fetch(`http://localhost:3000/api/projects/${id}`);
-  const json = await res.json();
+  try {
+    const headersList = await headers();
+    const host = headersList.get('host');
+    
+    const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
+    const baseUrl = `${protocol}://${host}`;
 
-  if (!json.success) throw new Error('لم يتم العثور على المشروع');
-  return json.data;
+    const res = await fetch(`${baseUrl}/api/projects/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      signal: AbortSignal.timeout(10000),
+    });
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
+    const json = await res.json();
+
+    if (!json.success) {
+      throw new Error(json.error || 'لم يتم العثور على المشروع');
+    }
+    
+    return json.data;
+  } catch (error) {
+    console.error('Error fetching project:', error);
+    
+    return {
+      _id: id,
+      name: 'مشروع غير متوفر',
+      name_en: 'Project Not Available',
+      zone: 'غير محدد',
+      zone_en: 'Not Specified',
+      developer: 'غير محدد',
+      developer_en: 'Not Specified',
+      image: ['/images/no-image.png'],
+      isUnique: false,
+      units: [],
+      developerId: {
+        _id: 'default',
+        name: 'مطور افتراضي',
+        name_en: 'Default Developer'
+      }
+    };
+  }
 };
 
 interface PageProps {
