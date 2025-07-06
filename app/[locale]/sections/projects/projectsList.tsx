@@ -6,15 +6,21 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 import { FaWhatsapp, FaBuilding, FaMapMarkerAlt } from 'react-icons/fa';
+import { useCurrentLocale, getLocalizedObject } from '../../utils/localeUtils';
 
 interface Project {
   _id: string;
   name: string;
+  name_en?: string;
   description?: string;
+  description_en?: string;
   image?: string[];
   zone?: string;
+  zone_en?: string;
   developer?: string;
+  developer_en?: string;
   status?: string;
+  status_en?: string;
   deliveryDate?: string;
   unitsCount?: number;
 }
@@ -22,6 +28,17 @@ interface Project {
 const ProjectsList = () => {
   const t = useTranslations('common');
   const { projects, loading } = useAppContext();
+  const locale = useCurrentLocale();
+
+  // Get localized projects
+  const localizedProjects = (projects as Project[]).map(project => ({
+    ...project,
+    name: getLocalizedObject(project, 'name', locale),
+    description: getLocalizedObject(project, 'description', locale),
+    zone: getLocalizedObject(project, 'zone', locale),
+    developer: getLocalizedObject(project, 'developer', locale),
+    status: getLocalizedObject(project, 'status', locale)
+  }));
 
   return (
     <>
@@ -39,7 +56,7 @@ const ProjectsList = () => {
         ) : (
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {(projects as Project[]).map((project: Project) => (
+              {localizedProjects.map((project: Project) => (
                 <Link
                   key={project._id}
                   href={`/projects/${project._id}`}
@@ -86,14 +103,14 @@ const ProjectsList = () => {
 
                     {project.status && (
                       <div className="flex items-center gap-2">
-                        <span className="text-[#b70501]">الحالة:</span>
+                        <span className="text-[#b70501]">{locale === 'ar' ? 'الحالة:' : 'Status:'}</span>
                         <span>{project.status}</span>
                       </div>
                     )}
 
                     {project.unitsCount && (
                       <div className="flex items-center gap-2">
-                        <span className="text-[#b70501]">الوحدات:</span>
+                        <span className="text-[#b70501]">{locale === 'ar' ? 'الوحدات:' : 'Units:'}</span>
                         <span>{project.unitsCount} {t('units')}</span>
                       </div>
                     )}
@@ -101,7 +118,7 @@ const ProjectsList = () => {
 
                   <div className="mt-4 flex gap-2">
                     <a
-                      href={`https://wa.me/201111993383?text=أنا مهتم بمشروع ${project.name}`}
+                      href={`https://wa.me/201111993383?text=${locale === 'ar' ? 'أنا مهتم بمشروع' : 'I am interested in project'} ${project.name}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="bg-green-500 p-3 rounded-full hover:bg-green-600 transition-all duration-300 hover:scale-110"
@@ -115,11 +132,13 @@ const ProjectsList = () => {
               ))}
             </div>
 
-            {(projects as Project[]).length === 0 && (
+            {localizedProjects.length === 0 && (
               <div className="text-center py-12">
                 <div className="text-6xl mb-4">🏗️</div>
                 <p className="text-xl font-medium text-white">{t('noProjects')}</p>
-                <p className="text-sm text-white/70 mt-2">سيتم إضافة المشاريع قريباً</p>
+                <p className="text-sm text-white/70 mt-2">
+                  {locale === 'ar' ? 'سيتم إضافة المشاريع قريباً' : 'Projects will be added soon'}
+                </p>
               </div>
             )}
           </div>

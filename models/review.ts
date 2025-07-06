@@ -24,15 +24,24 @@ const reviewSchema = new mongoose.Schema({
     trim: true,
     maxlength: [1000, 'المراجعة لا يمكن أن تتجاوز 1000 حرف']
   },
+  review_en: {
+    type: String,
+    trim: true,
+    maxlength: 1000
+  },
   canShow: {
     type: Boolean,
-    default: false // المراجعات لا تظهر تلقائياً حتى يتم الموافقة عليها
+    default: false
   },
   isApproved: {
     type: Boolean,
-    default: false // للموافقة الإدارية
+    default: false
   },
   project: {
+    type: String,
+    trim: true
+  },
+  project_en: {
     type: String,
     trim: true
   },
@@ -40,6 +49,11 @@ const reviewSchema = new mongoose.Schema({
     type: String,
     enum: ['سكني', 'تجاري', 'مكتبي'],
     default: 'سكني'
+  },
+  unitType_en: {
+    type: String,
+    enum: ['Residential', 'Commercial', 'Office'],
+    default: 'Residential'
   },
   createdAt: {
     type: Date,
@@ -53,13 +67,13 @@ const reviewSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Index for better query performance
+// Indexes
 reviewSchema.index({ createdAt: -1 });
 reviewSchema.index({ canShow: 1, isApproved: 1 });
 reviewSchema.index({ rating: -1 });
 
-// Virtual for formatted date
-reviewSchema.virtual('formattedDate').get(function() {
+// Virtual formatted date
+reviewSchema.virtual('formattedDate').get(function () {
   return this.createdAt.toLocaleDateString('ar-EG', {
     year: 'numeric',
     month: 'long',
@@ -67,9 +81,7 @@ reviewSchema.virtual('formattedDate').get(function() {
   });
 });
 
-// Ensure virtual fields are serialized
 reviewSchema.set('toJSON', { virtuals: true });
 reviewSchema.set('toObject', { virtuals: true });
 
-// Use singleton pattern to prevent model recompilation
 export default mongoose.models.Review || mongoose.model('Review', reviewSchema);

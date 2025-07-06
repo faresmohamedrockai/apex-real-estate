@@ -78,7 +78,7 @@ export default function HomePageContent() {
       <HomeVideo />
 
       {/* من نحن */}
-      <section className="relative py-10 sm:py-14 md:py-20 px-2 sm:px-4 md:px-8 font-[Playpen_Sans_Arabic]">
+      <section className="relative py-16 sm:py-20 md:py-28 px-2 sm:px-4 md:px-8 font-[Playpen_Sans_Arabic]">
         <ApexIntro />
       </section>
 
@@ -112,7 +112,7 @@ export default function HomePageContent() {
             ) : (
               <div className="max-w-7xl mx-auto">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {projects && projects.length > 0 ? projects.map((project: unknown) => {
+                  {projects && projects.length > 0 ? projects.slice(0, 6).map((project: unknown) => {
                     const projectItem = project as Project;
                     return (
                     <Link
@@ -154,14 +154,14 @@ export default function HomePageContent() {
                               )}
                             </div>
                             <div
-                              className="bg-green-500 p-3 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 hover:scale-110"
+                              className="bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl border-2 border-green-400/30 cursor-pointer hover:rotate-12"
                               onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
                                 window.open(`https://wa.me/201111993383?text=أنا مهتم بمشروع ${projectItem.name}`, '_blank');
                               }}
                             >
-                              <FaWhatsapp size={20} />
+                              <FaWhatsapp size={18} className="text-white" />
                             </div>
                           </div>
                         </div>
@@ -237,14 +237,14 @@ export default function HomePageContent() {
                                 </div>
                               </div>
                               <div
-                                className="bg-green-500 p-3 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 hover:scale-110"
+                                className="bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl border-2 border-green-400/30 cursor-pointer hover:rotate-12"
                                 onClick={(e) => {
                                   e.preventDefault();
                                   e.stopPropagation();
                                   window.open(`https://wa.me/201111993383?text=أنا مهتم بوحدة ${unitItem.title}`, '_blank');
                                 }}
                               >
-                                <FaWhatsapp size={20} />
+                                <FaWhatsapp size={18} className="text-white" />
                               </div>
                             </div>
                           </div>

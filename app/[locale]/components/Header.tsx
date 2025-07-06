@@ -122,37 +122,74 @@ export default function Header() {
         {isOpen && (
           <motion.div
             key="mobile-menu"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden bg-[#b70501] px-4 pb-4 overflow-hidden"
+            initial={{ x: '-100%', opacity: 0 }}
+            animate={{ x: 0, opacity: 0.95 }}
+            exit={{ x: '-100%', opacity: 0 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="md:hidden fixed inset-0 bg-neutral-900 z-40 flex flex-col justify-center items-center"
           >
+            {/* Close Button */}
+            <button
+              onClick={() => setIsOpen(false)}
+              className="absolute top-6 right-6 text-white text-3xl hover:text-[#b70501] transition-colors duration-300"
+              aria-label="Close menu"
+            >
+              ✕
+            </button>
             <motion.div
               variants={navContainer}
               initial="hidden"
               animate="show"
+              className="text-center"
             >
               {navLinks.map((link) => (
-                <motion.div key={link.href} variants={navItem}>
+                <motion.div key={link.href} variants={navItem} className="mb-6">
                   <Link
                     href={link.href}
                     onClick={() => setIsOpen(false)}
-                    className={`block text-white py-2 border-b border-neutral-300 transition-all duration-300 ease-in-out ${pathname === link.href ? 'text-black font-bold' : ''
-                      }`}
+                    className={`block text-white text-2xl font-bold py-4 transition-all duration-300 ease-in-out hover:text-[#b70501] ${pathname === link.href ? 'text-[#b70501] underline underline-offset-4' : ''}`}
                   >
                     {link.label}
                   </Link>
                 </motion.div>
               ))}
+              
+              {/* Social Media Icons */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
+                className="mt-8 flex gap-6 justify-center"
+              >
+                <Link
+                  href="https://wa.me/201111993383"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-[#25D366] text-white w-14 h-14 flex items-center justify-center rounded-full hover:bg-white hover:text-[#25D366] transition-all duration-300 shadow-lg hover:scale-110"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 448 512">
+                    <path fill="currentColor" d="M380.9 97.1C339-3.6 225.9-35.3 125.1 6.5 24.3 48.3-7.4 161.4 34.4 262.2c33.2 77.2 108.1 126.2 191.2 126.2 23.2 0 46.2-3.7 68.2-11.1l61.1 16.1c7.6 2 15.6-1.1 19.6-7.7 4-6.6 2.7-15.1-3.1-20.2l-44.2-38.7c-2.7-2.4-6.2-3.7-9.8-3.7-1.7 0-3.4.3-5 .9-19.2 7.2-39.6 10.8-60.1 10.8-70.7 0-128.2-57.5-128.2-128.2 0-70.7 57.5-128.2 128.2-128.2 70.7 0 128.2 57.5 128.2 128.2 0 20.5-3.6 40.9-10.8 60.1-.6 1.6-.9 3.3-.9 5 0 3.6 1.3 7.1 3.7 9.8l38.7 44.2c5.1 5.8 13.6 7.1 20.2 3.1 6.6-4 9.7-12 7.7-19.6l-16.1-61.1c7.4-22 11.1-45 11.1-68.2 0-83.1-49-158-126.2-191.2z"/>
+                  </svg>
+                </Link>
+                <Link
+                  href="https://www.facebook.com/people/Apex-Real-Estate-Investment/61567153032479/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-[#1877F3] text-white w-14 h-14 flex items-center justify-center rounded-full hover:bg-white hover:text-[#1877F3] transition-all duration-300 shadow-lg hover:scale-110"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 320 512">
+                    <path fill="currentColor" d="M279.14 288l14.22-92.66h-88.91V127.91c0-25.35 12.42-50.06 52.24-50.06H293V6.26S259.5 0 225.36 0c-73.22 0-121.09 44.38-121.09 124.72v70.62H22.89V288h81.38v224h100.2V288z"/>
+                  </svg>
+                </Link>
+              </motion.div>
             </motion.div>
 
             {/* Mobile Lang Changer */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="mt-3"
+              transition={{ delay: 1.0 }}
+              className="mt-6"
             >
               <LangChanger />
             </motion.div>

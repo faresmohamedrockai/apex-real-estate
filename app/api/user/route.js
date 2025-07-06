@@ -2,20 +2,19 @@ import { NextResponse } from "next/server";
 import connectDB from '@/lib/DBConection';
 import User from '@/models/user';
 
-
 async function isAdmin(adminId) {
   const user = await User.findById(adminId);
   return user && user.role === 'admin';
 }
 
-
+// 📥 Get All Users
 export async function GET() {
   await connectDB();
   const users = await User.find();
   return NextResponse.json(users, { status: 200 });
 }
 
-
+// ➕ Create New User
 export async function POST(req) {
   await connectDB();
   const body = await req.json();
@@ -26,11 +25,18 @@ export async function POST(req) {
     return NextResponse.json({ message: "Unauthorized - Admins only" }, { status: 403 });
   }
 
-  if (!userData) {
-    return NextResponse.json({ message: "No user data provided" }, { status: 400 });
+  if (!userData || !userData.username || !userData.email || !userData.password) {
+    return NextResponse.json({ message: "Missing required user fields" }, { status: 400 });
   }
 
-  const newUser = await User.create(userData);
+  const newUser = await User.create({
+    username: userData.username.trim(),
+    username_en: userData.username_en?.trim() || '',
+    email: userData.email.trim().toLowerCase(),
+    password: userData.password,
+    role: userData.role || 'user',
+  });
+
   return NextResponse.json({
     message: "User created successfully",
     user: newUser,
@@ -38,7 +44,7 @@ export async function POST(req) {
   });
 }
 
-
+// ✏️ Update User
 export async function PATCH(req) {
   await connectDB();
   const body = await req.json();
@@ -55,6 +61,11 @@ export async function PATCH(req) {
     return NextResponse.json({ message: "User ID is required" }, { status: 400 });
   }
 
+  // Optional: trim fields if they exist
+  if (updateData.username) updateData.username = updateData.username.trim();
+  if (updateData.username_en) updateData.username_en = updateData.username_en.trim();
+  if (updateData.email) updateData.email = updateData.email.trim().toLowerCase();
+
   const updatedUser = await User.findByIdAndUpdate(id, updateData, { new: true });
 
   if (!updatedUser) {
@@ -67,7 +78,7 @@ export async function PATCH(req) {
   });
 }
 
-// ✅ DELETE: حذف مستخدم (Admins only)
+// ❌ Delete User
 export async function DELETE(req) {
   await connectDB();
   const body = await req.json();

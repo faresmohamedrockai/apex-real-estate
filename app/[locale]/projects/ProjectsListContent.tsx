@@ -6,19 +6,32 @@ import { FaWhatsapp, FaMapMarkerAlt, FaBuilding } from 'react-icons/fa';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
+import { useCurrentLocale, getLocalizedObject } from '../utils/localeUtils';
 
 interface Project {
   _id: string;
   name: string;
+  name_en?: string;
   image?: string[];
   zone?: string;
+  zone_en?: string;
   developer?: string;
+  developer_en?: string;
   isUnique?: boolean;
 }
 
 export default function ProjectsListContent() {
   const t = useTranslations('common');
   const { projects, loading } = useAppContext();
+  const locale = useCurrentLocale();
+
+  // Get localized projects
+  const localizedProjects = (projects as Project[]).map(project => ({
+    ...project,
+    name: getLocalizedObject(project, 'name', locale),
+    zone: getLocalizedObject(project, 'zone', locale) || (locale === 'ar' ? 'غير محدد' : 'Not specified'),
+    developer: getLocalizedObject(project, 'developer', locale)
+  }));
 
   return (
     <>
@@ -38,7 +51,7 @@ export default function ProjectsListContent() {
         ) : (
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {(projects as Project[]).map((project: Project) => (
+            {localizedProjects.map((project: Project) => (
               <div
                 key={project._id}
                   className="group relative h-80 rounded-2xl overflow-hidden shadow-xl hover:scale-105 transition-all duration-300 border border-white/20"
@@ -62,7 +75,7 @@ export default function ProjectsListContent() {
                       
                       <div className="flex items-center justify-start gap-2 text-white/80 text-sm mb-1">
                         <FaMapMarkerAlt className="text-[#b70501]" />
-                        <span>{project.zone || 'غير محدد'}</span>
+                        <span>{project.zone}</span>
                   </div>
 
                       {project.developer && (
@@ -76,7 +89,7 @@ export default function ProjectsListContent() {
                     {/* زر واتساب */}
                     <div className="flex justify-end">
                   <Link
-                    href={`https://wa.me/201111993383?text=أنا مهتم بمشروع ${project.name}`}
+                    href={`https://wa.me/201111993383?text=${locale === 'ar' ? 'أنا مهتم بمشروع' : 'I am interested in project'} ${project.name}`}
                     target="_blank"
                     rel="noopener noreferrer"
                         className="bg-green-500 p-3 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 hover:scale-110"
@@ -97,11 +110,13 @@ export default function ProjectsListContent() {
               ))}
             </div>
 
-            {projects.length === 0 && (
+            {localizedProjects.length === 0 && (
               <div className="text-center py-12">
                 <div className="text-6xl mb-4">🏗️</div>
                 <p className="text-xl font-medium text-white">{t('noProjects')}</p>
-                <p className="text-sm text-white/70 mt-2">سيتم إضافة المشاريع قريباً</p>
+                <p className="text-sm text-white/70 mt-2">
+                  {locale === 'ar' ? 'سيتم إضافة المشاريع قريباً' : 'Projects will be added soon'}
+                </p>
               </div>
             )}
           </div>

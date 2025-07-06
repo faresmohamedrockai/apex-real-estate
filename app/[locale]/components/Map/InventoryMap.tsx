@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useId } from 'react';
 import { useAppContext } from '@/app/[locale]/context/contextData';
 
 // Dynamic import for React Leaflet components
@@ -53,6 +53,7 @@ const InventoryMap: React.FC<InventoryMapProps> = ({
   const { projects } = useAppContext();
   const [isClient, setIsClient] = useState(false);
   const [mapComponents, setMapComponents] = useState<MapComponents | null>(null);
+  const mapId = useId(); // Generate unique ID for this map instance
 
   useEffect(() => {
     setIsClient(true);
@@ -142,6 +143,7 @@ const InventoryMap: React.FC<InventoryMapProps> = ({
 
   return (
     <mapComponents.MapContainer
+      key={mapId}
       center={center}
       zoom={10}
       scrollWheelZoom={true}

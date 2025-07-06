@@ -7,12 +7,25 @@ const DeveloperSchema = new Schema({
     type: String,
     required: true
   },
+  name_en: {
+    type: String,
+    trim: true
+  },
   logo: String,
-
-  projects: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Project'
-  }]
+  description: {
+    type: String,
+    trim: true
+  },
+  description_en: {
+    type: String,
+    trim: true
+  },
+  projects: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Project'
+    }
+  ]
 });
 
 const Developer = mongoose.models.Developer || mongoose.model('Developer', DeveloperSchema);

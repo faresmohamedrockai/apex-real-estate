@@ -8,27 +8,34 @@ import { Link } from '@/i18n/navigation';
 import ImageBG from '../../components/ImageBG';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import { useCurrentLocale, getLocalizedObject } from '../../utils/localeUtils';
 
 type Developer = {
   _id: string;
   name: string;
+  name_en?: string;
   logo: string;
   description?: string;
+  description_en?: string;
   projects?: Project[];
 };
 
 type Project = {
   _id: string;
   name: string;
+  name_en?: string;
   image: string[];
   zone: string;
+  zone_en?: string;
   developer: string;
+  developer_en?: string;
   isUnique?: boolean;
 };
 
 export default function DeveloperDetailsContent() {
   const t = useTranslations('common');
   const { id } = useParams();
+  const locale = useCurrentLocale();
   const [developer, setDeveloper] = useState<Developer | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
@@ -44,8 +51,10 @@ export default function DeveloperDetailsContent() {
 
         // Use the projects that are already populated with the developer
         if (devData.projects && Array.isArray(devData.projects)) {
+          console.log('Projects found:', devData.projects);
           setProjects(devData.projects);
         } else {
+          console.log('No projects found for developer');
           setProjects([]);
         }
       } catch (error) {
@@ -57,6 +66,21 @@ export default function DeveloperDetailsContent() {
 
     if (id) fetchData();
   }, [id]);
+
+  // Get localized developer data
+  const localizedDeveloper = developer ? {
+    ...developer,
+    name: getLocalizedObject(developer, 'name', locale),
+    description: getLocalizedObject(developer, 'description', locale)
+  } : null;
+
+  // Get localized projects
+  const localizedProjects = projects.map(project => ({
+    ...project,
+    name: getLocalizedObject(project, 'name', locale),
+    zone: getLocalizedObject(project, 'zone', locale) || t('locationNotSpecified'),
+    developer: getLocalizedObject(project, 'developer', locale) || localizedDeveloper?.name || (locale === 'ar' ? 'غير محدد' : 'Not specified')
+  }));
 
   return (
     <>
@@ -88,9 +112,9 @@ export default function DeveloperDetailsContent() {
           {loading ? (
             <div className="text-center py-12">
               <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-              <p className="mt-2 text-white">جارٍ التحميل...</p>
+              <p className="mt-2 text-white">{locale === 'ar' ? 'جارٍ التحميل...' : 'Loading...'}</p>
             </div>
-          ) : developer ? (
+          ) : localizedDeveloper ? (
             <>
               {/* Developer Info Card */}
               <motion.div
@@ -103,8 +127,8 @@ export default function DeveloperDetailsContent() {
                   <div className="relative">
                     <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full border-4 border-white/30 shadow-lg overflow-hidden relative">
                       <Image
-                        src={developer.logo || '/images/no-image.png'}
-                        alt={developer.name}
+                        src={localizedDeveloper.logo || '/images/no-image.png'}
+                        alt={localizedDeveloper.name}
                         fill
                         className="object-cover"
                       />
@@ -116,23 +140,23 @@ export default function DeveloperDetailsContent() {
                   
                   <div className="text-center sm:text-right flex-1">
                     <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
-                      {developer.name}
+                      {localizedDeveloper.name}
                     </h2>
-                    {developer.description && (
+                    {localizedDeveloper.description && (
                       <p className="text-white/80 text-lg leading-relaxed">
-                        {developer.description}
+                        {localizedDeveloper.description}
                       </p>
                     )}
                     
                     {/* Contact Button */}
                     <div className="mt-6">
                       <Link
-                        href={`https://wa.me/201111993383?text=أنا مهتم بمطور ${developer.name}`}
+                        href={`https://wa.me/201111993383?text=${locale === 'ar' ? 'أنا مهتم بمطور' : 'I am interested in developer'} ${localizedDeveloper.name}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition-all duration-300 hover:scale-105"
+                        className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border-2 border-green-400/30"
                       >
-                        <FaWhatsapp size={20} />
+                        <FaWhatsapp size={18} className="text-white" />
                         <span>{t('contactDeveloper')}</span>
                       </Link>
                     </div>
@@ -147,12 +171,14 @@ export default function DeveloperDetailsContent() {
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
                 <h3 className="text-2xl sm:text-3xl font-bold text-white mb-6">
-                  {t('developerProjects')} ({projects.length})
+                  {t('developerProjects')} ({localizedProjects.length})
                 </h3>
                 
-                {projects.length > 0 ? (
+                {localizedProjects.length > 0 ? (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {projects.map((project) => (
+                    {localizedProjects.map((project) => {
+                      console.log('Rendering project:', project);
+                      return (
                       <Link
                         key={project._id}
                         href={`/projects/${project._id}`}
@@ -183,7 +209,7 @@ export default function DeveloperDetailsContent() {
                           <div className="space-y-1 text-sm text-white/70">
                             <div className="flex items-center gap-2">
                               <FaMapMarkerAlt className="text-[#b70501]" />
-                              <span>{project.zone || t('locationNotSpecified')}</span>
+                              <span>{project.zone}</span>
                             </div>
                             <div className="flex items-center gap-2">
                               <FaBuilding className="text-[#b70501]" />
@@ -192,13 +218,16 @@ export default function DeveloperDetailsContent() {
                           </div>
                         </div>
                       </Link>
-                    ))}
+                    );
+                    })}
                   </div>
                 ) : (
-                  <div className="text-center py-12 bg-black/40 rounded-xl">
+                  <div className="text-center py-12">
                     <div className="text-6xl mb-4">🏗️</div>
-                    <p className="text-xl font-medium text-white mb-2">{t('noProjects')}</p>
-                    <p className="text-sm text-white/70">{t('projectsComingSoon')}</p>
+                    <p className="text-xl font-medium text-white">{t('noProjects')}</p>
+                    <p className="text-sm text-white/70 mt-2">
+                      {locale === 'ar' ? 'لا توجد مشاريع لهذا المطور حالياً' : 'No projects for this developer yet'}
+                    </p>
                   </div>
                 )}
               </motion.div>
@@ -206,15 +235,8 @@ export default function DeveloperDetailsContent() {
           ) : (
             <div className="text-center py-12">
               <div className="text-6xl mb-4">❌</div>
-              <p className="text-xl font-medium text-white mb-2">{t('developerNotFound')}</p>
-              <p className="text-sm text-white/70 mb-4">{t('developerNotFoundDesc')}</p>
-              <Link
-                href="/developers"
-                className="inline-flex items-center gap-2 bg-[#b70501] text-white px-6 py-3 rounded-lg hover:bg-[#8a0401] transition-colors"
-              >
-                <FaArrowLeft />
-                <span>{t('backToDevelopers')}</span>
-              </Link>
+              <p className="text-xl font-medium text-white">{t('developerNotFound')}</p>
+              <p className="text-sm text-white/70 mt-2">{t('developerNotFoundDesc')}</p>
             </div>
           )}
         </div>

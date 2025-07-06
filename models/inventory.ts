@@ -6,9 +6,17 @@ const InventorySchema = new Schema({
     type: String,
     required: true,
   },
+  title_en: {
+    type: String,
+    trim: true,
+  },
   price: Number,
 
   unitType: {
+    type: String,
+    default: 'Apartment',
+  },
+  unitType_en: {
     type: String,
     default: 'Apartment',
   },
@@ -26,7 +34,7 @@ const InventorySchema = new Schema({
   },
 
   area: {
-    type: Number, 
+    type: Number,
     default: 0,
   },
 
@@ -40,15 +48,22 @@ const InventorySchema = new Schema({
     type: String,
     required: false,
   },
+  region_en: {
+    type: String,
+    required: false,
+  },
 
   project: {
+    type: String,
+    required: false,
+  },
+  project_en: {
     type: String,
     required: false,
   },
 
   isUnique: Boolean,
 
-  
   latitude: {
     type: Number,
     required: false,
@@ -59,5 +74,5 @@ const InventorySchema = new Schema({
   },
 });
 
-const inventory = mongoose.models.Inventory || mongoose.model('Inventory', InventorySchema);
-export default inventory;
+const Inventory = mongoose.models.Inventory || mongoose.model('Inventory', InventorySchema);
+export default Inventory;

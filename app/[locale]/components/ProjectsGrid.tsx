@@ -41,8 +41,6 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ projects, loading }) => {
                 >
                   <Image
                     src={project.image?.[0] || '/images/no-image.png'}
-                    width={1000}
-                    height={1000}
                     alt={project.name}
                     fill
                     className="object-cover z-0 group-hover:scale-110 transition-transform duration-500"
@@ -76,11 +74,11 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ projects, loading }) => {
                           href={`https://wa.me/201111993383?text=أنا مهتم بمشروع ${project.name}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="bg-green-500 p-3 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 hover:scale-110"
+                          className="bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl border-2 border-green-400/30"
                           aria-label="WhatsApp"
                           onClick={(e) => e.stopPropagation()}
                         >
-                          <FaWhatsapp size={20} />
+                          <FaWhatsapp size={18} className="text-white" />
                         </Link>
                       </div>
                     </div>

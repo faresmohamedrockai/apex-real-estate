@@ -1,10 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/connectDB';
+import '@/lib/models'; // Ensure all models are registered
 import Inventory from '@/models/inventory';
 import Project from '@/models/projects';
+
 export async function GET(request: NextRequest) {
   try {
     await connectDB();
+    
+    // Ensure Project model is registered
+    if (!Project) {
+      throw new Error('Project model not found');
+    }
     const { searchParams } = new URL(request.url);
     
     const search = searchParams.get('search') || '';
@@ -84,7 +91,10 @@ export async function GET(request: NextRequest) {
 
     // Execute query with pagination and sorting
     const inventories = await Inventory.find(query)
-      .populate('projectId')
+      .populate({
+        path: 'projectId',
+        model: 'Project'
+      })
       .sort(sort)
       .skip(skip)
       .limit(limit)

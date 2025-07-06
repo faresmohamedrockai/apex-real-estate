@@ -95,8 +95,6 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
                       <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px]">
                         <Image
                           src={img}
-                          width={1000}
-                          height={1000}
                           alt={`slide-${i}`}
                           fill
                           className="object-cover"
@@ -109,8 +107,6 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
                     <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px]">
                       <Image
                         src="/images/no-image.png"
-                        width={1000}
-                        height={1000}
                         alt="no-image"
                         fill
                         className="object-cover"
@@ -130,8 +126,6 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
                   >
                     <Image
                       src={img}
-                      width={1000}
-                      height={1000}
                       alt={`thumbnail-${i}`}
                       fill
                       className="object-cover"
@@ -200,9 +194,9 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
                   href={`https://wa.me/201111993383?text=مرحبًا، مهتم بمشروع ${data.name}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 font-medium"
+                  className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 font-medium shadow-lg hover:shadow-xl border-2 border-green-400/30"
                 >
-                  <FaWhatsapp size={18} />
+                  <FaWhatsapp size={18} className="text-white" />
                   {t('whatsapp')}
                 </Link>
                 <a
@@ -239,8 +233,6 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
                   >
                     <Image
                       src={unit.images?.[0] || '/images/no-image.png'}
-                      width={1000}
-                      height={1000}
                       alt={unit.title}
                       fill
                       className="object-cover z-0 group-hover:scale-110 transition-transform duration-500"

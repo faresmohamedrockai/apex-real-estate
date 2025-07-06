@@ -45,7 +45,7 @@ export async function PATCH(req, { params }) {
   }
 }
 
-// 🔴 DELETE - حذف وحدة
+//  DELETE - حذف وحدة
 export async function DELETE(req, { params }) {
   await connectDB();
   const { id } = params;

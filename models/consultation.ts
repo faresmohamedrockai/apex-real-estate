@@ -1,58 +1,44 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema, Document, Model } from 'mongoose';
 
-const consultationSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'الاسم مطلوب'],
-    trim: true
-  },
-  phone: {
-    type: String,
-    required: [true, 'رقم الهاتف مطلوب'],
-    trim: true
-  },
-  project: {
-    type: String,
-    trim: true
-  },
-  unitType: {
-    type: String,
-    enum: ['سكني', 'تجاري', 'مكتبي'],
-    default: 'سكني'
-  },
-  priceRange: {
-    min: {
-      type: Number,
-      default: 0
+export interface IConsultation extends Document {
+  name: string;
+  name_en?: string;
+  phone: string;
+  project?: string;
+  project_en?: string;
+  unitType?: string;
+  unitType_en?: string;
+  priceRange?: {
+    min: number;
+    max: number;
+  };
+  notes?: string;
+  notes_en?: string;
+  status: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const ConsultationSchema: Schema = new Schema(
+  {
+    name: { type: String, required: true },
+    name_en: { type: String, default: '' },
+    phone: { type: String, required: true },
+    project: { type: String, default: '' },
+    project_en: { type: String, default: '' },
+    unitType: { type: String, default: 'سكني' },
+    unitType_en: { type: String, default: 'Residential' },
+    priceRange: {
+      min: { type: Number, default: 0 },
+      max: { type: Number, default: 0 },
     },
-    max: {
-      type: Number,
-      default: 0
-    }
+    notes: { type: String, default: '' },
+    notes_en: { type: String, default: '' },
+    status: { type: String, default: 'pending' },
   },
-  notes: {
-    type: String,
-    trim: true
-  },
-  status: {
-    type: String,
-    enum: ['pending', 'contacted', 'completed', 'cancelled'],
-    default: 'pending'
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
-  }
-}, {
-  timestamps: true
-});
+  { timestamps: true }
+);
 
-// Index for better query performance
-consultationSchema.index({ createdAt: -1 });
-consultationSchema.index({ status: 1 });
-
-export default mongoose.model('Consultation', consultationSchema); 
+export const Consultation: Model<IConsultation> =
+  mongoose.models.Consultation ||
+  mongoose.model<IConsultation>('Consultation', ConsultationSchema);

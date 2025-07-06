@@ -7,6 +7,7 @@ import '@/app/[locale]/globals.css';
 import PageTransition from './components/PageTransation';
 import Footer from './components/Footer';
 import { AppProvider } from './context/contextData';
+import GlobalLoading from './components/GlobalLoading';
 
 export default async function LocaleLayout({
   children,
@@ -29,13 +30,14 @@ export default async function LocaleLayout({
         
         {/* ✅ كل المحتوى */}
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <PageTransition>
-            <AppProvider>
+          <AppProvider>
+            <GlobalLoading />
+            <PageTransition>
               <Header />
               {children}
               <Footer />
-            </AppProvider>
-          </PageTransition>
+            </PageTransition>
+          </AppProvider>
         </NextIntlClientProvider>
       </body>
     </html>

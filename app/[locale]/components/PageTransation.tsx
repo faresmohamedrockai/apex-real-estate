@@ -7,25 +7,31 @@ import { AnimatePresence, motion } from 'framer-motion';
 export default function TransitionOverlay({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsTransitioning(true);
-    const timeout = setTimeout(() => {
-      setIsTransitioning(false);
-    }, 1000);
+    setIsClient(true);
+  }, []);
 
-    return () => clearTimeout(timeout);
-  }, [pathname]);
+  useEffect(() => {
+    if (isClient) {
+      setIsTransitioning(true);
+      const timeout = setTimeout(() => {
+        setIsTransitioning(false);
+      }, 1000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [pathname, isClient]);
 
   return (
     <>
-
-      <div className={`transition-all duration-300 ${isTransitioning ? 'blur-sm scale-[0.98] opacity-80' : ''}`}>
+      <div className={`transition-all duration-300 ${isClient && isTransitioning ? 'blur-sm scale-[0.98] opacity-80' : ''}`}>
         {children}
       </div>
 
       <AnimatePresence>
-        {isTransitioning && (
+        {isClient && isTransitioning && (
           <motion.div
             key="overlay"
             initial={{ opacity: 1 }}

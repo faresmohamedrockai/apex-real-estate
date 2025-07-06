@@ -6,8 +6,21 @@ const ProjectSchema = new Schema({
     type: String,
     required: true
   },
+  name_en: {
+    type: String,
+    trim: true
+  },
+
   image: [String],
-  zone: String,
+
+  zone: {
+    type: String,
+    trim: true
+  },
+  zone_en: {
+    type: String,
+    trim: true
+  },
 
   developerId: {
     type: Schema.Types.ObjectId,
@@ -20,7 +33,6 @@ const ProjectSchema = new Schema({
     ref: 'Inventory'
   }],
 
-  
   latitude: {
     type: Number,
     required: false,

@@ -97,7 +97,7 @@ export default function SearchContent() {
 
     try {
       const params = new URLSearchParams();
-      
+
       if (debouncedSearchTerm) params.append('search', debouncedSearchTerm);
       if (area) params.append('area', area);
       if (bedrooms) params.append('bedrooms', bedrooms);
@@ -110,7 +110,7 @@ export default function SearchContent() {
       params.append('limit', pagination.limit.toString());
 
       const response = await fetch(`/api/search?${params.toString()}`);
-      
+
       if (!response.ok) {
         throw new Error('فشل في جلب البيانات');
       }
@@ -156,7 +156,7 @@ export default function SearchContent() {
   return (
     <>
       <ImageBG />
-      
+
       <div className="relative z-10 min-h-screen pt-20 sm:pt-24 bg-black/80 overflow-x-hidden">
         <div className="max-w-[1920px] mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8 overflow-x-hidden">
           {/* Header */}
@@ -204,7 +204,7 @@ export default function SearchContent() {
 
           {/* Main Content - 2 Columns Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 h-[calc(100vh-200px)] min-h-[600px] sm:min-h-[700px]">
-            
+
             {/* Column 1: Search Results */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -257,59 +257,64 @@ export default function SearchContent() {
                               transition={{ duration: 0.3 }}
                               className="group relative h-80 rounded-3xl overflow-hidden shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer bg-transparent border-0"
                             >
-                              <Link href={`/units/${item._id}`} className="block h-full">
-                                <Image
-                                  src={item.images?.[0] || '/images/no-image.png'}
-                                  alt={item.title}
-                                  fill
-                                  className="object-cover z-0 group-hover:scale-100 transition-transform duration-500 rounded-3xl"
-                                />
-                                {/* شارة مميز */}
-                                {item.isUnique && (
-                                  <div className="absolute top-4 left-4 bg-[#b70501] text-white text-xs px-3 py-1 rounded-full font-bold z-20">
-                                    {t('unique')}
+                              <div className="relative h-full">
+                                <Link href={`/units/${item._id}`} className="block h-full">
+                                  <Image
+                                    src={item.images?.[0] || '/images/no-image.png'}
+                                    alt={item.title}
+                                    fill
+                                    className="object-cover z-0 group-hover:scale-100 transition-transform duration-500 rounded-3xl"
+                                  />
+                                  {/* شارة مميز */}
+                                  {item.isUnique && (
+                                    <div className="absolute top-4 left-4 bg-[#b70501] text-white text-xs px-3 py-1 rounded-full font-bold z-20">
+                                      {t('unique')}
+                                    </div>
+                                  )}
+                                  {/* اسم الوحدة */}
+                                  <div className="absolute top-4 right-4 z-20 text-white text-lg font-bold drop-shadow-lg text-right">
+                                    {item.title}
                                   </div>
-                                )}
-                                {/* اسم الوحدة */}
-                                <div className="absolute top-4 right-4 z-20 text-white text-lg font-bold drop-shadow-lg text-right">
-                                  {item.title}
-                                </div>
-                                {/* الشريط السفلي */}
-                                <div className="absolute bottom-0 left-0 right-0 z-20">
-                                  <div className="bg-black/80 backdrop-blur-sm p-4 flex items-center justify-between">
-                                    {/* معلومات الوحدة */}
-                                    <div className="flex items-center gap-4 text-white text-sm">
-                                      <div className="flex items-center gap-1">
-                                        <FaBed className="text-white" />
-                                        <span>{item.bedrooms}</span>
-                                      </div>
-                                      <div className="flex items-center gap-1">
-                                        <FaBath className="text-white" />
-                                        <span>{item.bathrooms}</span>
-                                      </div>
-                                      <div className="flex items-center gap-1">
-                                        <FaMapMarkerAlt className="text-white" />
-                                        <span>{displayRegion}</span>
-                                      </div>
-                                      <div className="flex items-center gap-1">
-                                        <FiDollarSign className="text-white" />
-                                        <span className="font-bold">{item.price?.toLocaleString()} ج.م</span>
+                                  {/* الشريط السفلي */}
+                                  <div className="absolute bottom-0 left-0 right-0 z-20">
+                                    <div className="bg-black/80 backdrop-blur-sm p-4 flex items-center justify-between">
+                                      {/* معلومات الوحدة */}
+                                      <div className="flex items-center gap-4 text-white text-sm">
+                                        <div className="flex items-center gap-1">
+                                          <FaBed className="text-white" />
+                                          <span>{item.bedrooms}</span>
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                          <FaBath className="text-white" />
+                                          <span>{item.bathrooms}</span>
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                          <FaMapMarkerAlt className="text-white" />
+                                          <span>{displayRegion}</span>
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                          <FiDollarSign className="text-white" />
+                                          <span className="font-bold">{item.price?.toLocaleString()} ج.م</span>
+                                        </div>
                                       </div>
                                     </div>
-                                    {/* زر واتساب */}
-                                    <Link
-                                      href={`https://wa.me/201111993383?text=أنا مهتم بالوحدة: ${item.title}`}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="bg-green-500 p-3 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 hover:scale-110"
-                                      aria-label="WhatsApp"
-                                      onClick={e => e.stopPropagation()}
-                                    >
-                                      <FaWhatsapp size={20} />
-                                    </Link>
                                   </div>
+                                </Link>
+                                {/* زر واتساب - خارج Link الرئيسي */}
+                                <div className="absolute bottom-4 right-4 z-30">
+                                  <Link
+                                    href={`https://wa.me/201111993383?text=أنا مهتم بالوحدة: ${item.title}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl border-2 border-green-400/30 w-14 h-14 flex items-center justify-center"
+                                    aria-label="WhatsApp"
+                                    onClick={e => e.stopPropagation()}
+                                  >
+                                    <FaWhatsapp size={26} className="text-white" />
+                                  </Link>
                                 </div>
-                              </Link>
+
+                              </div>
                             </motion.div>
                           );
                         })}
@@ -376,7 +381,7 @@ export default function SearchContent() {
                 className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
                 onClick={() => setShowFilters(false)}
               />
-              
+
               {/* Filters Panel */}
               <motion.div
                 initial={{ y: '100%' }}

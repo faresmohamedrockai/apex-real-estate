@@ -2,50 +2,73 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/DBConection';
 import Inventory from '@/models/inventory';
 import Project from '@/models/projects';
-
 import mongoose from 'mongoose';
 
-
 export async function GET() {
-  await connectDB();
+  try {
+    await connectDB();
 
-  const inventories = await Inventory.find().populate('projectId');
+    const inventories = await Inventory.find().populate('projectId');
 
-  if (!inventories || inventories.length === 0) {
-    return NextResponse.json({ message: "لا يوجد وحدات متاحة", status: 404 });
+    return NextResponse.json(inventories, { status: 200 });
+  } catch (error) {
+    console.error('❌ Error fetching inventories:', error);
+    return NextResponse.json(
+      { error: 'حدث خطأ في جلب الوحدات' },
+      { status: 500 }
+    );
   }
-
-  return NextResponse.json(inventories, { status: 200 });
 }
 
 export async function POST(req) {
-  await connectDB();
-
   try {
+    await connectDB();
+
     const body = await req.json();
-    const { title, price, unitType, images, bedrooms, bathrooms, area, projectId, isUnique,latitude,longitude } = body;
+    const { title, price, unitType, images, bedrooms, bathrooms, area, projectId, isUnique, latitude, longitude } = body;
+
+    // Validation
+    if (!title || title.trim() === '') {
+      return NextResponse.json(
+        { success: false, error: 'عنوان الوحدة مطلوب' },
+        { status: 400 }
+      );
+    }
+
+    if (!projectId) {
+      return NextResponse.json(
+        { success: false, error: 'معرف المشروع مطلوب' },
+        { status: 400 }
+      );
+    }
 
     // تأكد من أن projectId موجود وصالح
     if (!mongoose.Types.ObjectId.isValid(projectId)) {
-      return NextResponse.json({ success: false, error: 'رقم المشروع غير صالح' }, { status: 400 });
+      return NextResponse.json(
+        { success: false, error: 'رقم المشروع غير صالح' },
+        { status: 400 }
+      );
     }
 
     const project = await Project.findById(projectId);
     if (!project) {
-      return NextResponse.json({ success: false, error: 'المشروع غير موجود' }, { status: 404 });
+      return NextResponse.json(
+        { success: false, error: 'المشروع غير موجود' },
+        { status: 404 }
+      );
     }
 
     // إنشاء الوحدة
     const newInventory = await Inventory.create({
-      title,
-      price,
-      unitType,
-      images,
-      bedrooms,
-      bathrooms,
-      area,
+      title: title.trim(),
+      price: price || 0,
+      unitType: unitType || 'Apartment',
+      images: images || [],
+      bedrooms: bedrooms || 1,
+      bathrooms: bathrooms || 1,
+      area: area || 0,
       projectId,
-      isUnique,
+      isUnique: isUnique || false,
       longitude,
       latitude
     });
@@ -55,9 +78,15 @@ export async function POST(req) {
       $push: { inventories: newInventory._id },
     });
 
-    return NextResponse.json({ success: true, data: newInventory }, { status: 201 });
+    return NextResponse.json(
+      { success: true, data: newInventory },
+      { status: 201 }
+    );
   } catch (err) {
     console.error("❌ خطأ أثناء إضافة الوحدة:", err);
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: err.message },
+      { status: 500 }
+    );
   }
 }

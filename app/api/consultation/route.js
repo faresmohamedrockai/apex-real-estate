@@ -7,7 +7,19 @@ export async function POST(request) {
     await connectDB();
 
     const body = await request.json();
-    const { name, phone, project, unitType, priceRange, notes } = body;
+
+    const {
+      name,
+      name_en,
+      phone,
+      project,
+      project_en,
+      unitType,
+      unitType_en,
+      priceRange,
+      notes,
+      notes_en
+    } = body;
 
     // Validation
     if (!name || !phone) {
@@ -17,7 +29,7 @@ export async function POST(request) {
       );
     }
 
-    // Phone number validation (basic)
+    // Phone number validation
     const phoneRegex = /^(\+20|0)?1[0125][0-9]{8}$/;
     if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
       return NextResponse.json(
@@ -29,25 +41,30 @@ export async function POST(request) {
     // Create consultation
     const consultation = new Consultation({
       name: name.trim(),
+      name_en: name_en?.trim() || '',
       phone: phone.trim(),
       project: project?.trim() || '',
+      project_en: project_en?.trim() || '',
       unitType: unitType || 'سكني',
+      unitType_en: unitType_en || 'Residential',
       priceRange: {
         min: priceRange?.min || 0,
         max: priceRange?.max || 0
       },
       notes: notes?.trim() || '',
+      notes_en: notes_en?.trim() || '',
       status: 'pending'
     });
 
     await consultation.save();
 
     return NextResponse.json(
-      { 
+      {
         message: 'تم إرسال طلب الاستشارة بنجاح',
         consultation: {
           id: consultation._id,
           name: consultation.name,
+          name_en: consultation.name_en,
           status: consultation.status,
           createdAt: consultation.createdAt
         }
@@ -63,43 +80,3 @@ export async function POST(request) {
     );
   }
 }
-
-export async function GET(request) {
-  try {
-    await connectDB();
-
-    const { searchParams } = new URL(request.url);
-    const status = searchParams.get('status');
-    const page = parseInt(searchParams.get('page')) || 1;
-    const limit = parseInt(searchParams.get('limit')) || 10;
-
-    let query = {};
-    if (status) {
-      query.status = status;
-    }
-
-    const consultations = await Consultation.find(query)
-      .sort({ createdAt: -1 })
-      .skip((page - 1) * limit)
-      .limit(limit);
-
-    const total = await Consultation.countDocuments(query);
-
-    return NextResponse.json({
-      consultations,
-      pagination: {
-        page,
-        limit,
-        total,
-        pages: Math.ceil(total / limit)
-      }
-    });
-
-  } catch (error) {
-    console.error('Consultation GET API Error:', error);
-    return NextResponse.json(
-      { error: 'حدث خطأ في جلب البيانات' },
-      { status: 500 }
-    );
-  }
-} 

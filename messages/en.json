@@ -25,7 +25,7 @@
     "noResults": "No matching results",
     "noResultsSubtitle": "Try changing your search criteria",
     "loadingMap": "Loading map...",
-    "error": "Error loading data",
+    "dataError": "Error loading data",
     "previous": "Previous",
     "next": "Next",
     "page": "of",
@@ -52,6 +52,7 @@
     "bedrooms": "Bedrooms",
     "bathrooms": "Bathrooms",
     "region": "Region",
+    "zone": "Zone",
     "project": "Project",
     "priceRange": "Price Range",
     "unique": "Featured"
@@ -80,7 +81,8 @@
     
   "about": "About Us",
   "whoWeAreTitle": "Who We Are",
-  "whoWeAreText": "Apex Real Estate Investment is a leading company in real estate marketing and investment based in Alexandria, Egypt. We offer specialized experience and comprehensive solutions for both residential and commercial projects.",
+  "successStoriesTitle": "Here Success Stories Begin",
+  "whoWeAreText": "We are APEX company, specialized in marketing, renting and selling residential, commercial and administrative units throughout Alexandria. We provide professional services directly from the owner to the client, and we always strive to meet market needs with accuracy and transparency. We deal with a wide base of serious and trusted clients.",
   "whyChooseTitle": "Why Choose Us?",
   "point1": "Comprehensive local market coverage in Alexandria.",
   "point2": "Strategic partnerships and modern marketing techniques.",
@@ -114,7 +116,9 @@
     "selectUnitType": "Select unit type",
     "residential": "Residential",
     "commercial": "Commercial",
+    "administrative": "Administrative",
     "priceRange": "Price Range",
+    "contactUs": "Contact Us",
     "from": "From",
     "to": "To",
     "notes": "Notes",
@@ -122,11 +126,20 @@
     "reviewTitle": "Add Your Review",
     "writeReview": "Write your review here",
     "sendReview": "Send Review",
-     "consalte":"Request a consultation",
-     "opinion":"Share your opinion",
-     "error": "An error occurred while sending data"
-  },"cntactText":{
-    "text":"Contact us"
+    "consalte": "Request a consultation",
+    "opinion": "Share your opinion",
+    "error": "An error occurred while sending data",
+    "send": "Send",
+    "sending": "Sending...",
+    "egp": "EGP"
+  },"contactText":{
+    "title": "Contact Us",
+    "description": "We are here to help you find the perfect property. Contact us for a free consultation or to learn more about our projects.",
+    "phone": "Phone",
+    "address": "Address",
+    "addressText": "Amin Hassouna Street, Syouf, Alexandria – Next to Carrefour City Light",
+    "workingHours": "Working Hours",
+    "workingHoursText": "Sunday - Thursday: 9 AM - 6 PM | Friday - Saturday: 10 AM - 4 PM"
   },
   "contactDetails":{
  "title": "Contact Information",
@@ -152,6 +165,8 @@
     "noUnits": "No units available",
     "noFeaturedUnits": "No featured units available",
     "noDeveloperProjects": "No projects for this developer",
+    "developerProjects": "Developer Projects",
+    "contactDeveloper": "Contact Developer",
     "viewAllProjects": "View All Projects",
     "allProjects": "All Projects",
     "featuredUnits": "Featured Units",
@@ -192,14 +207,33 @@
     "viewAllUnits": "View All Units",
     "viewDeveloper": "View Developer",
     "noDevelopers": "No developers available",
+    "loadingReviews": "Loading reviews...",
+    "noReviews": "No reviews available at the moment",
+    "locationNotSpecified": "Location not specified",
+    "projectsComingSoon": "Projects coming soon",
+    "developerNotFound": "Developer not found",
+    "developerNotFoundDesc": "Sorry, we couldn't find the requested developer",
     "developers": "Real Estate Developers",
     "projects": "Projects",
     "egp": "EGP"
   },
+  "reviews": {
+    "title": "Customer Reviews",
+    "subtitle": "What our clients say about our services",
+    "loading": "Loading reviews...",
+    "noReviews": "No reviews available at the moment",
+    "previous": "Previous",
+    "next": "Next",
+    "goToReview": "Go to review",
+    "reviewCounter": "of",
+    "review": "review",
+    "projectLabel": "Project:",
+    "unitTypeLabel": "Unit Type:"
+  },
   "custmorDect":{
     "cutsmor":""
+  },"HomeVideoAboutUs":{
+    "whowh":"Who Us ?",
+    "buttonWhoWe":"Learn More"
   }
- 
-
-
 }
