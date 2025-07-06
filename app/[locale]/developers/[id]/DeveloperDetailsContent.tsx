@@ -41,31 +41,29 @@ export default function DeveloperDetailsContent() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        // Fetch developer details with populated projects
-        const devRes = await fetch(`/api/Developers/${id}`);
-        const devData = await devRes.json();
-        setDeveloper(devData);
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const origin = window.location.origin;
+      const devRes = await fetch(`${origin}/api/Developers/${id}`);
+      const devData = await devRes.json();
+      setDeveloper(devData);
 
-        // Use the projects that are already populated with the developer
-        if (devData.projects && Array.isArray(devData.projects)) {
-          console.log('Projects found:', devData.projects);
-          setProjects(devData.projects);
-        } else {
-          console.log('No projects found for developer');
-          setProjects([]);
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
+      if (devData.projects && Array.isArray(devData.projects)) {
+        setProjects(devData.projects);
+      } else {
+        setProjects([]);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    if (id) fetchData();
-  }, [id]);
+  if (id) fetchData();
+}, [id]);
+
 
   // Get localized developer data
   const localizedDeveloper = developer ? {

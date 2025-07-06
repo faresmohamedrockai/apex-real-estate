@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/DBConection';
-import Consultation from '@/models/consultation';
+import { Consultation } from '@/models/consultation';
 
 export async function POST(request) {
   try {

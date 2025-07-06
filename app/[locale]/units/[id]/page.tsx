@@ -1,8 +1,14 @@
 import { Metadata } from 'next';
 import InventoryDetailsPage from '@/app/[locale]/components/Inventories/InventoryDetailsPage';
+import { headers } from 'next/headers';
 
 const getInventory = async (id: string) => {
-  const res = await fetch(`http://localhost:3000/api/inventories/${id}`);
+  const headersList = await headers();
+  const host = headersList.get('host');
+  const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
+  const baseUrl = `${protocol}://${host}`;
+
+  const res = await fetch(`${baseUrl}/api/inventories/${id}`);
   const json = await res.json();
 
   if (!json.success) throw new Error('لم يتم العثور على الوحدة');
@@ -10,14 +16,14 @@ const getInventory = async (id: string) => {
 };
 
 type PageProps = {
-  params: Promise<{ id: string }>;
+  params: { id: string }; // ✅ تعديل هنا
 };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const { id } = await params;
+    const { id } = params; // ✅ بدون await
     const data = await getInventory(id);
-    
+
     return {
       title: `${data.title} - Property Details | APEX Real Estate`,
       description: `${data.title} for ${data.unitType} in Alexandria. ${data.bedrooms} bedrooms, ${data.bathrooms} bathrooms. Price: ${data.price?.toLocaleString()} EGP. View details and contact APEX Real Estate.`,
@@ -57,7 +63,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       },
     };
   } catch {
-    const { id } = await params;
+    const { id } = params;
     return {
       title: 'Property Details - APEX Real Estate',
       description: 'View detailed property information and contact APEX Real Estate for more details.',
@@ -88,7 +94,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function Page({ params }: PageProps) {
-  const { id } = await params;
+  const { id } = params;
   const data = await getInventory(id);
 
   return <InventoryDetailsPage data={data} />;

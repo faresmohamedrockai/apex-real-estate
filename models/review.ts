@@ -84,4 +84,4 @@ reviewSchema.virtual('formattedDate').get(function () {
 reviewSchema.set('toJSON', { virtuals: true });
 reviewSchema.set('toObject', { virtuals: true });
 
-export default mongoose.models.Review || mongoose.model('Review', reviewSchema);
+export const Review = mongoose.models.Review || mongoose.model('Review', reviewSchema);
