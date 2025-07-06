@@ -4,19 +4,11 @@ import { useEffect, useState } from 'react';
 import { useAppContext } from '@/app/[locale]/context/contextData';
 
 // Dynamic import for React Leaflet components
-<<<<<<< HEAD
 let MapContainer: React.ComponentType<unknown> | null = null;
 let TileLayer: React.ComponentType<unknown> | null = null;
 let Marker: React.ComponentType<unknown> | null = null;
 let Popup: React.ComponentType<unknown> | null = null;
 let L: unknown = null;
-=======
-let MapContainer: React.ComponentType<any> | null = null;
-let TileLayer: React.ComponentType<any> | null = null;
-let Marker: React.ComponentType<any> | null = null;
-let Popup: React.ComponentType<any> | null = null;
-let L: any = null;
->>>>>>> master
 
 interface Project {
   _id: string;
@@ -45,7 +37,6 @@ interface InventoryItem {
 
 interface InventoryMapProps {
   inventory: InventoryItem[];
-<<<<<<< HEAD
 }
 
 interface MapComponents {
@@ -54,8 +45,6 @@ interface MapComponents {
   Marker: React.ComponentType<unknown>;
   Popup: React.ComponentType<unknown>;
   L: unknown;
-=======
->>>>>>> master
 }
 
 const InventoryMap: React.FC<InventoryMapProps> = ({ 
@@ -63,17 +52,7 @@ const InventoryMap: React.FC<InventoryMapProps> = ({
 }) => {
   const { projects } = useAppContext();
   const [isClient, setIsClient] = useState(false);
-<<<<<<< HEAD
   const [mapComponents, setMapComponents] = useState<MapComponents | null>(null);
-=======
-  const [mapComponents, setMapComponents] = useState<{
-    MapContainer: React.ComponentType<any>;
-    TileLayer: React.ComponentType<any>;
-    Marker: React.ComponentType<any>;
-    Popup: React.ComponentType<any>;
-    L: any;
-  } | null>(null);
->>>>>>> master
 
   useEffect(() => {
     setIsClient(true);

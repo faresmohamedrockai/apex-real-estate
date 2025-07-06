@@ -5,6 +5,8 @@ const ImageBG = () => {
     <div className="fixed inset-0 z-[-10]">
         <Image
           src="/images/499794898_122164762250571767_4365539481736873945_n.jpg"
+          width={1000}
+          height={1000}
           alt="background"
           fill
           className="object-cover"

@@ -48,7 +48,7 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
   return (
     <>
       <ImageBG />
-      
+
       <div className="relative z-10 min-h-screen pt-24 bg-black/60">
         {/* Header with Back Button */}
         <div className="relative z-30 px-4 sm:px-6">
@@ -58,14 +58,14 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
             transition={{ duration: 0.6 }}
             className="max-w-7xl mx-auto mb-6 sm:mb-8"
           >
-            <Link 
+            <Link
               href="/projects"
               className="inline-flex items-center gap-2 text-white hover:text-[#b70501] transition-colors mb-4"
             >
               <FaArrowLeft />
               <span>{t('backToProjects')}</span>
             </Link>
-            
+
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-2 sm:mb-4">
               {t('projectDetails')}
             </h1>
@@ -94,6 +94,8 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
                       <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px]">
                         <Image
                           src={img}
+                          width={1000}
+                          height={1000}
                           alt={`slide-${i}`}
                           fill
                           className="object-cover"
@@ -106,6 +108,8 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
                     <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px]">
                       <Image
                         src="/images/no-image.png"
+                        width={1000}
+                        height={1000}
                         alt="no-image"
                         fill
                         className="object-cover"
@@ -123,6 +127,8 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
                   <div key={i} className="bg-black/50 backdrop-blur-md rounded-lg overflow-hidden border border-white/20 relative h-20 sm:h-24">
                     <Image
                       src={img}
+                      width={1000}
+                      height={1000}
                       alt={`thumbnail-${i}`}
                       fill
                       className="object-cover"
@@ -218,7 +224,7 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
             {/* Description */}
             <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
               <p className="text-white/90 text-sm sm:text-base leading-relaxed">
-                مشروع {data.name} من تطوير {data.developer} في منطقة {data.zone}. 
+                مشروع {data.name} من تطوير {data.developer} في منطقة {data.zone}.
                 يحتوي المشروع على {data.units?.length || 0} وحدة سكنية متنوعة في المساحات والأسعار.
                 {data.units && data.units.length > 0 && (
                   <> يبدأ السعر من {Math.min(...data.units.map(u => u.price)).toLocaleString()} جنيه مصري.</>
@@ -228,10 +234,10 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
 
             {/* Contact Section */}
             <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
-                          <p className="text-white text-sm sm:text-base mb-4 text-center">
-              {t('contactForDetails')}
-            </p>
-              
+              <p className="text-white text-sm sm:text-base mb-4 text-center">
+                {t('contactForDetails')}
+              </p>
+
               <div className="flex flex-col sm:flex-row gap-3">
                 <a
                   href={`https://wa.me/201111993383?text=مرحبًا، مهتم بمشروع ${data.name}`}
@@ -242,7 +248,7 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
                   <FaWhatsapp size={18} />
                   {t('whatsapp')}
                 </a>
-                
+
                 <a
                   href="tel:201111993383"
                   className="bg-[#b70501] hover:bg-[#a00401] text-white px-6 py-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 font-medium"
@@ -267,7 +273,7 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
               <h3 className="text-2xl sm:text-3xl font-bold text-white text-center mb-8">
                 {t('viewUnits')}
               </h3>
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {data.units.map((unit) => (
                   <Link
@@ -277,13 +283,15 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
                   >
                     <Image
                       src={unit.images?.[0] || '/images/no-image.png'}
+                      width={1000}
+                      height={1000}
                       alt={unit.title}
                       fill
                       className="object-cover z-0 group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10" />
                     <div className="card-glare"></div>
-                    
+
                     {/* Title at top */}
                     <div className="relative z-20 p-6 pb-0">
                       <h4 className="text-lg font-bold text-white mb-2 group-hover:text-[#b70501] transition-colors duration-300">

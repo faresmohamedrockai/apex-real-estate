@@ -9,7 +9,7 @@ const ApexIntro = () => {
     <>
       <ImageBG />
       <div className="relative z-10 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 items-center bg-white/80 rounded-3xl shadow-2xl p-6 md:p-10 backdrop-blur-sm" style={{ fontFamily: '"El Messiri", sans-serif' }}>
-      
+
         {/* النص الترحيبي */}
         <div className="space-y-5 text-gray-800">
           <p className="text-sm text-gray-500">مرحبًا بكم في APEX</p>
@@ -31,6 +31,8 @@ const ApexIntro = () => {
           <div className="rounded-full overflow-hidden shadow-lg w-52 h-52 relative">
             <Image
               src="/red.logo.jpg"
+              width={1000}
+              height={1000}
               alt="Apex Logo"
               fill
               className="object-cover"

@@ -44,220 +44,226 @@ const InventoryDetailsPage = ({ data }: { data: InventoryType }) => {
   return (
     <>
       <ImageBG />
-      
+
       <div className="relative z-10 min-h-screen pt-24 bg-black/60">
         {/* Header with Back Button */}
         <div className="relative z-30 px-4 sm:px-6">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="max-w-7xl mx-auto mb-6 sm:mb-8"
-        >
-                      <Link 
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-7xl mx-auto mb-6 sm:mb-8"
+          >
+            <Link
               href="/units"
               className="inline-flex items-center gap-2 text-white hover:text-[#b70501] transition-colors mb-4"
             >
               <FaArrowLeft />
               <span>{t('backToUnits')}</span>
             </Link>
-            
+
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-2 sm:mb-4">
               {t('unitDetails')}
             </h1>
-        </motion.div>
-      </div>
+          </motion.div>
+        </div>
 
-      {/* سلايدر الصور بعرض الشاشة مع padding بسيط */}
-      <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] max-w-none z-20 px-4 sm:px-6">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="space-y-4"
-        >
-          {/* Main Image Slider */}
-          <div className="bg-black/70 backdrop-blur-md rounded-2xl border border-white/20 overflow-hidden">
-            <Swiper
-              modules={[Navigation, Pagination]}
-              navigation
-              pagination={{ clickable: true }}
-              className="w-full"
-            >
-              {(data?.images?.length ?? 0) > 0 ? (
-                data.images.map((img, i) => (
-                  <SwiperSlide key={i}>
+        {/* سلايدر الصور بعرض الشاشة مع padding بسيط */}
+        <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] max-w-none z-20 px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="space-y-4"
+          >
+            {/* Main Image Slider */}
+            <div className="bg-black/70 backdrop-blur-md rounded-2xl border border-white/20 overflow-hidden">
+              <Swiper
+                modules={[Navigation, Pagination]}
+                navigation
+                pagination={{ clickable: true }}
+                className="w-full"
+              >
+                {(data?.images?.length ?? 0) > 0 ? (
+                  data.images.map((img, i) => (
+                    <SwiperSlide key={i}>
+                      <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px]">
+                        <Image
+                          src={img}
+                          width={1000}
+                          height={1000}
+                          alt={`slide-${i}`}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    </SwiperSlide>
+                  ))
+                ) : (
+                  <SwiperSlide>
                     <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px]">
                       <Image
-                        src={img}
-                        alt={`slide-${i}`}
+                        src="/images/no-image.png"
+                        width={1000}
+                        height={1000}
+                        alt="no-image"
                         fill
                         className="object-cover"
                       />
                     </div>
                   </SwiperSlide>
-                ))
-              ) : (
-                <SwiperSlide>
-                  <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px]">
+                )}
+              </Swiper>
+            </div>
+
+            {/* Thumbnail Images */}
+            {data?.images && data.images.length > 1 && (
+              <div className="grid grid-cols-4 gap-2 max-w-4xl mx-auto">
+                {data.images.slice(0, 4).map((img, i) => (
+                  <div key={i} className="bg-black/50 backdrop-blur-md rounded-lg overflow-hidden border border-white/20 relative h-20 sm:h-24">
                     <Image
-                      src="/images/no-image.png"
-                      alt="no-image"
+                      src={img}
+                      width={1000}
+                      height={1000}
+                      alt={`thumbnail-${i}`}
                       fill
                       className="object-cover"
                     />
                   </div>
-                </SwiperSlide>
-              )}
-            </Swiper>
-          </div>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        </div>
 
-          {/* Thumbnail Images */}
-          {data?.images && data.images.length > 1 && (
-            <div className="grid grid-cols-4 gap-2 max-w-4xl mx-auto">
-              {data.images.slice(0, 4).map((img, i) => (
-                <div key={i} className="bg-black/50 backdrop-blur-md rounded-lg overflow-hidden border border-white/20 relative h-20 sm:h-24">
-                  <Image
-                    src={img}
-                    alt={`thumbnail-${i}`}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-        </motion.div>
-      </div>
-
-      {/* التفاصيل بعرض الشاشة مع padding بسيط */}
-      <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] max-w-none z-20 px-4 sm:px-6 py-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="bg-black/70 backdrop-blur-md rounded-2xl border border-white/20 p-4 sm:p-6 space-y-6"
-        >
-          {/* Title and Badges */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="text-sm sm:text-base bg-[#b70501] text-white px-3 py-1 rounded-full font-medium">
-                {data.unitType}
-              </span>
-              {data.isUnique && (
-                <span className="text-sm sm:text-base bg-[#b70501] text-white px-3 py-1 rounded-full font-bold">
-                  مميزة
+        {/* التفاصيل بعرض الشاشة مع padding بسيط */}
+        <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] max-w-none z-20 px-4 sm:px-6 py-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="bg-black/70 backdrop-blur-md rounded-2xl border border-white/20 p-4 sm:p-6 space-y-6"
+          >
+            {/* Title and Badges */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-sm sm:text-base bg-[#b70501] text-white px-3 py-1 rounded-full font-medium">
+                  {data.unitType}
                 </span>
-              )}
-            </div>
-
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
-              {data.title}
-            </h2>
-          </div>
-
-          {/* Price */}
-          <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
-            <div className="flex items-center gap-3">
-              <FaMoneyBillWave className="text-[#b70501] text-xl sm:text-2xl" />
-              <div>
-                                  <p className="text-white/80 text-sm">{t('price')}</p>
-                <p className="text-white text-xl sm:text-2xl font-bold">
-                  {data.price.toLocaleString()} ج.م
-                </p>
+                {data.isUnique && (
+                  <span className="text-sm sm:text-base bg-[#b70501] text-white px-3 py-1 rounded-full font-bold">
+                    مميزة
+                  </span>
+                )}
               </div>
-            </div>
-          </div>
 
-          {/* Details Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Area */}
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
+                {data.title}
+              </h2>
+            </div>
+
+            {/* Price */}
             <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
               <div className="flex items-center gap-3">
-                <FaRulerCombined className="text-[#b70501] text-lg" />
+                <FaMoneyBillWave className="text-[#b70501] text-xl sm:text-2xl" />
                 <div>
-                                      <p className="text-white/80 text-sm">{t('area')}</p>
-                  <p className="text-white font-bold">{data.area} م²</p>
+                  <p className="text-white/80 text-sm">{t('price')}</p>
+                  <p className="text-white text-xl sm:text-2xl font-bold">
+                    {data.price.toLocaleString()} ج.م
+                  </p>
                 </div>
               </div>
             </div>
 
-            {/* Bedrooms & Bathrooms */}
-            <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
-              <div className="flex items-center gap-3">
-                <div className="flex gap-2">
-                  <FaBed className="text-[#b70501] text-lg" />
-                  <FaBath className="text-[#b70501] text-lg" />
+            {/* Details Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Area */}
+              <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
+                <div className="flex items-center gap-3">
+                  <FaRulerCombined className="text-[#b70501] text-lg" />
+                  <div>
+                    <p className="text-white/80 text-sm">{t('area')}</p>
+                    <p className="text-white font-bold">{data.area} م²</p>
+                  </div>
                 </div>
-                <div>
-                                      <p className="text-white/80 text-sm">{t('bedrooms')} و {t('bathrooms')}</p>
+              </div>
+
+              {/* Bedrooms & Bathrooms */}
+              <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
+                <div className="flex items-center gap-3">
+                  <div className="flex gap-2">
+                    <FaBed className="text-[#b70501] text-lg" />
+                    <FaBath className="text-[#b70501] text-lg" />
+                  </div>
+                  <div>
+                    <p className="text-white/80 text-sm">{t('bedrooms')} و {t('bathrooms')}</p>
                     <p className="text-white font-bold">
                       {data.bedrooms} غرف | {data.bathrooms} حمام
                     </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Project */}
+              <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
+                <div className="flex items-center gap-3">
+                  <FaBuilding className="text-[#b70501] text-lg" />
+                  <div>
+                    <p className="text-white/80 text-sm">{t('project')}</p>
+                    <p className="text-white font-bold">{data.projectId?.name}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Zone */}
+              <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
+                <div className="flex items-center gap-3">
+                  <FaMapMarkerAlt className="text-[#b70501] text-lg" />
+                  <div>
+                    <p className="text-white/80 text-sm">{t('zone')}</p>
+                    <p className="text-white font-bold">{data.projectId?.zone}</p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Project */}
+            {/* Description */}
             <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
-              <div className="flex items-center gap-3">
-                <FaBuilding className="text-[#b70501] text-lg" />
-                <div>
-                                      <p className="text-white/80 text-sm">{t('project')}</p>
-                  <p className="text-white font-bold">{data.projectId?.name}</p>
-                </div>
-              </div>
+              <p className="text-white/90 text-sm sm:text-base leading-relaxed">
+                وحدة {data.unitType} مميزة في مشروع {data.projectId?.name} بمنطقة {data.projectId?.zone}.
+                تتميز بمساحة {data.area} متر مربع مع {data.bedrooms} غرف نوم و{data.bathrooms} حمامات.
+                السعر {data.price.toLocaleString()} جنيه مصري.
+              </p>
             </div>
 
-            {/* Zone */}
+            {/* Contact Section */}
             <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
-              <div className="flex items-center gap-3">
-                <FaMapMarkerAlt className="text-[#b70501] text-lg" />
-                <div>
-                                      <p className="text-white/80 text-sm">{t('zone')}</p>
-                  <p className="text-white font-bold">{data.projectId?.zone}</p>
-                </div>
-              </div>
-            </div>
-          </div>
+              <p className="text-white text-sm sm:text-base mb-4 text-center">
+                {t('contactForDetails')}
+              </p>
 
-          {/* Description */}
-          <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
-            <p className="text-white/90 text-sm sm:text-base leading-relaxed">
-              وحدة {data.unitType} مميزة في مشروع {data.projectId?.name} بمنطقة {data.projectId?.zone}. 
-              تتميز بمساحة {data.area} متر مربع مع {data.bedrooms} غرف نوم و{data.bathrooms} حمامات. 
-              السعر {data.price.toLocaleString()} جنيه مصري.
-            </p>
-          </div>
-
-          {/* Contact Section */}
-          <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
-            <p className="text-white text-sm sm:text-base mb-4 text-center">
-              {t('contactForDetails')}
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-3">
-              <a
-                href={`https://wa.me/201111993383?text=مرحبًا، مهتم بالوحدة: ${data.title}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 font-medium"
-              >
-                                  <FaWhatsapp size={18} />
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link
+                  href={`https://wa.me/201111993383?text=مرحبًا، مهتم بالوحدة: ${data.title}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 font-medium"
+                >
+                  <FaWhatsapp size={18} />
                   {t('whatsapp')}
-                </a>
-                
-                <a
+                </Link>
+
+                <Link
                   href="tel:201111993383"
                   className="bg-[#b70501] hover:bg-[#a00401] text-white px-6 py-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 font-medium"
                 >
                   <FaMapMarkerAlt size={18} />
                   {t('callNow')}
-                </a>
+                </Link>
+              </div>
             </div>
-          </div>
-        </motion.div>
-      </div>
+          </motion.div>
+        </div>
       </div>
     </>
   );
