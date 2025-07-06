@@ -193,8 +193,10 @@
     "viewDeveloper": "View Developer",
     "noDevelopers": "No developers available",
     "developers": "Real Estate Developers",
-    "projects": "Projects"
-  },"custmorDect":{
+    "projects": "Projects",
+    "egp": "EGP"
+  },
+  "custmorDect":{
     "cutsmor":""
   }
  

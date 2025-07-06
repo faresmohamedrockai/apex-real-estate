@@ -74,9 +74,8 @@ export default function Header() {
             <motion.div key={link.href} variants={navItem}>
               <Link
                 href={link.href}
-                className={`relative text-[#efe6e7] hover:text-red-600 hover:underline-offset-2 px-3 py-2 transition-all duration-300 ease-in-out ${
-                  pathname === link.href ? 'text-black font-bold' : ''
-                }`}
+                className={`relative text-[#efe6e7] hover:text-red-600 hover:underline-offset-2 px-3 py-2 transition-all duration-300 ease-in-out ${pathname === link.href ? 'text-black font-bold' : ''
+                  }`}
               >
                 <span className="relative z-10 font-bold">{link.label}</span>
               </Link>
@@ -115,7 +114,7 @@ export default function Header() {
               ${isOpen ? '-rotate-45 -translate-y-2' : ''}`}
           ></span>
         </button></div>
-        
+
       </div>
 
       {/* Mobile Nav */}
@@ -139,9 +138,8 @@ export default function Header() {
                   <Link
                     href={link.href}
                     onClick={() => setIsOpen(false)}
-                    className={`block text-white py-2 border-b border-neutral-300 transition-all duration-300 ease-in-out ${
-                      pathname === link.href ? 'text-black font-bold' : ''
-                    }`}
+                    className={`block text-white py-2 border-b border-neutral-300 transition-all duration-300 ease-in-out ${pathname === link.href ? 'text-black font-bold' : ''
+                      }`}
                   >
                     {link.label}
                   </Link>

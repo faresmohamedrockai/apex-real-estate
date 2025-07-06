@@ -9,13 +9,14 @@ const getInventory = async (id: string) => {
   return json.data;
 };
 
-interface PageProps {
-  params: { id: string };
-}
+type PageProps = {
+  params: Promise<{ id: string }>;
+};
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const data = await getInventory(params.id);
+    const { id } = await params;
+    const data = await getInventory(id);
     
     return {
       title: `${data.title} - Property Details | APEX Real Estate`,
@@ -24,7 +25,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       openGraph: {
         title: `${data.title} - Property Details | APEX Real Estate`,
         description: `${data.title} for ${data.unitType} in Alexandria. ${data.bedrooms} bedrooms, ${data.bathrooms} bathrooms. Price: ${data.price?.toLocaleString()} EGP.`,
-        url: `https://apex-realestate.com/units/${params.id}`,
+        url: `https://apex-realestate.com/units/${id}`,
         siteName: 'APEX Real Estate',
         images: [
           {
@@ -55,14 +56,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         },
       },
     };
-  } catch (error) {
+  } catch {
+    const { id } = await params;
     return {
       title: 'Property Details - APEX Real Estate',
       description: 'View detailed property information and contact APEX Real Estate for more details.',
       openGraph: {
         title: 'Property Details - APEX Real Estate',
         description: 'View detailed property information and contact APEX Real Estate for more details.',
-        url: `https://apex-realestate.com/units/${params.id}`,
+        url: `https://apex-realestate.com/units/${id}`,
         siteName: 'APEX Real Estate',
         images: [
           {
@@ -86,7 +88,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function Page({ params }: PageProps) {
-  const id = params.id;
+  const { id } = await params;
   const data = await getInventory(id);
 
   return <InventoryDetailsPage data={data} />;

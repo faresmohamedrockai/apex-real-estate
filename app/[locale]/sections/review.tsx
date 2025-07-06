@@ -4,8 +4,17 @@ import { useState } from 'react';
 import { FaStar, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useAppContext } from '../context/contextData';
 
+type Review = {
+  name: string;
+  review: string;
+  rating: number;
+  createdAt: string;
+  project?: string;
+  unitType?: string;
+};
+
 const ReviewsSlider = () => {
-  const { reviews, loading } = useAppContext();
+  const { reviews, loading } = useAppContext() as { reviews: Review[]; loading: boolean };
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextSlide = () => {

@@ -80,7 +80,7 @@ const HomeVideo = () => {
 
   {/* الزر */}
   <Link href="/contact_us">
-    <button className="group relative inline-block text-lg md:text-xl px-10 py-4 border-2 border-white text-white font-semibold rounded-full overflow-hidden transition-all duration-300 hover:text-white hover:border-0 shadow-2xl">
+    <button className="group cursor-pointer relative inline-block text-lg md:text-xl px-10 py-4 border-2 border-white text-white font-semibold rounded-full overflow-hidden transition-all duration-300 hover:text-white hover:border-0 shadow-2xl">
       <span className="absolute inset-0 w-full h-full bg-[#b70501] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 ease-out z-0" />
       <span className="relative z-10">{t('cta')}</span>
     </button>
@@ -92,8 +92,8 @@ const HomeVideo = () => {
             <Image
               src="/logo.jpg"
               alt="Site Logo"
-              width={600}
-              height={600}
+              width={800}
+              height={800}
               className=" "
             />
           </div>

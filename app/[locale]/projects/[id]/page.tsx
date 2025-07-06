@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         },
       },
     };
-  } catch (error) {
+  } catch {
     return {
       title: 'Real Estate Project - APEX Real Estate',
       description: 'Discover premium real estate projects and investment opportunities in Alexandria, Egypt. Contact APEX Real Estate for more information.',
