@@ -297,7 +297,7 @@ export default function SearchContent() {
                                       </div>
                                     </div>
                                     {/* زر واتساب */}
-                                    <a
+                                    <Link
                                       href={`https://wa.me/201111993383?text=أنا مهتم بالوحدة: ${item.title}`}
                                       target="_blank"
                                       rel="noopener noreferrer"
@@ -306,7 +306,7 @@ export default function SearchContent() {
                                       onClick={e => e.stopPropagation()}
                                     >
                                       <FaWhatsapp size={20} />
-                                    </a>
+                                    </Link>
                                   </div>
                                 </div>
                               </Link>

@@ -126,7 +126,7 @@ export default function DeveloperDetailsContent() {
                     
                     {/* Contact Button */}
                     <div className="mt-6">
-                      <a
+                      <Link
                         href={`https://wa.me/201111993383?text=أنا مهتم بمطور ${developer.name}`}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -134,7 +134,7 @@ export default function DeveloperDetailsContent() {
                       >
                         <FaWhatsapp size={20} />
                         <span>{t('contactDeveloper')}</span>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>

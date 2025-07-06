@@ -5,6 +5,7 @@ import ImageBG from '../components/ImageBG';
 import { FaWhatsapp, FaMapMarkerAlt, FaBuilding } from 'react-icons/fa';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import { Link } from '@/i18n/navigation';
 
 interface Project {
   _id: string;
@@ -74,7 +75,7 @@ export default function ProjectsListContent() {
 
                     {/* زر واتساب */}
                     <div className="flex justify-end">
-                  <a
+                  <Link
                     href={`https://wa.me/201111993383?text=أنا مهتم بمشروع ${project.name}`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -82,7 +83,7 @@ export default function ProjectsListContent() {
                     aria-label="WhatsApp"
                   >
                         <FaWhatsapp size={20} />
-                      </a>
+                      </Link>
                     </div>
                   </div>
 

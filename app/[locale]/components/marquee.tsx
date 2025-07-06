@@ -4,24 +4,23 @@ import { useAppContext } from '@/app/[locale]/context/contextData';
 import Image from 'next/image';
 import Marquee from 'react-fast-marquee';
 
+type Developer = {
+  _id: string;
+  logo: string;
+  name: string;
+};
+
 const DeveloperMarquee = () => {
   const { Developers, loading } = useAppContext();
+  const developers: Developer[] = Developers as Developer[];
 
   return (
     <div className="w-screen py-8 overflow-hidden">
       {loading ? (
         <p className="text-center text-white">جارٍ التحميل...</p>
       ) : (
-        <Marquee
-          speed={40}
-          direction="left"
-          loop={0}               
-          gradient={false}       
-          pauseOnHover={false}   
-          play={true}            
-          className="flex items-center"
-        >
-          {Developers.map((dev) => (
+        <Marquee speed={40}>
+          {developers.map((dev) => (
             <div
               key={dev._id}
               className="flex items-center justify-center mx-6 transition-transform hover:scale-110 p-6 cursor-pointer"

@@ -65,7 +65,7 @@ export default function DevelopersListContent() {
                   </p>
 
                   <div className="mt-4 flex gap-2">
-                    <a
+                    <Link
                       href={`https://wa.me/201111993383?text=أنا مهتم بمطور ${dev.name}`}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -74,7 +74,7 @@ export default function DevelopersListContent() {
                       onClick={(e) => e.stopPropagation()}
                     >
                       <FaWhatsapp size={20} />
-                    </a>
+                    </Link>
                   </div>
                 </Link>
               ))}
