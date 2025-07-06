@@ -4,6 +4,14 @@ import { Review } from '@/models/review';
 
 export async function POST(request) {
   try {
+    if (!process.env.MONGODB_URI) {
+      console.error('❌ MONGODB_URI environment variable is not defined');
+      return NextResponse.json(
+        { error: 'Database configuration error' },
+        { status: 500 }
+      );
+    }
+
     await connectDB();
 
     const body = await request.json();

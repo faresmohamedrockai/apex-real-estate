@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/DBConection';
-import Review from '@/models/review';
+import { Review } from '@/models/review';
 
 export async function PUT(request, { params }) {
   try {
