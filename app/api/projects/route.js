@@ -2,7 +2,12 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/DBConection';
 import Project from '@/models/projects'; 
 import Developer from '@/models/Developers'; 
+<<<<<<< HEAD
 import mongoose from 'mongoose'; // 👈 لازم تضيف دي
+=======
+import mongoose from 'mongoose'; 
+
+>>>>>>> master
 export async function GET() {
   await connectDB();
 

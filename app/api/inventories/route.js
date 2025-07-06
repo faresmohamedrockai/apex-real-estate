@@ -2,7 +2,11 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/DBConection';
 import Inventory from '@/models/inventory';
 import Project from '@/models/projects';
+<<<<<<< HEAD
 import mongoose from 'mongoose'; 
+=======
+import mongoose from 'mongoose';
+>>>>>>> master
 
 export async function GET() {
   await connectDB();

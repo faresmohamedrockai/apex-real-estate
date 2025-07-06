@@ -28,18 +28,29 @@ interface InventoryItem {
   isUnique?: boolean;
 }
 
+<<<<<<< HEAD
 interface ApiProject {
+=======
+interface ProjectData {
+>>>>>>> master
   _id: string;
   name: string;
 }
 
+<<<<<<< HEAD
 interface ApiInventoryItem {
   _id: string;
+=======
+interface InventoryData {
+  _id: string;
+  projectId: string;
+>>>>>>> master
   title: string;
   unitType: string;
   area: number;
   bedrooms: number;
   bathrooms: number;
+<<<<<<< HEAD
   region?: string;
   project?: string;
   projectId: string;
@@ -48,6 +59,10 @@ interface ApiInventoryItem {
   latitude?: number;
   longitude?: number;
   isUnique?: boolean;
+=======
+  price: number;
+  images: string[];
+>>>>>>> master
 }
 
 export default function Properties() {
@@ -63,11 +78,19 @@ export default function Properties() {
         const projData = await projRes.json();
 
         const projectMap = new Map<string, string>();
+<<<<<<< HEAD
         projData.forEach((project: ApiProject) => {
           projectMap.set(project._id, project.name);
         });
 
         const merged = invData.map((item: ApiInventoryItem) => ({
+=======
+        projData.forEach((project: ProjectData) => {
+          projectMap.set(project._id, project.name);
+        });
+
+        const merged = invData.map((item: InventoryData) => ({
+>>>>>>> master
           ...item,
           projectId: {
             _id: item.projectId,

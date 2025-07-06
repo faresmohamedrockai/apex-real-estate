@@ -15,8 +15,19 @@ interface Unit {
   isUnique?: boolean;
 }
 
+interface Unit {
+  _id: string;
+  title: string;
+  images?: string[];
+  bedrooms: number;
+  bathrooms: number;
+  region?: string;
+  price: number;
+  isUnique?: boolean;
+}
+
 interface UnitsGridProps {
-  units: unknown[];
+  units: Unit[];
   loading?: boolean;
   title?: string;
 }
@@ -35,9 +46,13 @@ const UnitsGrid: React.FC<UnitsGridProps> = ({ units, loading, title = 'الشق
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {units.length > 0 ? (
+<<<<<<< HEAD
             units.map((unit: unknown) => {
               const unitItem = unit as Unit;
               return (
+=======
+            units.map((unit: Unit) => (
+>>>>>>> master
               <Link
                 key={unitItem._id}
                 href={`/units/${unitItem._id}`}

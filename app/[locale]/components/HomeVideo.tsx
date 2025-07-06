@@ -68,15 +68,24 @@ const HomeVideo = () => {
         <div className="max-w-7xl w-full flex flex-col md:flex-row items-center justify-between gap-6 text-white text-center md:text-right rtl:text-right" style={{ fontFamily: '"El Messiri", sans-serif' }}>
           
         {/* النص والزر */}
-<div className="w-full max-w-6xl space-y-8">
-  <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold leading-tight text-white drop-shadow-[0_4px_6px_rgba(0,0,0,0.4)]">
-    {t('title')}
-  </h1>
-  <p className="text-xl md:text-2xl lg:text-3xl font-semibold text-gray-200 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
-    {t('description')}
-  </p>
-</div>
+<div className="w-full flex flex-col items-center justify-center text-center space-y-8 pt-32 sm:pt-40 md:pt-48" style={{ fontFamily: '"El Messiri", sans-serif' }}>
+  <div className="md:w-3/4 space-y-6 ">
+    <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-snug text-white drop-shadow-2xl">
+      {t('title')}
+    </h1>
+    <p className="text-lg md:text-xl lg:text-2xl font-medium text-gray-200 drop-shadow-lg">
+      {t('description')}
+    </p>
+  </div>
 
+  {/* الزر */}
+  <Link href="/contact_us">
+    <button className="group cursour-pointer relative inline-block text-lg md:text-xl px-10 py-4 border-2 border-white text-white font-semibold rounded-full overflow-hidden transition-all duration-300 hover:text-white hover:border-0 shadow-2xl">
+      <span className="absolute inset-0 w-full h-full bg-[#b70501] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 ease-out z-0" />
+      <span className="relative z-10">{t('cta')}</span>
+    </button>
+  </Link>
+</div>
 
          
           <div className="flex justify-center md:justify-start">
@@ -85,7 +94,7 @@ const HomeVideo = () => {
               alt="Site Logo"
               width={800}
               height={800}
-              className=" "
+              className=""
             />
           </div>
         </div>
