@@ -60,13 +60,18 @@ export async function GET(request: NextRequest) {
 
     // priceMin: price >= value
     if (priceMin) {
-      query.price = {};
-      query.price.$gte = Number(priceMin);
+      if (typeof query.price !== 'object' || query.price === null) {
+        query.price = {};
+      }
+      (query.price as Record<string, unknown> ).$gte = Number(priceMin);
     }
 
     // priceMax: price <= value
     if (priceMax) {
-      query.price.$lte = Number(priceMax);
+      if (typeof query.price !== 'object' || query.price === null) {
+        query.price = {};
+      }
+      (query.price as Record<string, unknown> ).$lte = Number(priceMax);
     }
 
     const inventories = await Inventory.find(query).populate('projectId').lean();

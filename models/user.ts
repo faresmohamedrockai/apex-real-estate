@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
-    required: true, // ✅ التصحيح هنا كمان spelling
+    required: true, 
   },
   password: {
     type: String,

@@ -64,15 +64,15 @@ export async function GET(request: NextRequest) {
 
     // priceMin: price >= value
     if (priceMin || priceMax) {
-      query.price = {};
-      if (priceMin) query.price.$gte = Number(priceMin);
-      if (priceMax) query.price.$lte = Number(priceMax);
+      query.price = {} as { $gte?: number; $lte?: number };
+      if (priceMin) (query.price as { $gte?: number }).$gte = Number(priceMin);
+      if (priceMax) (query.price as { $lte?: number }).$lte = Number(priceMax);
     }
 
     // Add sorting options
     const sortBy = searchParams.get('sortBy') || 'title';
     const sortOrder = searchParams.get('sortOrder') || 'asc';
-    const sort: Record<string, number> = {};
+    const sort: { [key: string]: 1 | -1 } = {};
     sort[sortBy] = sortOrder === 'desc' ? -1 : 1;
 
     // Add pagination

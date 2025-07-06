@@ -238,7 +238,7 @@
 
   "common": {
     "loading": "جاري التحميل...",
-    "error": "حدث خطأ",
+    "errorCommon": "حدث خطأ",
     "loadingProjects": "جارٍ تحميل المشاريع...",
     "loadingUnits": "جارٍ تحميل الشقق...",
     "loadingDevelopers": "جارٍ تحميل المطورين...",
@@ -380,7 +380,6 @@
     "of": "من",
     "showing": "عرض",
     "to": "إلى",
-    "of": "من",
     "results": "نتيجة"
   },
 

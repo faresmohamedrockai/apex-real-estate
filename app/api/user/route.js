@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import connectDB from '@/lib/DBConection';
 import User from '@/models/user';
 
-// ✅ helper للتحقق من صلاحية الأدمن
+
 async function isAdmin(adminId) {
   const user = await User.findById(adminId);
   return user && user.role === 'admin';

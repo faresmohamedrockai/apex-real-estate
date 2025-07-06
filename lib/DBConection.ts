@@ -6,7 +6,9 @@ interface CachedConnection {
 }
 
 declare global {
-  var mongoose: { conn: null; promise: null } | undefined;
+  // Use CachedConnection type for global.mongoose
+  // eslint-disable-next-line no-var
+  var mongoose: CachedConnection | undefined;
 }
 
 const cached: CachedConnection = global.mongoose || { conn: null, promise: null };
@@ -22,10 +24,7 @@ async function connectDB(): Promise<typeof mongoose> {
 
   if (!cached.promise) {
     cached.promise = mongoose
-      .connect(process.env.MONGODB_URI as string, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      })
+      .connect(process.env.MONGODB_URI as string)
       .then((mongooseInstance) => {
         console.log('✅ Database Connected');
         return mongooseInstance;
