@@ -78,6 +78,10 @@ export async function GET(request: NextRequest) {
     // Add pagination
     const skip = (page - 1) * limit;
 
+
+
+
+
     // Execute query with pagination and sorting
     const inventories = await Inventory.find(query)
       .populate('projectId')

@@ -17,7 +17,7 @@ const eslintConfig = [
      
       "@typescript-eslint/no-explicit-any": "off",       
       "@typescript-eslint/explicit-module-boundary-types": "off", 
-      "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+      
       "react/react-in-jsx-scope": "off",               
       "no-console": "off",                             
       "no-debugger": "warn"                             

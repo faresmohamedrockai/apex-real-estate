@@ -6,9 +6,7 @@ interface CachedConnection {
 }
 
 declare global {
-  // Use CachedConnection type for global.mongoose
-  // eslint-disable-next-line no-var
-  var mongoose: CachedConnection | undefined;
+  var mongoose: CachedConnection | undefined; // ✅ لا حاجة لتعطيل no-var
 }
 
 const cached: CachedConnection = global.mongoose || { conn: null, promise: null };
@@ -31,7 +29,7 @@ async function connectDB(): Promise<typeof mongoose> {
       })
       .catch((err) => {
         console.error('❌ Error connecting to MongoDB:', err);
-        throw err; 
+        throw err;
       });
   }
 
