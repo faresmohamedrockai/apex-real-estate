@@ -94,7 +94,7 @@ const HomeVideo = () => {
               alt="Site Logo"
               width={600}
               height={600}
-              className=" shadow-2xl"
+              className=" "
             />
           </div>
         </div>

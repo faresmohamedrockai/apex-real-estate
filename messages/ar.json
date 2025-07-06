@@ -48,7 +48,14 @@
     "phoneLabel": "الهاتف:",
     "allRightsReserved": "جميع الحقوق محفوظة",
     "termsConditions": "الشروط والأحكام",
-    "privacyPolicy": "سياسة الخصوصية"
+    "privacyPolicy": "سياسة الخصوصية",
+    "area": "المساحة",
+    "bedrooms": "الغرف",
+    "bathrooms": "الحمامات",
+    "region": "المنطقة",
+    "project": "المشروع",
+    "priceRange": "نطاق السعر",
+    "unique": "مميز"
   },
   "About_Us":{
     

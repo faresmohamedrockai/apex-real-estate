@@ -47,7 +47,14 @@
     "privacyPolicy": "Privacy Policy",
     "units": "Units",
     "about": "About Us",
-    "contact": "Contact"
+    "contact": "Contact",
+    "area": "Area",
+    "bedrooms": "Bedrooms",
+    "bathrooms": "Bathrooms",
+    "region": "Region",
+    "project": "Project",
+    "priceRange": "Price Range",
+    "unique": "Featured"
   },
   
   "Footer":{
@@ -187,6 +194,8 @@
     "noDevelopers": "No developers available",
     "developers": "Real Estate Developers",
     "projects": "Projects"
+  },"custmorDect":{
+    "cutsmor":""
   }
  
 
