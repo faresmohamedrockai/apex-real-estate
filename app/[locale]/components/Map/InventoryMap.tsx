@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 import { useAppContext } from '@/app/[locale]/context/contextData';
 
 // Dynamic import for React Leaflet components
-let MapContainer: React.ComponentType<unknown> | null = null;
-let TileLayer: React.ComponentType<unknown> | null = null;
-let Marker: React.ComponentType<unknown> | null = null;
-let Popup: React.ComponentType<unknown> | null = null;
+let MapContainer: React.ComponentType<any> | null = null;
+let TileLayer: React.ComponentType<any> | null = null;
+let Marker: React.ComponentType<any> | null = null;
+let Popup: React.ComponentType<any> | null = null;
 let L: unknown = null;
 
 interface Project {
@@ -40,10 +40,10 @@ interface InventoryMapProps {
 }
 
 interface MapComponents {
-  MapContainer: React.ComponentType<unknown>;
-  TileLayer: React.ComponentType<unknown>;
-  Marker: React.ComponentType<unknown>;
-  Popup: React.ComponentType<unknown>;
+  MapContainer: React.ComponentType<any>;
+  TileLayer: React.ComponentType<any>;
+  Marker: React.ComponentType<any>;
+  Popup: React.ComponentType<any>;
   L: unknown;
 }
 

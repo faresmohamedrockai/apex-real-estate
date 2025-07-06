@@ -22,6 +22,14 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "lib/DBConection.js", "app/api/projects/route.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "lib/DBConection.js",
+    "app/api/projects/route.js",
+    "types/declarations.d.ts" 
+  ],
   "exclude": ["node_modules"]
 }
