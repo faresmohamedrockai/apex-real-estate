@@ -6,7 +6,7 @@ interface CachedConnection {
 }
 
 declare global {
-  var mongoose: CachedConnection | undefined; // ✅ لا حاجة لتعطيل no-var
+  var mongoose: CachedConnection | undefined; 
 }
 
 const cached: CachedConnection = global.mongoose || { conn: null, promise: null };
