@@ -52,6 +52,8 @@ const HomeVideo = () => {
               src={src}
               alt={`Background ${index}`}
               fill
+              // width={800}
+              // height={800}
               className={`object-cover transition-transform duration-[6000ms] ease-in-out ${
                 index === currentIndex && zoomIn ? 'scale-110' : 'scale-100'
               }`}

@@ -114,8 +114,9 @@
     "selectProject": "اختر المشروع",
     "unitType": "نوع الوحدة",
     "selectUnitType": "اختر نوع الوحدة",
-    "residential": "سكني",
-    "commercial": "تجاري",
+     "residential": "سكني",
+ "commercial": "تجاري",
+ "administrative": "إداري",
     "priceRange": "النطاق السعري",
     "from": "من",
     "to": "إلى",
@@ -126,6 +127,11 @@
     "sendReview": "إرسال المراجعة",
  "consalte":"طللب استشارة",
  "opinion":"شارك رائيك",
+ "sending": "جاري الإرسال...",
+ "send": "إرسال",
+ "rating": "التقييم",
+ "review": "المراجعة",
+ "contactInfo": "معلومات الاتصال",
  "error": "حدث خطأ في إرسال البيانات"
 
   },"cntactText":{
