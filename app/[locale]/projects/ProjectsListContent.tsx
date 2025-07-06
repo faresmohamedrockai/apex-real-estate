@@ -43,7 +43,7 @@ export default function ProjectsListContent() {
                 key={project._id}
                   className="group relative h-80 rounded-2xl overflow-hidden shadow-xl hover:scale-105 transition-all duration-300 border border-white/20"
               >
-                {/* صورة كخلفية */}
+               
                 <Image
                     src={project.image?.[0] || '/images/no-image.png'}
                   alt={project.name}

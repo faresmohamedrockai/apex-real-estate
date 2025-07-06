@@ -127,7 +127,7 @@ export default function ContactForm() {
           {contactT('text')}
         </motion.h1>
 
-        {/* الأزرار */}
+      
         <motion.div
           className="flex justify-center gap-4 mb-10"
           initial="hidden"
@@ -151,7 +151,7 @@ export default function ContactForm() {
           ))}
         </motion.div>
 
-          {/* رسالة النجاح/الخطأ */}
+       
           <AnimatePresence>
             {message && (
               <motion.div
@@ -167,7 +167,7 @@ export default function ContactForm() {
             )}
           </AnimatePresence>
 
-          {/* النموذج */}
+         
           <AnimatePresence mode="wait">
             <motion.div
               key={formType}
@@ -175,7 +175,7 @@ export default function ContactForm() {
               className="max-w-2xl mx-auto"
             >
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* الاسم والهاتف */}
+              
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-white text-sm font-medium mb-2">
@@ -230,7 +230,7 @@ export default function ContactForm() {
                   </select>
                 </div>
 
-                {/* نوع الوحدة */}
+                
                 <div>
                   <label className="block text-white text-sm font-medium mb-2">
                     {t('unitType')}
@@ -247,7 +247,7 @@ export default function ContactForm() {
                   </select>
                 </div>
 
-                {/* نطاق السعر - فقط للاستشارة */}
+               
                 {formType === 'consultation' && (
                   <div>
                     <label className="block text-white text-sm font-medium mb-2">
@@ -268,7 +268,7 @@ export default function ContactForm() {
                   </div>
                 )}
 
-                {/* التقييم - فقط للرأي */}
+            
                 {formType === 'review' && (
                   <div>
                     <label className="block text-white text-sm font-medium mb-2">
@@ -291,7 +291,7 @@ export default function ContactForm() {
                   </div>
                 )}
 
-                {/* الملاحظات أو الرأي */}
+               
                 <div>
                   <label className="block text-white text-sm font-medium mb-2">
                     {formType === 'consultation' ? t('notes') : t('review')}
@@ -320,7 +320,7 @@ export default function ContactForm() {
             </motion.div>
           </AnimatePresence>
 
-          {/* معلومات التواصل */}
+          
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

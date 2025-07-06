@@ -52,11 +52,11 @@ const Page = () => {
     <>
       <ImageBG />
 
-      {/* ✅ المحتوى */}
+      
       <div className="relative z-10">
         <ImageUnderWord text={t('about')} />
 
-        {/* ✅ شبكة الأعمدة مع كروت شفافة بلور */}
+        
         <div className="max-w-7xl mx-auto px-6 py-24 bg-black/80">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12">
             {[
@@ -93,11 +93,11 @@ const Page = () => {
                 title: t('contactTitle'),
                 content: (
                   <ul className="space-y-2">
-                    <li>📍 {t('address')}</li>
-                    <li>📞 {t('phone')}</li>
-                    <li>📧 {t('email')}</li>
+                    <li> {t('address')}</li>
+                    <li> {t('phone')}</li>
+                    <li> {t('email')}</li>
                     <li>
-                      🌐 Facebook:{' '}
+                       Facebook:{' '}
                       <a
                         href="https://www.facebook.com/people/Apex-Real-Estate-Investment/61567153032479/"
                         target="_blank"
