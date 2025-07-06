@@ -16,12 +16,12 @@ const getInventory = async (id: string) => {
 };
 
 type PageProps = {
-  params: { id: string }; // ✅ تعديل هنا
+  params: Promise<{ id: string }>;
 };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const { id } = params; // ✅ بدون await
+    const { id } = await params;
     const data = await getInventory(id);
 
     return {
@@ -63,7 +63,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       },
     };
   } catch {
-    const { id } = params;
+    const { id } = await params;
     return {
       title: 'Property Details - APEX Real Estate',
       description: 'View detailed property information and contact APEX Real Estate for more details.',
@@ -94,7 +94,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function Page({ params }: PageProps) {
-  const { id } = params;
+  const { id } = await params;
   const data = await getInventory(id);
 
   return <InventoryDetailsPage data={data} />;
