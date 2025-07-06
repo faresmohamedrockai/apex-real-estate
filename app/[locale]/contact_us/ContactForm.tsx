@@ -80,8 +80,10 @@ export default function ContactForm() {
         // Add English translations for form data
         name_en: formData.name, // For now, using same name for both languages
         project_en: formData.project,
-        unitType_en: formData.unitType === 'سكني' ? 'Residential' : 
-                    formData.unitType === 'تجاري' ? 'Commercial' : 'Administrative',
+        unitType_en: locale === 'ar' ? 
+          (formData.unitType === 'سكني' ? 'Residential' : 
+           formData.unitType === 'تجاري' ? 'Commercial' : 'Administrative') : 
+          formData.unitType,
         notes_en: formData.notes,
         review_en: formData.review
       };

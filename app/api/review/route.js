@@ -41,6 +41,21 @@ export async function POST(request) {
       );
     }
 
+    // Convert English unitType to Arabic
+    const unitTypeMap = {
+      'Residential': 'سكني',
+      'Commercial': 'تجاري',
+      'Administrative': 'إداري',
+      'Office': 'مكتبي'
+    };
+    
+    // If unitType is already in Arabic, use it as is
+    const arabicUnitType = unitTypeMap[unitType] || unitType || 'سكني';
+    
+    // Validate that the unitType is valid
+    const validArabicTypes = ['سكني', 'تجاري', 'مكتبي', 'إداري'];
+    const finalUnitType = validArabicTypes.includes(arabicUnitType) ? arabicUnitType : 'سكني';
+
     // Create review (initially hidden)
     const newReview = new Review({
       name: name.trim(),
@@ -48,7 +63,8 @@ export async function POST(request) {
       rating,
       review: review.trim(),
       project: project?.trim() || '',
-      unitType: unitType || 'سكني',
+      unitType: finalUnitType,
+      unitType_en: unitType || 'Residential',
       canShow: false, // لا تظهر تلقائياً
       isApproved: false // تحتاج موافقة إدارية
     });

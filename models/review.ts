@@ -47,12 +47,12 @@ const reviewSchema = new mongoose.Schema({
   },
   unitType: {
     type: String,
-    enum: ['سكني', 'تجاري', 'مكتبي'],
+    enum: ['سكني', 'تجاري', 'مكتبي', 'إداري'],
     default: 'سكني'
   },
   unitType_en: {
     type: String,
-    enum: ['Residential', 'Commercial', 'Office'],
+    enum: ['Residential', 'Commercial', 'Office', 'Administrative'],
     default: 'Residential'
   },
   createdAt: {
