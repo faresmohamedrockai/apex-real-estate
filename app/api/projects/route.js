@@ -3,7 +3,7 @@ import connectDB from '@/lib/DBConection';
 import Project from '@/models/projects'; 
 import Developer from '@/models/Developers'; 
 import mongoose from 'mongoose';
-
+import Inventory from '@/models/inventory';
 export async function GET() {
   await connectDB();
 
