@@ -22,6 +22,7 @@ import {
 import ImageBG from '../ImageBG';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 type ProjectType = {
   _id: string;
@@ -45,12 +46,13 @@ type ProjectType = {
 
 const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
   const t = useTranslations('common');
+
   return (
     <>
       <ImageBG />
 
       <div className="relative z-10 min-h-screen pt-24 bg-black/60">
-        {/* Header with Back Button */}
+        {/* Header */}
         <div className="relative z-30 px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -72,7 +74,7 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
           </motion.div>
         </div>
 
-        {/* سلايدر الصور بعرض الشاشة مع padding بسيط */}
+        {/* Slider */}
         <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] max-w-none z-20 px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -80,7 +82,6 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="space-y-4"
           >
-            {/* Main Image Slider */}
             <div className="bg-black/70 backdrop-blur-md rounded-2xl border border-white/20 overflow-hidden">
               <Swiper
                 modules={[Navigation, Pagination]}
@@ -120,11 +121,13 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
               </Swiper>
             </div>
 
-            {/* Thumbnail Images */}
             {data?.image && data.image.length > 1 && (
               <div className="grid grid-cols-4 gap-2 max-w-4xl mx-auto">
                 {data.image.slice(0, 4).map((img, i) => (
-                  <div key={i} className="bg-black/50 backdrop-blur-md rounded-lg overflow-hidden border border-white/20 relative h-20 sm:h-24">
+                  <div
+                    key={i}
+                    className="bg-black/50 backdrop-blur-md rounded-lg overflow-hidden border border-white/20 relative h-20 sm:h-24"
+                  >
                     <Image
                       src={img}
                       width={1000}
@@ -140,7 +143,7 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
           </motion.div>
         </div>
 
-        {/* تفاصيل المشروع بعرض الشاشة مع padding بسيط */}
+        {/* Project Details */}
         <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] max-w-none z-20 px-4 sm:px-6 py-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -148,7 +151,6 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="bg-black/70 backdrop-blur-md rounded-2xl border border-white/20 p-4 sm:p-6 space-y-6"
           >
-            {/* Title and Badges */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-sm sm:text-base bg-[#b70501] text-white px-3 py-1 rounded-full font-medium">
@@ -160,86 +162,41 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
                   </span>
                 )}
               </div>
-
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
-                {data.name}
-              </h2>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">{data.name}</h2>
             </div>
 
-            {/* Project Details Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* Developer */}
-              <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
-                <div className="flex items-center gap-3">
-                  <FaBuilding className="text-[#b70501] text-lg" />
-                  <div>
-                    <p className="text-white/80 text-sm">{t('developer')}</p>
-                    <p className="text-white font-bold">{data.developer}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Zone */}
-              <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
-                <div className="flex items-center gap-3">
-                  <FaMapMarkerAlt className="text-[#b70501] text-lg" />
-                  <div>
-                    <p className="text-white/80 text-sm">{t('zone')}</p>
-                    <p className="text-white font-bold">{data.zone}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Units Count */}
-              <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
-                <div className="flex items-center gap-3">
-                  <FaHome className="text-[#b70501] text-lg" />
-                  <div>
-                    <p className="text-white/80 text-sm">{t('unitsCount')}</p>
-                    <p className="text-white font-bold">{data.units?.length || 0} وحدة</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Price Range */}
-              <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
-                <div className="flex items-center gap-3">
-                  <FaMoneyBillWave className="text-[#b70501] text-lg" />
-                  <div>
-                    <p className="text-white/80 text-sm">{t('priceRange')}</p>
-                    <p className="text-white font-bold">
-                      {data.units && data.units.length > 0 ? (
-                        <>
-                          {Math.min(...data.units.map(u => u.price)).toLocaleString()} - {Math.max(...data.units.map(u => u.price)).toLocaleString()} ج.م
-                        </>
-                      ) : (
-                        'غير متوفر'
-                      )}
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <DetailCard icon={<FaBuilding />} label={t('developer')} value={data.developer} />
+              <DetailCard icon={<FaMapMarkerAlt />} label={t('zone')} value={data.zone} />
+              <DetailCard icon={<FaHome />} label={t('unitsCount')} value={`${data.units?.length || 0} وحدة`} />
+              <DetailCard
+                icon={<FaMoneyBillWave />}
+                label={t('priceRange')}
+                value={
+                  data.units && data.units.length > 0
+                    ? `${Math.min(...data.units.map((u) => u.price)).toLocaleString()} - ${Math.max(
+                        ...data.units.map((u) => u.price),
+                      ).toLocaleString()} ج.م`
+                    : 'غير متوفر'
+                }
+              />
             </div>
 
-            {/* Description */}
             <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
               <p className="text-white/90 text-sm sm:text-base leading-relaxed">
                 مشروع {data.name} من تطوير {data.developer} في منطقة {data.zone}.
                 يحتوي المشروع على {data.units?.length || 0} وحدة سكنية متنوعة في المساحات والأسعار.
                 {data.units && data.units.length > 0 && (
-                  <> يبدأ السعر من {Math.min(...data.units.map(u => u.price)).toLocaleString()} جنيه مصري.</>
+                  <> يبدأ السعر من {Math.min(...data.units.map((u) => u.price)).toLocaleString()} جنيه مصري.</>
                 )}
               </p>
             </div>
 
-            {/* Contact Section */}
+            {/* Contact */}
             <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
-              <p className="text-white text-sm sm:text-base mb-4 text-center">
-                {t('contactForDetails')}
-              </p>
-
+              <p className="text-white text-sm sm:text-base mb-4 text-center">{t('contactForDetails')}</p>
               <div className="flex flex-col sm:flex-row gap-3">
-                <a
+                <Link
                   href={`https://wa.me/201111993383?text=مرحبًا، مهتم بمشروع ${data.name}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -247,8 +204,7 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
                 >
                   <FaWhatsapp size={18} />
                   {t('whatsapp')}
-                </a>
-
+                </Link>
                 <a
                   href="tel:201111993383"
                   className="bg-[#b70501] hover:bg-[#a00401] text-white px-6 py-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 font-medium"
@@ -261,7 +217,7 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
           </motion.div>
         </div>
 
-        {/* عرض الوحدات المرتبطة بالمشروع */}
+        {/* Units */}
         {data.units && data.units.length > 0 && (
           <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] max-w-none z-20 px-4 sm:px-6 py-8">
             <motion.div
@@ -292,14 +248,12 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10" />
                     <div className="card-glare"></div>
 
-                    {/* Title at top */}
                     <div className="relative z-20 p-6 pb-0">
                       <h4 className="text-lg font-bold text-white mb-2 group-hover:text-[#b70501] transition-colors duration-300">
                         {unit.title}
                       </h4>
                     </div>
 
-                    {/* Info section at bottom with black overlay */}
                     <div className="absolute bottom-0 left-0 right-0 z-20">
                       <div className="bg-black/70 backdrop-blur-sm p-4">
                         <div className="flex items-center justify-between">
@@ -323,7 +277,10 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
                             className="bg-green-500 p-3 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 hover:scale-110"
                             onClick={(e) => {
                               e.preventDefault();
-                              window.open(`https://wa.me/201111993383?text=أنا مهتم بالوحدة: ${unit.title}`, '_blank');
+                              window.open(
+                                `https://wa.me/201111993383?text=أنا مهتم بالوحدة: ${unit.title}`,
+                                '_blank'
+                              );
                             }}
                           >
                             <FaWhatsapp size={16} />
@@ -348,4 +305,24 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
   );
 };
 
-export default ProjectDetailsPage; 
+export default ProjectDetailsPage;
+
+const DetailCard = ({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+}) => (
+  <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
+    <div className="flex items-center gap-3">
+      <div className="text-[#b70501] text-lg">{icon}</div>
+      <div>
+        <p className="text-white/80 text-sm">{label}</p>
+        <p className="text-white font-bold">{value}</p>
+      </div>
+    </div>
+  </div>
+);
