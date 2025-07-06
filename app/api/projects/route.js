@@ -2,12 +2,8 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/DBConection';
 import Project from '@/models/projects'; 
 import Developer from '@/models/Developers'; 
-<<<<<<< HEAD
-import mongoose from 'mongoose'; // 👈 لازم تضيف دي
-=======
-import mongoose from 'mongoose'; 
+import mongoose from 'mongoose';
 
->>>>>>> master
 export async function GET() {
   await connectDB();
 
@@ -24,8 +20,7 @@ export async function POST(request) {
 
   try {
     const body = await request.json();
-
-    const { name, image, zone, developerId,latitude,longitude } = body;
+    const { name, image, zone, developerId, latitude, longitude } = body;
 
     // تحقق من وجود المطور
     const developer = await Developer.findById(new mongoose.Types.ObjectId(developerId));
@@ -33,19 +28,18 @@ export async function POST(request) {
       return NextResponse.json({ success: false, error: 'المطور غير موجود' }, { status: 404 });
     }
 
-  const newProject = await Project.create({
-  name,
-  image,
-  zone,
-  developerId,
-  latitude,
-  longitude
-});
+    const newProject = await Project.create({
+      name,
+      image,
+      zone,
+      developerId,
+      latitude,
+      longitude
+    });
 
-
-await Developer.findByIdAndUpdate(developerId, {
-  $push: { projects: newProject._id }
-});
+    await Developer.findByIdAndUpdate(developerId, {
+      $push: { projects: newProject._id }
+    });
 
     return NextResponse.json(
       { success: true, data: newProject },
@@ -60,4 +54,3 @@ await Developer.findByIdAndUpdate(developerId, {
     );
   }
 }
-
