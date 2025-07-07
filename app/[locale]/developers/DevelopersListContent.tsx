@@ -70,10 +70,10 @@ export default function DevelopersListContent() {
                     <h3 className="mt-4 text-center font-bold text-white text-lg group-hover:text-[#b70501] transition-colors duration-300">
                       {dev.name}
                     </h3>
-
+{/* 
                     <p className="mt-2 text-center text-white/70 text-sm">
                       {dev.description}
-                    </p>
+                    </p> */}
                   </Link>
 
                   {/* زر واتساب - أسفل معلومات المطور */}

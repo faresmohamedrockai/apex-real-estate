@@ -246,7 +246,7 @@ export default function SearchContent() {
                 {!loading && !error && (
                   <>
                     {inventory.length > 0 ? (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 rounded-2xl" >
                         {inventory.map((item) => {
                           const { region: displayRegion } = getDisplayInfo(item);
                           return (
@@ -257,8 +257,8 @@ export default function SearchContent() {
                               transition={{ duration: 0.3 }}
                               className="group relative h-80 rounded-3xl overflow-hidden shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer bg-transparent border-0"
                             >
-                              <div className="relative h-full">
-                                <Link href={`/units/${item._id}`} className="block h-full">
+                              <div className="relative h-full rounded-3xl">
+                                <Link href={`/units/${item._id}`} className="block h-full rounded-3xl">
                                   <Image
                                     src={item.images?.[0] || '/images/no-image.png'}
                                     alt={item.title}
@@ -272,7 +272,7 @@ export default function SearchContent() {
                                     </div>
                                   )}
                                   {/* اسم الوحدة */}
-                                  <div className="absolute top-4 right-4 z-20 text-white text-lg font-bold drop-shadow-lg text-right">
+                                  <div className="absolute top-4 right-4 z-20 text-[#b70501] text-lg font-bold drop-shadow-lg text-right">
                                     {item.title}
                                   </div>
                                   {/* الشريط السفلي */}
@@ -301,7 +301,7 @@ export default function SearchContent() {
                                   </div>
                                 </Link>
                                 {/* زر واتساب - خارج Link الرئيسي */}
-                                <div className="absolute bottom-4 right-4 z-30">
+                                <div className="absolute top-4 left-4 z-30">
                                   <Link
                                     href={`https://wa.me/201111993383?text=أنا مهتم بالوحدة: ${item.title}`}
                                     target="_blank"

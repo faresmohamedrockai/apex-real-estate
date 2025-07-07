@@ -47,6 +47,7 @@ type ProjectType = {
 const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
   const t = useTranslations('common');
 
+
   return (
     <>
       <ImageBG />
@@ -177,7 +178,7 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
             </div>
 
             <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
-              <p className="text-white/90 text-sm sm:text-base leading-relaxed">
+              <p className="text-white/90 text-lg sm:text-base leading-relaxed font-bold">
                 مشروع {data.name} من تطوير {data.developer} في منطقة {data.zone}.
                 يحتوي المشروع على {data.units?.length || 0} وحدة سكنية متنوعة في المساحات والأسعار.
                 {data.units && data.units.length > 0 && (

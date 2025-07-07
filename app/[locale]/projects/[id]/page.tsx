@@ -6,7 +6,7 @@ const getProject = async (id: string) => {
   try {
     const headersList = await headers();
     const host = headersList.get('host');
-    
+
     const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
     const baseUrl = `${protocol}://${host}`;
 
@@ -24,14 +24,17 @@ const getProject = async (id: string) => {
 
     const json = await res.json();
 
+    
+
+
     if (!json.success) {
       throw new Error(json.error || 'لم يتم العثور على المشروع');
     }
-    
+
     return json.data;
   } catch (error) {
     console.error('Error fetching project:', error);
-    
+
     return {
       _id: id,
       name: 'مشروع غير متوفر',
@@ -60,7 +63,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   try {
     const { id } = await params;
     const data = await getProject(id);
-    
+
     return {
       title: `${data.name} - Real Estate Project | APEX Real Estate`,
       description: `${data.name} project in ${data.zone || 'Alexandria'}, Egypt. ${data.developer ? `Developed by ${data.developer}.` : ''} Discover premium properties and investment opportunities with APEX Real Estate.`,

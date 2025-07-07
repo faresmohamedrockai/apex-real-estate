@@ -63,24 +63,24 @@ const HomeVideo = () => {
       {/* طبقة شفافة */}
       <div className="absolute inset-0 w-full h-[100vh] bg-[#b70501]/40 z-10" />
 
-  <div className="relative z-20 h-[90vh] flex items-center justify-between px-4 pt-6">
+<div className="relative z-20 h-[90vh] flex items-center justify-center px-4 pt-6">
   <div
-    className="max-w-[1400px] w-full flex flex-col md:flex-row items-center justify-between gap-20 md:gap-28 lg:gap-36 xl:gap-44 text-white md:text-right rtl:text-right px-4"
+    className="max-w-[1400px] w-full flex flex-col md:flex-row items-center justify-between text-white md:text-right rtl:text-right gap-20 px-4"
   >
     {/* النص */}
-    <div className="w-full md:w-2/3 flex flex-col items-center md:items-end justify-between text-center md:text-right space-y-8 pt-32 sm:pt-40 md:pt-48 px-4 sm:px-6">
-      <div className="w-full max-w-[95%] space-y-6">
-        <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl pb-10 font-extrabold leading-snug text-white drop-shadow-2xl">
+<div className="flex-1 flex flex-col items-center rtl:md:items-start ltr:md:items-start justify-center text-center rtl:md:text-right ltr:md:text-left space-y-8 pt-12 md:pt-20 px-4 sm:px-6">
+      <div className="w-full max-w-2xl space-y-6">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-snug drop-shadow-2xl">
           {t('title')}
         </h1>
-        <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-medium text-gray-200 drop-shadow-lg">
+        <p className="text-lg sm:text-xl md:text-2xl lg:text-[1.6rem] font-medium text-gray-200 drop-shadow">
           {t('description')}
         </p>
       </div>
 
       {/* الزر */}
       <Link href="/contact_us">
-        <button className="group cursor-pointer relative inline-block text-base md:text-lg px-8 py-3 border-2 border-white text-white font-semibold rounded-full overflow-hidden transition-all duration-300 hover:text-white hover:border-0 shadow-2xl hover:scale-105 hover:shadow-2xl">
+        <button className="group cursor-pointer relative inline-block text-base md:text-lg px-8 py-3 border-2 border-white text-white font-semibold rounded-full overflow-hidden transition-all duration-300 hover:text-white hover:border-0 shadow-2xl hover:scale-105 hover:shadow-2xl mt-4">
           <span className="absolute inset-0 w-full h-full bg-[#b70501] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 ease-out z-0" />
           <span className="relative z-10">{t('cta')}</span>
         </button>
@@ -88,17 +88,20 @@ const HomeVideo = () => {
     </div>
 
     {/* الصورة */}
-    <div className="w-full md:w-1/3 flex justify-center md:justify-end pt-20 md:pt-40">
+    <div className="flex-1 flex justify-center md:justify-end pt-10 md:pt-20">
       <Image
-        src="/logo.jpg"
+        src="/logo.png"
         alt="Site Logo"
-        width={700}
-        height={700}
-        className=""
+        width={1000}
+        height={1000}
+        className="w-[80%] max-w-md h-auto object-contain"
       />
     </div>
   </div>
 </div>
+
+
+
 
     </div>
   );

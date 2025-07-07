@@ -1,3 +1,5 @@
+// app/[locale]/layout.tsx
+
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
 import { getMessages } from 'next-intl/server';
@@ -8,6 +10,16 @@ import PageTransition from './components/PageTransation';
 import Footer from './components/Footer';
 import { AppProvider } from './context/contextData';
 import GlobalLoading from './components/GlobalLoading';
+
+// 👇 استيراد الخطوط باستخدام next/font
+import { Cairo } from 'next/font/google';
+
+const cairo = Cairo({
+  subsets: ['arabic'],
+  variable: '--font-cairo',
+  weight: ['300', '400', '700'],
+  display: 'swap'
+});
 
 export default async function LocaleLayout({
   children,
@@ -25,10 +37,8 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
-      <body className={`${locale === 'ar' ? 'rtl' : 'ltr'} relative min-h-screen overflow-x-hidden`}>
-        
-        {/* ✅ كل المحتوى */}
+    <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'} className={`${cairo.variable}`}>
+      <body className="relative min-h-screen overflow-x-hidden font-sans">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <AppProvider>
             <GlobalLoading />
