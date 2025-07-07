@@ -46,7 +46,11 @@ export async function POST(request) {
       'Residential': 'سكني',
       'Commercial': 'تجاري',
       'Administrative': 'إداري',
-      'Office': 'مكتبي'
+      'Office': 'مكتبي',
+      'سكني': 'Residential',
+      'تجاري': 'Commercial',
+      'إداري': 'Administrative',
+      'مكتبي': 'Office'
     };
     
     // If unitType is already in Arabic, use it as is
@@ -56,6 +60,13 @@ export async function POST(request) {
     const validArabicTypes = ['سكني', 'تجاري', 'مكتبي', 'إداري'];
     const finalUnitType = validArabicTypes.includes(arabicUnitType) ? arabicUnitType : 'سكني';
 
+    // تحويل unitType_en لأي قيمة صحيحة بالإنجليزي أو القيمة الافتراضية
+    let unitTypeEn = unitTypeMap[unitType] || unitTypeMap[arabicUnitType] || 'Residential';
+    const validEnglishTypes = ['Residential', 'Commercial', 'Office', 'Administrative'];
+    if (!validEnglishTypes.includes(unitTypeEn)) {
+      unitTypeEn = 'Residential';
+    }
+
     // Create review (initially hidden)
     const newReview = new Review({
       name: name.trim(),
@@ -64,7 +75,7 @@ export async function POST(request) {
       review: review.trim(),
       project: project?.trim() || '',
       unitType: finalUnitType,
-      unitType_en: unitType || 'Residential',
+      unitType_en: unitTypeEn,
       canShow: false, // لا تظهر تلقائياً
       isApproved: false // تحتاج موافقة إدارية
     });
