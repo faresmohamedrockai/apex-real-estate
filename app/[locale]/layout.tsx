@@ -38,6 +38,10 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'} className={`${cairo.variable}`}>
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+      </head>
+      
       <body className="relative min-h-screen overflow-x-hidden font-sans">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <AppProvider>
