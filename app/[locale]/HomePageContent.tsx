@@ -130,8 +130,8 @@ export default function HomePageContent() {
                       <div className="card-glare"></div>
                       
                       {/* Title at top */}
-                      <div className="relative z-20 p-6 pb-0">
-                        <h2 className="text-xl font-bold text-white mb-2 group-hover:text-[#b70501] transition-colors duration-300">
+                      <div className="relative z-20 p-6 pb-0 flex flex-end w-full">
+                        <h2 className="text-xl font-bold w-fit text-end text-white bg-black/45 rounded-4xl p-3 mb-2 group-hover:text-[#b70501] transition-colors duration-300">
                           {projectItem.name}
                         </h2>
                        
@@ -212,7 +212,7 @@ export default function HomePageContent() {
                         
                         {/* Title at top */}
                         <div className="relative z-20 p-6 pb-0">
-                          <h2 className="text-xl font-bold text-white mb-2 group-hover:text-[#b70501] transition-colors duration-300">
+                          <h2 className="text-xl font-bold w-fit text-white bg-black/55 rounded-4xl p-3 mb-2 group-hover:text-[#b70501] transition-colors duration-300">
                             {unitItem.title}
                           </h2>
                         </div>

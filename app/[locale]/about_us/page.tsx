@@ -57,7 +57,7 @@ const Page = () => {
         <ImageUnderWord text={t('about')} />
 
         
-        <div className="max-w-7xl mx-auto px-6 py-24 bg-black/80">
+        <div className="w-screen mx-auto px-6 py-24 bg-black/80">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12">
             {[
               {

@@ -13,8 +13,8 @@ const Footer = () => {
   return (
     <>
       {/* ✅ فوتر عصري */}
-      <footer className="bg-neutral-900 text-white pt-12 pb-6 border-t-4 border-[#b70501]">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row md:justify-between gap-10 md:gap-0">
+      <footer className="bg-neutral-900 text-white pt-12 pb-6 border-t-4 border-[#b70501] ">
+        <div className="max-w-7xl mx-auto px-4  md:flex-row md:justify-between gap-10 md:gap-0 flex flex-col justify-between items-center ">
           {/* تعريف الشركة مع اللوجو */}
           <div className="flex-1 flex flex-col items-center md:items-start mb-8 md:mb-0">
             <Image
@@ -24,7 +24,7 @@ const Footer = () => {
               height={100}
               className="rounded-full object-cover border-2 shadow-md mb-4"
             />
-            <p className="text-white/80 text-center md:text-left text-base font-medium max-w-xs">
+            <p className="text-white/80 text-center md:text-right ltr:text-left text-base font-medium max-w-xs">
               {t('companyDescription')}
             </p>
             <div className="flex gap-3 mt-6">
@@ -43,7 +43,7 @@ const Footer = () => {
           {/* روابط سريعة */}
           <div className="flex-1 flex flex-col items-center md:items-start mb-8 md:mb-0">
             <h3 className="text-xl font-bold mb-4 text-[#b70501]">{t('quickLinksTitle')}</h3>
-            <ul className="flex flex-col md:flex-row md:gap-6 gap-2 text-base font-medium text-white/90 items-center md:items-start">
+            <ul className="flex flex-col  md:gap-6 gap-2 text-base font-medium text-white/90 items-center md:items-start">
               <li><Link href="/" className="hover:text-[#b70501] transition">{t('home')}</Link></li>
               <li><Link href="/units" className="hover:text-[#b70501] transition">{t('properties')}</Link></li>
               <li><Link href="/about_us" className="hover:text-[#b70501] transition">{t('about')}</Link></li>

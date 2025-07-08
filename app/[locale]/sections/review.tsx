@@ -5,6 +5,7 @@ import { FaStar, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useAppContext } from '../context/contextData';
 import { useTranslations } from 'next-intl';
 import { useCurrentLocale, getLocalizedObject } from '../utils/localeUtils';
+import { motion, AnimatePresence } from 'framer-motion';
 
 type Review = {
   name: string;
@@ -98,7 +99,7 @@ const ReviewsSlider = () => {
           {/* أزرار التنقل */}
           <button
             onClick={prevSlide}
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+            className="absolute left-4 top-1/2 cursour-pointer transform -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
             aria-label={t('previous')}
           >
             <FaChevronLeft size={20} />
@@ -106,7 +107,7 @@ const ReviewsSlider = () => {
 
           <button
             onClick={nextSlide}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+            className="absolute right-4 top-1/2  cursour-pointer transform -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
             aria-label={t('next')}
           >
             <FaChevronRight size={20} />
@@ -114,46 +115,55 @@ const ReviewsSlider = () => {
 
           {/* Review Card */}
           <div className="max-w-4xl mx-auto">
-            <div className="bg-black/45 rounded-2xl shadow-xl p-8 md:p-12 text-center border border-white/20">
-              {/* النجوم */}
-              <div className="flex justify-center mb-6">
-                {[...Array(5)].map((_, index) => (
-                  <FaStar
-                    key={index}
-                    className={`w-6 h-6 ${
-                      index < localizedReviews[currentIndex]?.rating
-                        ? 'text-yellow-400'
-                        : 'text-gray-300'
-                    }`}
-                  />
-                ))}
-              </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentIndex}
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -40 }}
+                transition={{ duration: 0.35, ease: 'easeInOut' }}
+                className="bg-black/45 rounded-2xl shadow-xl p-8 md:p-12 text-center border border-white/20"
+              >
+                {/* النجوم */}
+                <div className="flex justify-center mb-6">
+                  {[...Array(5)].map((_, index) => (
+                    <FaStar
+                      key={index}
+                      className={`w-6 h-6 ${
+                        index < localizedReviews[currentIndex]?.rating
+                          ? 'text-yellow-400'
+                          : 'text-gray-300'
+                      }`}
+                    />
+                  ))}
+                </div>
 
-              {/* نص المراجعة */}
-              <blockquote className="text-lg md:text-xl text-white mb-6 leading-relaxed">
-                &ldquo;{localizedReviews[currentIndex]?.review}&rdquo;
-              </blockquote>
+                {/* نص المراجعة */}
+                <blockquote className="text-lg md:text-xl text-white mb-6 leading-relaxed">
+                  &ldquo;{localizedReviews[currentIndex]?.review}&rdquo;
+                </blockquote>
 
-              {/* معلومات العميل */}
-              <div className="mb-4">
-                <h3 className="text-xl font-bold text-white mb-1">
-                  {localizedReviews[currentIndex]?.name}
-                </h3>
-                {localizedReviews[currentIndex]?.project && (
-                  <p className="text-white/80">
-                    {t('projectLabel')} {localizedReviews[currentIndex]?.project}
+                {/* معلومات العميل */}
+                <div className="mb-4">
+                  <h3 className="text-xl font-bold text-white mb-1">
+                    {localizedReviews[currentIndex]?.name}
+                  </h3>
+                  {localizedReviews[currentIndex]?.project && (
+                    <p className="text-white/80">
+                      {t('projectLabel')} {localizedReviews[currentIndex]?.project}
+                    </p>
+                  )}
+                  {localizedReviews[currentIndex]?.unitType && (
+                    <p className="text-white/80">
+                      {t('unitTypeLabel')} {localizedReviews[currentIndex]?.unitType}
+                    </p>
+                  )}
+                  <p className="text-sm text-white/60 mt-2">
+                    {formatDate(localizedReviews[currentIndex]?.createdAt)}
                   </p>
-                )}
-                {localizedReviews[currentIndex]?.unitType && (
-                  <p className="text-white/80">
-                    {t('unitTypeLabel')} {localizedReviews[currentIndex]?.unitType}
-                  </p>
-                )}
-                <p className="text-sm text-white/60 mt-2">
-                  {formatDate(localizedReviews[currentIndex]?.createdAt)}
-                </p>
-              </div>
-            </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           {/* مؤشرات الصفحات */}

@@ -248,7 +248,7 @@ export default function SearchContent() {
                                     {t('unique')}
                                   </div>
                                 )}
-                                <div className="absolute top-4 right-4 z-20 text-[#b70501] text-lg font-bold drop-shadow-lg text-right">
+                                <div className="absolute top-4 right-4 z-20 text-white bg-black/45 rounded-4xl p-2 text-lg font-bold drop-shadow-lg text-right">
                                   {item.title}
                                 </div>
                                 <div className="absolute bottom-0 left-0 right-0 z-20">
@@ -274,7 +274,7 @@ export default function SearchContent() {
                                   </div>
                                 </div>
                               </Link>
-                              <div className="absolute bottom-10 left-2 z-30">
+                              <div className="absolute bottom-16 left-2 z-30">
                                 <Link
                                   href={`https://wa.me/201111993383?text=أنا مهتم بالوحدة: ${item.title}`}
                                   target="_blank"

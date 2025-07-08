@@ -54,8 +54,8 @@ export default function Header() {
               <Image
                 src="/logo.png"
                 alt="APEX Logo"
-                width={200}
-                height={200}
+                width={150}
+                height={150}
                 className="object-contain"
               />
             </div>
@@ -65,16 +65,16 @@ export default function Header() {
         {/* Desktop Nav */}
         <motion.nav
           key={pathname + '-nav'}
-          className="hidden md:flex space-x-4 rtl:space-x-reverse"
+          className="hidden md:flex space-x-4 rtl:space-x-reverse mt-8"
           variants={navContainer}
           initial="hidden"
           animate="show"
         >
           {navLinks.map((link) => (
-            <motion.div key={link.href} variants={navItem}>
+            <motion.div key={link.href} variants={navItem} >
               <Link
                 href={link.href}
-                className={`relative text-[#efe6e7] text-lg md:text-xl hover:text-white hover:rounded-3xl hover:p-4 hover:bg-[#b70501] hover:underline-offset-2 px-3 py-2 transition-all duration-300 ease-in-out ${pathname === link.href ? 'text-black font-bold' : ''
+                className={`relative text-[#efe6e7] text-lg md:text-xl mt-9 hover:text-white hover:rounded-3xl hover:p-4 hover:bg-[#b70501] hover:underline-offset-2 px-3 py-2 transition-all duration-300 ease-in-out ${pathname === link.href ? 'text-black font-bold' : ''
                   }`}
               >
                 <span className="relative z-10 font-bold">{link.label}</span>
@@ -154,47 +154,51 @@ export default function Header() {
                   </Link>
                 </motion.div>
               ))}
-
-              {/* Social Media Icons */}
+              {/* Mobile Lang Changer */}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 }}
-                className="mt-8 flex gap-6 justify-center"
+                transition={{ delay: 1.0 }}
+                className="mt-6"
               >
-                <Link
-                  href="https://wa.me/201111993383"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-[#25D366] text-white w-14 h-14 flex items-center justify-center rounded-full hover:bg-white hover:text-[#25D366] transition-all duration-300 shadow-lg hover:scale-110"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 448 512">
-                    <path fill="currentColor" d="M380.9 97.1C339-3.6 225.9-35.3 125.1 6.5 24.3 48.3-7.4 161.4 34.4 262.2c33.2 77.2 108.1 126.2 191.2 126.2 23.2 0 46.2-3.7 68.2-11.1l61.1 16.1c7.6 2 15.6-1.1 19.6-7.7 4-6.6 2.7-15.1-3.1-20.2l-44.2-38.7c-2.7-2.4-6.2-3.7-9.8-3.7-1.7 0-3.4.3-5 .9-19.2 7.2-39.6 10.8-60.1 10.8-70.7 0-128.2-57.5-128.2-128.2 0-70.7 57.5-128.2 128.2-128.2 70.7 0 128.2 57.5 128.2 128.2 0 20.5-3.6 40.9-10.8 60.1-.6 1.6-.9 3.3-.9 5 0 3.6 1.3 7.1 3.7 9.8l38.7 44.2c5.1 5.8 13.6 7.1 20.2 3.1 6.6-4 9.7-12 7.7-19.6l-16.1-61.1c7.4-22 11.1-45 11.1-68.2 0-83.1-49-158-126.2-191.2z" />
-                  </svg>
-                </Link>
-                <Link
-                  href="https://www.facebook.com/people/Apex-Real-Estate-Investment/61567153032479/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-[#1877F3] text-white w-14 h-14 flex items-center justify-center rounded-full hover:bg-white hover:text-[#1877F3] transition-all duration-300 shadow-lg hover:scale-110"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 320 512">
-                    <path fill="currentColor" d="M279.14 288l14.22-92.66h-88.91V127.91c0-25.35 12.42-50.06 52.24-50.06H293V6.26S259.5 0 225.36 0c-73.22 0-121.09 44.38-121.09 124.72v70.62H22.89V288h81.38v224h100.2V288z" />
-                  </svg>
-                </Link>
+                <LangChanger />
               </motion.div>
             </motion.div>
 
-            {/* Mobile Lang Changer */}
+
+
+
+            {/* Social Media Icons */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.0 }}
-              className="mt-6"
+              transition={{ delay: 0.8 }}
+              className="mt-8 flex gap-6 justify-center"
             >
-              <LangChanger />
+              <Link
+                href="https://wa.me/201111993383"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-[#25D366] text-white w-14 h-14 flex items-center justify-center rounded-full hover:bg-white hover:text-[#25D366] transition-all duration-300 shadow-lg hover:scale-110"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="23.178" height="23.178" viewBox="0 0 23.178 23.178">
+                  <path id="Icon_awesome-phone-alt" data-name="Icon awesome-phone-alt" d="M22.517,16.379l-5.07-2.173a1.086,1.086,0,0,0-1.268.312l-2.245,2.743A16.78,16.78,0,0,1,5.912,9.24L8.656,6.995a1.084,1.084,0,0,0,.312-1.268L6.795.657A1.094,1.094,0,0,0,5.55.028L.842,1.114A1.086,1.086,0,0,0,0,2.173,21,21,0,0,0,21.005,23.178a1.086,1.086,0,0,0,1.059-.842l1.086-4.708a1.1,1.1,0,0,0-.634-1.249Z" transform="translate(0 0)" fill="#fff" />
+                </svg>
+              </Link>
+              <Link
+                href="https://www.facebook.com/people/Apex-Real-Estate-Investment/61567153032479/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-[#1877F3] text-white w-14 h-14 flex items-center justify-center rounded-full hover:bg-white hover:text-[#1877F3] transition-all duration-300 shadow-lg hover:scale-110"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 320 512">
+                  <path fill="currentColor" d="M279.14 288l14.22-92.66h-88.91V127.91c0-25.35 12.42-50.06 52.24-50.06H293V6.26S259.5 0 225.36 0c-73.22 0-121.09 44.38-121.09 124.72v70.62H22.89V288h81.38v224h100.2V288z" />
+                </svg>
+              </Link>
             </motion.div>
           </motion.div>
+
+
         )}
       </AnimatePresence>
     </header>

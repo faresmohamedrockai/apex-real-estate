@@ -26,7 +26,7 @@ export default function DevelopersListContent() {
   const localizedDevelopers = (Developers as Developer[]).map(developer => ({
     ...developer,
     name: getLocalizedObject(developer, 'name', locale),
-    description: getLocalizedObject(developer, 'description', locale) || 
+    description: getLocalizedObject(developer, 'description', locale) ||
       (locale === 'ar' ? 'مطور عقاري معتمد' : 'Certified Real Estate Developer')
   }));
 
@@ -54,12 +54,12 @@ export default function DevelopersListContent() {
                 >
                   <Link href={`/developers/${dev._id}`} className="flex flex-col items-center w-full">
                     <div className="relative">
-                      <div className="w-32 h-32 rounded-full border-4 border-white/30 shadow-lg group-hover:border-[#b70501] transition-colors duration-300 overflow-hidden relative">
+                      <div className="w-32 h-32 rounded-full border-4 border-white/30 shadow-lg group-hover:border-[#b70501] transition-colors duration-300 overflow-hidden relative bg-white">
                         <Image
                           src={dev.logo || '/images/no-image.png'}
                           alt={dev.name}
                           fill
-                          className="object-cover"
+                          className="object-contain"
                         />
                       </div>
                       <div className="absolute -bottom-2 -right-2 bg-[#b70501] text-white text-xs px-2 py-1 rounded-full font-bold">
@@ -70,7 +70,7 @@ export default function DevelopersListContent() {
                     <h3 className="mt-4 text-center font-bold text-white text-lg group-hover:text-[#b70501] transition-colors duration-300">
                       {dev.name}
                     </h3>
-{/* 
+                    {/* 
                     <p className="mt-2 text-center text-white/70 text-sm">
                       {dev.description}
                     </p> */}

@@ -118,7 +118,18 @@ const InventoryMap: React.FC<InventoryMapProps> = ({
     return null;
   };
 
-  const center: [number, number] = [31.2157, 29.9553]; // Alexandria center 
+  // استخراج جميع الإحداثيات الصحيحة
+  const positions = inventory
+    .map(getPosition)
+    .filter((pos): pos is [number, number] => !!pos);
+
+  // حساب المتوسط
+  let center: [number, number] = [29.9553, 31.2554]; // افتراضي: الإسكندرية
+  if (positions.length > 0) {
+    const avgLat = positions.reduce((sum, pos) => sum + pos[0], 0) / positions.length;
+    const avgLng = positions.reduce((sum, pos) => sum + pos[1], 0) / positions.length;
+    center = [avgLat, avgLng];
+  }
 
   // Show loading state while components are loading
   if (!isClient || !mapComponents) {
@@ -145,7 +156,7 @@ const InventoryMap: React.FC<InventoryMapProps> = ({
     <mapComponents.MapContainer
       key={mapId}
       center={center}
-      zoom={10}
+      zoom={8}
       scrollWheelZoom={true}
       className="h-full w-full z-0"
     >
