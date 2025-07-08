@@ -44,8 +44,13 @@ type ProjectType = {
   }>;
 };
 
+import { useRouter } from 'next/navigation';
+
 const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
   const t = useTranslations('common');
+  const router = useRouter();
+  // Extract locale from the router or set a default
+  const locale = (router as any)?.locale || 'en';
 
 console.log(data);
 
