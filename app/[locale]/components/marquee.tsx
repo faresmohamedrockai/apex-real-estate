@@ -3,6 +3,7 @@
 import { useAppContext } from '@/app/[locale]/context/contextData';
 import Image from 'next/image';
 import Marquee from 'react-fast-marquee';
+import { useCurrentLocale } from '../utils/localeUtils';
 
 type Developer = {
   _id: string;
@@ -13,6 +14,9 @@ type Developer = {
 const DeveloperMarquee = () => {
   const { Developers, loading } = useAppContext();
   const developers: Developer[] = Developers as Developer[];
+  const locale = useCurrentLocale();
+
+  const items = locale === 'ar' ? [...developers].reverse() : developers;
 
   return (
     <div className="w-screen py-8 overflow-hidden bg-transparent">
@@ -24,9 +28,10 @@ const DeveloperMarquee = () => {
           gradient={false}
           pauseOnHover={false}
           loop={0} // 0 = infinite loop (ماركيه ستظل تدور بلا توقف)
+          direction="left"
           className="overflow-hidden"
         >
-          {[...developers.slice(0, 12), ...developers.slice(0, 12)].map((dev, idx) => (
+          {[...items, ...items, ...items, ...items].map((dev, idx) => (
             <div
               key={dev._id + '-' + idx}
               className="flex-shrink-0 w-32 h-32 md:w-56 md:h-56 flex items-center justify-center mx-6 transition-transform hover:scale-100 p-2 md:p-4 cursor-pointer overflow-hidden rounded-2xl"

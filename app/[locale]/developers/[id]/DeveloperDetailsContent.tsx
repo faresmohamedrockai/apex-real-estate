@@ -145,9 +145,14 @@ export default function DeveloperDetailsContent() {
 
                     <h3 className="text-xl sm:text-2xl font-bold">{localizedDeveloper.name}</h3>
 
-                    {localizedDeveloper.description && (
+                    {(locale === 'ar' && developer?.description) && (
                       <p className="text-white/80 text-lg sm:text-xl leading-relaxed">
-                        {localizedDeveloper.description}
+                        {developer?.description}
+                      </p>
+                    )}
+                    {(locale === 'en' && developer?.description_en) && (
+                      <p className="text-white/80 text-lg sm:text-xl leading-relaxed">
+                        {developer?.description_en}
                       </p>
                     )}
 
