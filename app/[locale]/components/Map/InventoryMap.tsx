@@ -170,6 +170,27 @@ const InventoryMap: React.FC<InventoryMapProps> = ({
                 <strong>{item.title}</strong><br />
                 النوع: {item.unitType}<br />
                 السعر: {item.price?.toLocaleString()} جنيه
+                <div style={{ marginTop: 8, textAlign: 'center' }}>
+                  <a
+                    href={`/units/${item._id}`}
+                    style={{
+                      display: 'inline-block',
+                      background: '#b70501',
+                      color: 'white',
+                      padding: '6px 16px',
+                      borderRadius: 8,
+                      textDecoration: 'none',
+                      fontWeight: 'bold',
+                      fontSize: 14,
+                      marginTop: 4,
+                      transition: 'background 0.2s',
+                    }}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    تفاصيل الوحدة
+                  </a>
+                </div>
               </div>
             </mapComponents.Popup>
           </mapComponents.Marker>
