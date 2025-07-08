@@ -23,20 +23,20 @@ const DeveloperMarquee = () => {
           speed={40}
           gradient={false}
           pauseOnHover={false}
-          loop={0} // 0 = infinite loop
+          loop={0} // 0 = infinite loop (ماركيه ستظل تدور بلا توقف)
           className="overflow-hidden"
         >
           {developers.map((dev) => (
             <div
               key={dev._id}
-              className="flex-shrink-0 w-[160px] md:w-[200px] flex items-center justify-center mx-6 transition-transform hover:scale-110 p-2 md:p-4 cursor-pointer"
+              className="flex-shrink-0 w-32 h-32 md:w-52 md:h-52 flex items-center justify-center mx-6 transition-transform hover:scale-110 p-2 md:p-4 cursor-pointer overflow-hidden rounded-2xl"
             >
               <Image
                 src={dev.logo}
                 alt={dev.name}
                 width={160}
                 height={160}
-                className="rounded-xl border-2 md:border-4 shadow-md object-contain transition duration-300 hover:brightness-110 opacity-60 hover:opacity-90"
+                className="object-cover w-full h-full transition duration-300 hover:brightness-110 opacity-60 hover:opacity-90 rounded-lg "
               />
             </div>
           ))}

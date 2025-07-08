@@ -161,9 +161,16 @@ const InventoryMap: React.FC<InventoryMapProps> = ({
         return (
           <mapComponents.Marker key={item._id || index} position={position} icon={redIcon}>
             <mapComponents.Popup>
-              <strong>{item.title}</strong><br />
-              النوع: {item.unitType}<br />
-              السعر: {item.price?.toLocaleString()} جنيه
+              <div style={{ minWidth: 180, maxWidth: 220 }}>
+                <img
+                  src={item.images?.[0] || '/images/no-image.png'}
+                  alt={item.title}
+                  style={{ width: '100%', height: 90, objectFit: 'cover', borderRadius: 8, marginBottom: 8 }}
+                />
+                <strong>{item.title}</strong><br />
+                النوع: {item.unitType}<br />
+                السعر: {item.price?.toLocaleString()} جنيه
+              </div>
             </mapComponents.Popup>
           </mapComponents.Marker>
         );

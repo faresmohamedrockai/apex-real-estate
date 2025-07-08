@@ -47,6 +47,7 @@ type ProjectType = {
 const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
   const t = useTranslations('common');
 
+console.log(data);
 
   return (
     <>

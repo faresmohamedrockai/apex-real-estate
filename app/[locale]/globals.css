@@ -66,12 +66,12 @@ html[dir="ltr"] {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #362929; 
 }
 
 ::-webkit-scrollbar-thumb {
   background: #b70501; /* لون الشريط نفسه */
-
+border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {

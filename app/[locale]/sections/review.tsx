@@ -114,7 +114,7 @@ const ReviewsSlider = () => {
 
           {/* Review Card */}
           <div className="max-w-4xl mx-auto">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-xl p-8 md:p-12 text-center border border-white/20">
+            <div className="bg-black/45 rounded-2xl shadow-xl p-8 md:p-12 text-center border border-white/20">
               {/* النجوم */}
               <div className="flex justify-center mb-6">
                 {[...Array(5)].map((_, index) => (
