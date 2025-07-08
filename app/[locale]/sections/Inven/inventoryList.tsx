@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 import Image from 'next/image';
 import Link from "next/link";
+import { useCurrentLocale, getLocalizedObject } from '../../utils/localeUtils';
 
 interface Inventory {
   _id: string;
@@ -19,6 +20,7 @@ interface Inventory {
 
 const InventoryList = () => {
   const [inventories, setInventories] = useState<Inventory[]>([]);
+  const locale = useCurrentLocale();
 
   useEffect(() => {
     fetch("/api/inverntories")
@@ -32,9 +34,18 @@ const InventoryList = () => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
-      {inventories.map((inv) => (
-        <HoverCard key={inv._id} inventory={inv} />
-      ))}
+      {inventories.map((inv) => {
+        const localizedInv = {
+          ...inv,
+          title: getLocalizedObject(inv, 'title', locale),
+          unitType: getLocalizedObject(inv, 'unitType', locale),
+          projectId: {
+            ...inv.projectId,
+            name: getLocalizedObject(inv.projectId, 'name', locale)
+          }
+        };
+        return <HoverCard key={inv._id} inventory={localizedInv} />;
+      })}
     </div>
   );
 };
@@ -77,6 +88,8 @@ const HoverCard = ({ inventory }: { inventory: Inventory }) => {
     resetRotation();
   }, [resetRotation]);
 
+  const locale = useCurrentLocale();
+
   return (
     <div
       ref={cardRef}
@@ -84,6 +97,7 @@ const HoverCard = ({ inventory }: { inventory: Inventory }) => {
       onMouseLeave={resetRotation}
       className="group"
       style={{ perspective: 1000 }}
+      dir={locale === 'ar' ? 'rtl' : 'ltr'}
     >
       <motion.div
         style={{
@@ -105,7 +119,7 @@ const HoverCard = ({ inventory }: { inventory: Inventory }) => {
         )}
 
         {/* المحتوى */}
-        <div className="p-4 flex flex-col justify-between gap-3">
+        <div className="p-4 flex flex-col justify-between gap-3 ${locale === 'ar' ? 'text-right' : 'text-left'}">
           {/* اسم الوحدة والسعر */}
           <div>
             <h2 className="text-xl font-bold text-[#b70501]">{inventory.title}</h2>
@@ -121,9 +135,6 @@ const HoverCard = ({ inventory }: { inventory: Inventory }) => {
           {/* معلومات المشروع */}
           <div className="flex justify-between gap-3 p-3 border-b  rounded-lg">
             <div className="flex items-center">
-
-
-
               <h3 className="text-lg font-semibold text-[#b70501]">
                 {inventory.projectId.name}
               </h3>

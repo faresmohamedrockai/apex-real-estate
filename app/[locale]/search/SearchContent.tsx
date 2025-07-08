@@ -10,6 +10,7 @@ import { FaBed, FaBath, FaMapMarkerAlt, FaWhatsapp } from 'react-icons/fa';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
+import { useCurrentLocale, getLocalizedObject } from '../utils/localeUtils';
 
 const MapComponent = dynamic(() => import('@/app/[locale]/components/Map/InventoryMap'), {
   ssr: false,
@@ -57,6 +58,7 @@ interface SearchResponse {
 
 export default function SearchContent() {
   const t = useTranslations('navigation');
+  const locale = useCurrentLocale();
   // State for filters
   const [searchTerm, setSearchTerm] = useState('');
   const [showFilters, setShowFilters] = useState(false);
@@ -226,41 +228,57 @@ export default function SearchContent() {
                   {inventory.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 rounded-2xl">
                       {inventory.map((item) => {
-                        const { region: displayRegion } = getDisplayInfo(item);
+                        // تجهيز البيانات حسب اللغة
+                        const localizedItem = {
+                          ...item,
+                          title: getLocalizedObject(item, 'title', locale),
+                          unitType: getLocalizedObject(item, 'unitType', locale),
+                          region: getLocalizedObject(item, 'region', locale),
+                          project: getLocalizedObject(item, 'project', locale),
+                          projectId: {
+                            ...item.projectId,
+                            name: getLocalizedObject(item.projectId, 'name', locale),
+                            region: getLocalizedObject(item.projectId, 'region', locale)
+                          }
+                        };
+                        const { region: displayRegion } = getDisplayInfo(localizedItem);
                         return (
                           <motion.div
-                            key={item._id}
+                            key={localizedItem._id}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.3 }}
-                            className="group relative aspect-square w-full rounded-3xl overflow-hidden shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer bg-transparent border-0"
+                            className={`group relative aspect-square w-full rounded-3xl overflow-hidden shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer bg-transparent border-0`}
+                            dir={locale === 'ar' ? 'rtl' : 'ltr'}
                           >
                             <div className="relative w-full h-full rounded-3xl">
-                              <Link href={`/units/${item._id}`} className="block w-full h-full rounded-3xl">
+                              <Link href={`/units/${localizedItem._id}`} className="block w-full h-full rounded-3xl">
                                 <Image
-                                  src={item.images?.[0] || '/images/no-image.png'}
-                                  alt={item.title}
+                                  src={localizedItem.images?.[0] || '/images/no-image.png'}
+                                  alt={localizedItem.title}
                                   fill
                                   className="object-cover rounded-3xl"
                                 />
-                                {item.isUnique && (
-                                  <div className="absolute top-4 left-4 bg-[#b70501] text-white text-xs px-3 py-1 rounded-full font-bold z-20">
+                                {localizedItem.isUnique && (
+                                  <div className={`absolute ${locale === 'ar' ? 'top-4 left-4' : 'top-4 right-4'} bg-[#b70501] text-white text-xs px-3 py-1 rounded-full font-bold z-20`}>
                                     {t('unique')}
                                   </div>
                                 )}
-                                <div className="absolute top-4 right-4 z-20 text-white bg-black/45 rounded-4xl p-2 text-lg font-bold drop-shadow-lg text-right">
-                                  {item.title}
+
+                                <div className={`absolute ${locale === 'ar' ? 'top-4 right-4' : 'top-4 left-4'} z-20 text-white bg-black/45 rounded-4xl p-2 text-lg font-bold drop-shadow-lg ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
+                                  {localizedItem.title}
                                 </div>
+
                                 <div className="absolute bottom-0 left-0 right-0 z-20">
                                   <div className="bg-black/80 backdrop-blur-sm p-4 flex items-center justify-between">
                                     <div className="flex items-center gap-4 text-white text-sm">
                                       <div className="flex items-center gap-1">
                                         <FaBed className="text-white" />
-                                        <span>{item.bedrooms}</span>
+                                        <span>{localizedItem.bedrooms}</span>
                                       </div>
                                       <div className="flex items-center gap-1">
                                         <FaBath className="text-white" />
-                                        <span>{item.bathrooms}</span>
+                                        <span>{localizedItem.bathrooms}</span>
                                       </div>
                                       <div className="flex items-center gap-1">
                                         <FaMapMarkerAlt className="text-white" />
@@ -268,15 +286,16 @@ export default function SearchContent() {
                                       </div>
                                       <div className="flex items-center gap-1">
                                         <FiDollarSign className="text-white" />
-                                        <span className="font-bold">{item.price?.toLocaleString()} ج.م</span>
+                                        <span className="font-bold">{localizedItem.price?.toLocaleString()} ج.م</span>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
                               </Link>
-                              <div className="absolute bottom-16 left-2 z-30">
+                              <div className={`absolute bottom-16 ${locale === 'ar' ? 'left-2' : 'right-2'} z-30`}>
+
                                 <Link
-                                  href={`https://wa.me/201111993383?text=أنا مهتم بالوحدة: ${item.title}`}
+                                  href={`https://wa.me/201111993383?text=${locale === 'ar' ? 'أنا مهتم بالوحدة:' : 'I am interested in unit:'} ${localizedItem.title}`}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   className="bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl border-2 border-green-400/30 w-14 h-14 flex items-center justify-center"

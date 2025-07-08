@@ -11,6 +11,7 @@ import ReviewsSlider from './sections/review';
 import { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useCurrentLocale, getLocalizedObject } from './utils/localeUtils';
 
 interface Project {
   _id: string;
@@ -34,6 +35,7 @@ interface Unit {
 export default function HomePageContent() {
   const t = useTranslations('common');
   const { projects, inventory, loading } = useAppContext();
+  const locale = useCurrentLocale();
   const featuredUnits = (inventory || []).filter((unit: unknown) => {
     const unitItem = unit as Unit;
     return unitItem.isUnique;
@@ -114,15 +116,22 @@ export default function HomePageContent() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                   {projects && projects.length > 0 ? projects.slice(0, 6).map((project: unknown) => {
                     const projectItem = project as Project;
+                    const localizedProject = {
+                      ...projectItem,
+                      name: getLocalizedObject(projectItem, 'name', locale),
+                      zone: getLocalizedObject(projectItem, 'zone', locale) || (locale === 'ar' ? 'غير محدد' : 'Not specified'),
+                      developer: getLocalizedObject(projectItem, 'developer', locale)
+                    };
                     return (
                     <Link
-                      key={projectItem._id}
-                      href={`/projects/${projectItem._id}`}
+                      key={localizedProject._id}
+                      href={`/projects/${localizedProject._id}`}
                       className="card-3d-interactive relative h-80 rounded-2xl overflow-hidden shadow-xl block cursor-pointer"
+                      dir={locale === 'ar' ? 'rtl' : 'ltr'}
                     >
                       <Image
-                        src={projectItem.image?.[0] || '/images/no-image.png'}
-                        alt={projectItem.name}
+                        src={localizedProject.image?.[0] || '/images/no-image.png'}
+                        alt={localizedProject.name}
                         fill
                         className="object-cover z-0 group-hover:scale-110 transition-transform duration-500"
                       />
@@ -130,9 +139,9 @@ export default function HomePageContent() {
                       <div className="card-glare"></div>
                       
                       {/* Title at top */}
-                      <div className="relative z-20 p-6 pb-0 flex flex-end w-full">
+                      <div className={`relative z-20 p-6 pb-0 flex flex-end w-full ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
                         <h2 className="text-xl font-bold w-fit text-end text-white bg-black/45 rounded-4xl p-3 mb-2 group-hover:text-[#b70501] transition-colors duration-300">
-                          {projectItem.name}
+                          {localizedProject.name}
                         </h2>
                        
                       </div>
@@ -144,12 +153,12 @@ export default function HomePageContent() {
                             <div className="text-white text-sm space-y-1">
                               <div className="flex items-center gap-2">
                                 <FaMapMarkerAlt className="text-white" />
-                                <span>{projectItem.zone || 'غير محدد'}</span>
+                                <span>{localizedProject.zone}</span>
                               </div>
-                              {projectItem.developer && (
+                              {localizedProject.developer && (
                                 <div className="flex items-center gap-2">
                                   <FaBuilding className="text-white" />
-                                  <span>{projectItem.developer}</span>
+                                  <span>{localizedProject.developer}</span>
                                 </div>
                               )}
                             </div>
@@ -158,7 +167,7 @@ export default function HomePageContent() {
                               onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
-                                window.open(`https://wa.me/201111993383?text=أنا مهتم بمشروع ${projectItem.name}`, '_blank');
+                                window.open(`https://wa.me/201111993383?text=${locale === 'ar' ? 'أنا مهتم بمشروع' : 'I am interested in project'} ${localizedProject.name}`, '_blank');
                               }}
                             >
                               <FaWhatsapp size={18} className="text-white" />
@@ -195,15 +204,20 @@ export default function HomePageContent() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                   {featuredUnits && featuredUnits.length > 0 ? featuredUnits.map((unit: unknown) => {
                     const unitItem = unit as Unit;
+                    const localizedUnit = {
+                      ...unitItem,
+                      title: getLocalizedObject(unitItem, 'title', locale)
+                    };
                     return (
                       <Link
-                        key={unitItem._id}
-                        href={`/units/${unitItem._id}`}
+                        key={localizedUnit._id}
+                        href={`/units/${localizedUnit._id}`}
                         className="card-3d-interactive relative h-80 rounded-2xl overflow-hidden shadow-xl block cursor-pointer"
+                        dir={locale === 'ar' ? 'rtl' : 'ltr'}
                       >
                         <Image
-                          src={unitItem.images?.[0] || '/images/no-image.png'}
-                          alt={unitItem.title}
+                          src={localizedUnit.images?.[0] || '/images/no-image.png'}
+                          alt={localizedUnit.title}
                           fill
                           className="object-cover z-0 group-hover:scale-110 transition-transform duration-500"
                         />
@@ -211,9 +225,9 @@ export default function HomePageContent() {
                         <div className="card-glare"></div>
                         
                         {/* Title at top */}
-                        <div className="relative z-20 p-6 pb-0">
+                        <div className={`relative z-20 p-6 pb-0 ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
                           <h2 className="text-xl font-bold w-fit text-white bg-black/55 rounded-4xl p-3 mb-2 group-hover:text-[#b70501] transition-colors duration-300">
-                            {unitItem.title}
+                            {localizedUnit.title}
                           </h2>
                         </div>
 
@@ -225,15 +239,15 @@ export default function HomePageContent() {
                                 <div className="flex items-center gap-4">
                                   <div className="flex items-center gap-1">
                                     <FaBed className="text-white" />
-                                    <span>{unitItem.bedrooms}</span>
+                                    <span>{localizedUnit.bedrooms}</span>
                                   </div>
                                   <div className="flex items-center gap-1">
                                     <FaBath className="text-white" />
-                                    <span>{unitItem.bathrooms}</span>
+                                    <span>{localizedUnit.bathrooms}</span>
                                   </div>
                                 </div>
                                 <div className="font-bold text-lg">
-                                  {unitItem.price.toLocaleString()} {t('egp')}
+                                  {localizedUnit.price.toLocaleString()} {t('egp')}
                                 </div>
                               </div>
                               <div
@@ -241,7 +255,7 @@ export default function HomePageContent() {
                                 onClick={(e) => {
                                   e.preventDefault();
                                   e.stopPropagation();
-                                  window.open(`https://wa.me/201111993383?text=أنا مهتم بوحدة ${unitItem.title}`, '_blank');
+                                  window.open(`https://wa.me/201111993383?text=${locale === 'ar' ? 'أنا مهتم بوحدة' : 'I am interested in unit'} ${localizedUnit.title}`, '_blank');
                                 }}
                               >
                                 <FaWhatsapp size={18} className="text-white" />

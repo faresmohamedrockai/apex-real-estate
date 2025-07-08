@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useId } from 'react';
 import { useAppContext } from '@/app/[locale]/context/contextData';
+import { useCurrentLocale, getLocalizedObject } from '../../utils/localeUtils';
 
 // Dynamic import for React Leaflet components
 let MapContainer: React.ComponentType<any> | null = null;
@@ -54,6 +55,7 @@ const InventoryMap: React.FC<InventoryMapProps> = ({
   const [isClient, setIsClient] = useState(false);
   const [mapComponents, setMapComponents] = useState<MapComponents | null>(null);
   const mapId = useId(); // Generate unique ID for this map instance
+  const locale = useCurrentLocale();
 
   useEffect(() => {
     setIsClient(true);
@@ -172,15 +174,15 @@ const InventoryMap: React.FC<InventoryMapProps> = ({
         return (
           <mapComponents.Marker key={item._id || index} position={position} icon={redIcon}>
             <mapComponents.Popup>
-              <div style={{ minWidth: 180, maxWidth: 220 }}>
+              <div style={{ minWidth: 180, maxWidth: 220, textAlign: locale === 'ar' ? 'right' : 'left' }}>
                 <img
                   src={item.images?.[0] || '/images/no-image.png'}
                   alt={item.title}
                   style={{ width: '100%', height: 90, objectFit: 'cover', borderRadius: 8, marginBottom: 8 }}
                 />
-                <strong>{item.title}</strong><br />
-                النوع: {item.unitType}<br />
-                السعر: {item.price?.toLocaleString()} جنيه
+                <strong>{getLocalizedObject(item, 'title', locale)}</strong><br />
+                {locale === 'ar' ? 'النوع' : 'Type'}: {getLocalizedObject(item, 'unitType', locale)}<br />
+                {locale === 'ar' ? 'السعر' : 'Price'}: {item.price?.toLocaleString()} {locale === 'ar' ? 'جنيه' : 'EGP'}
                 <div style={{ marginTop: 8, textAlign: 'center' }}>
                   <a
                     href={`/units/${item._id}`}

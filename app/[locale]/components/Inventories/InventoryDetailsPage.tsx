@@ -150,7 +150,9 @@ const InventoryDetailsPage = ({ data }: { data: InventoryType }) => {
         </div>
 
         {/* التفاصيل بعرض الشاشة مع padding بسيط */}
-        <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] max-w-none z-20 px-4 sm:px-6 py-8">
+        <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] max-w-none z-20 px-4 sm:px-6 py-8"
+          dir={locale === 'ar' ? 'rtl' : 'ltr'}
+        >
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
