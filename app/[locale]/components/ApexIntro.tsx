@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl';
 const ApexIntro = () => {
   const t = useTranslations('About_Us');
   const t2 = useTranslations('HomeVideoAboutUs');
+  const t3 = useTranslations('common');
   
   return (
     <>
@@ -17,7 +18,7 @@ const ApexIntro = () => {
         {/* النص الترحيبي */}
         <div className="space-y-5 text-gray-800">
         
-          <p className="text-sm text-gray-500">مرحبًا بكم في APEX</p>
+          <p className="text-sm text-gray-500">{t3("InfoHi")}</p>
           <h2 className="text-2xl md:text-3xl font-extrabold text-[#b70501] leading-snug">
             {t('successStoriesTitle')}
           </h2>

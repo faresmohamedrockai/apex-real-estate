@@ -215,7 +215,8 @@
     "developerNotFoundDesc": "Sorry, we couldn't find the requested developer",
     "developers": "Real Estate Developers",
     "projects": "Projects",
-    "egp": "EGP"
+    "egp": "EGP",
+    "InfoHi":"Welcom In APEX"
   },
   "reviews": {
     "title": "Customer Reviews",

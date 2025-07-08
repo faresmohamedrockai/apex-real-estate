@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import ApexIntro from '../[locale]/components/WhoWe';
+import ApexIntro from './components/ApexIntro';
 import HomeVideo from './components/HomeVideo';
 import DeveloperMarquee from './components/marquee';
 import { useAppContext } from './context/contextData';
