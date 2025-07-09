@@ -74,7 +74,8 @@
   "phoneLabel": "Phone",
   "allRightsReserved": "All Rights Reserved",
   "termsConditions": "Terms & Conditions",
-  "privacyPolicy": "Privacy Policy"
+  "privacyPolicy": "Privacy Policy",
+    "addAs":"Millionaire Street, Diamond Tower, 99th Floor, Dream City, Al Khayal Governorate"
   },
   
   "About_Us": {
@@ -131,7 +132,10 @@
     "error": "An error occurred while sending data",
     "send": "Send",
     "sending": "Sending...",
-    "egp": "EGP"
+    "egp": "EGP",
+    "rating": "Rating",
+    "review": "Review",
+    "kdi": "KDI"
   },"contactText":{
     "title": "Contact Us",
     "description": "We are here to help you find the perfect property. Contact us for a free consultation or to learn more about our projects.",
@@ -216,7 +220,8 @@
     "developers": "Real Estate Developers",
     "projects": "Projects",
     "egp": "EGP",
-    "InfoHi":"Welcom In APEX"
+    "InfoHi":"Welcom In APEX",
+    "notAvailable": "Not available"
   },
   "reviews": {
     "title": "Customer Reviews",

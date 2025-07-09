@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -60,6 +60,18 @@ const InventoryDetailsPage = ({ data }: { data: InventoryType }) => {
     }
   };
 
+  // Responsive state
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 640);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // State for selected image index (desktop)
+  const [selectedImage, setSelectedImage] = useState(0);
+
   return (
     <>
       <ImageBG />
@@ -81,13 +93,24 @@ const InventoryDetailsPage = ({ data }: { data: InventoryType }) => {
               <span>{t('backToUnits')}</span>
             </Link>
 
+
+
+
+
+
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-2 sm:mb-4">
               {t('unitDetails')}
             </h1>
           </motion.div>
+
+
+
+
+
+
         </div>
 
-        {/* سلايدر الصور بعرض الشاشة مع padding بسيط */}
+        {/* Responsive Image Gallery */}
         <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] max-w-none z-20 px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -95,55 +118,77 @@ const InventoryDetailsPage = ({ data }: { data: InventoryType }) => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="space-y-4"
           >
-            {/* Main Image Slider */}
-            <div className="bg-black/70 backdrop-blur-md rounded-2xl border border-white/20 overflow-hidden">
-              <Swiper
-                modules={[Navigation, Pagination]}
-                navigation
-                pagination={{ clickable: true }}
-                className="w-full"
-              >
-                {(localizedData?.images?.length ?? 0) > 0 ? (
-                  localizedData.images.map((img, i) => (
-                    <SwiperSlide key={i}>
-                      <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px]">
+            {isMobile ? (
+              // Mobile: Swiper slider
+              <div className="w-full">
+                <Swiper
+                  modules={[Navigation, Pagination]}
+                  navigation
+                  pagination={{ clickable: true }}
+                  className="w-full"
+                >
+                  {(localizedData?.images?.length ?? 0) > 0 ? (
+                    localizedData.images.map((img, i) => (
+                      <SwiperSlide key={i}>
+                        <div className="relative w-full h-[250px] sm:h-[300px]">
+                          <Image
+                            src={img}
+                            alt={`slide-${i}`}
+                            fill
+                            className="object-cover rounded-2xl"
+                          />
+                        </div>
+                      </SwiperSlide>
+                    ))
+                  ) : (
+                    <SwiperSlide>
+                      <div className="relative w-full h-[250px] sm:h-[300px]">
                         <Image
-                          src={img}
-                          alt={`slide-${i}`}
+                          src="/images/no-image.png"
+                          alt="no-image"
                           fill
-                          className="object-cover"
+                          className="object-cover rounded-2xl"
                         />
                       </div>
                     </SwiperSlide>
-                  ))
-                ) : (
-                  <SwiperSlide>
-                    <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px]">
-                      <Image
-                        src="/images/no-image.png"
-                        alt="no-image"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  </SwiperSlide>
-                )}
-              </Swiper>
-            </div>
+                  )}
+                </Swiper>
+              </div>
+            ) : (
+              // Desktop: Main image + vertical thumbnails
+              <div className="flex flex-row items-start justify-around w-full">
+                {/* Main Image */}
+                <div className="bg-black/70 backdrop-blur-md rounded-md border gap-2 border-white/20 overflow-hidden w-[50%] md:w-[56%] h-[350px] md:h-[400px] flex-shrink-0 relative">
+                  <Image
+                    src={localizedData.images?.[selectedImage] || '/images/no-image.png'}
+                    alt={`main-image-${selectedImage}`}
+                    fill
+                    className="object-fill transition-all duration-300"
+                  />
+                </div>
 
-            {/* Thumbnail Images */}
-            {localizedData?.images && localizedData.images.length > 1 && (
-              <div className="grid grid-cols-4 gap-2 max-w-4xl mx-auto">
-                {localizedData.images.slice(0, 4).map((img, i) => (
-                  <div key={i} className="bg-black/50 backdrop-blur-md rounded-lg overflow-hidden border border-white/20 relative h-20 sm:h-24">
-                    <Image
-                      src={img}
-                      alt={`thumbnail-${i}`}
-                      fill
-                      className="object-cover"
-                    />
+
+                {/* Thumbnails Column */}
+                {localizedData?.images && localizedData.images.length > 1 && (
+                  <div className="flex flex-row flex-wrap gap-2 w-[40%] h-[400px] overflow-y-auto">
+                    {localizedData.images.map((img, i) => (
+                      <button
+                        key={i}
+                        className={`bg-black/50 backdrop-blur-md  cursour overflow-hidden border border-white/20 relative w-[100%] h-[200px] md:w-[100%]  focus:outline-none ${selectedImage === i ? 'ring-2 ring-[#b70501]' : ''}`}
+                        onClick={() => setSelectedImage(i)}
+                        tabIndex={0}
+                        aria-label={`Show image ${i + 1}`}
+                      >
+                        <Image
+                          src={img}
+                          alt={`thumbnail-${i}`}
+                          fill
+                          className="object-fill"
+                        />
+                      </button>
+                    ))}
                   </div>
-                ))}
+                )}
               </div>
             )}
           </motion.div>

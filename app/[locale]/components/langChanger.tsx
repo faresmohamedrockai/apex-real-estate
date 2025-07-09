@@ -18,7 +18,7 @@ export default function LangChanger() {
     <Link
       href={newPath}
       locale={nextLocale}
-      className="px-4 py-2 bg-[var(--primary)] text-[#f8eef0] rounded hover:opacity-90 transition font-bold"
+      className="px-4 py-2  text-[#f8eef0] rounded hover:opacity-90 transition font-bold bg-[#b70501]"
     >
       {label}
     </Link>

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface MultiRangeSliderProps {
   min: number;
@@ -36,6 +37,8 @@ export default function MultiRangeSlider({
   handleSize = 24
 }: MultiRangeSliderProps) {
   const [localValues, setLocalValues] = useState<[number, number]>(values);
+  const t = useTranslations('common');
+  const locale = useLocale();
 
   useEffect(() => {
     setLocalValues(values);
@@ -118,10 +121,10 @@ export default function MultiRangeSlider({
       {/* Value display below */}
       <div className="flex justify-between text-sm px-2 mt-2">
         <div className="text-white font-bold bg-black/30 px-3 py-1 rounded-lg backdrop-blur-sm">
-          من: {formatValue(localValues[0])}
+          {locale === 'ar' ? 'من' : 'From'}: {formatValue(localValues[0])}
         </div>
         <div className="text-white font-bold bg-black/30 px-3 py-1 rounded-lg backdrop-blur-sm">
-          إلى: {formatValue(localValues[1])}
+          {locale === 'ar' ? 'إلى' : 'To'}: {formatValue(localValues[1])}
         </div>
       </div>
       

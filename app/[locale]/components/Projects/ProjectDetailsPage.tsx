@@ -23,19 +23,25 @@ import ImageBG from '../ImageBG';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+import { useCurrentLocale, getLocalizedObject } from '../../utils/localeUtils';
 
 type ProjectType = {
   _id: string;
   name: string;
+  name_en?: string;
   zone: string;
+  zone_en?: string;
   developer: string;
+  developer_en?: string;
   image: string[];
   isUnique: boolean;
   units: Array<{
     _id: string;
     title: string;
+    title_en?: string;
     price: number;
     unitType: string;
+    unitType_en?: string;
     images: string[];
     bedrooms: number;
     bathrooms: number;
@@ -49,13 +55,25 @@ import { useRouter } from 'next/navigation';
 const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
   const t = useTranslations('common');
   const router = useRouter();
-  // Extract locale from the router or set a default
-  const locale = (router as any)?.locale || 'en';
+  const locale = useCurrentLocale();
 
-console.log(data);
+  // تجهيز بيانات المشروع حسب اللغة مع fallback
+  const localizedProject = {
+    ...data,
+    name: getLocalizedObject(data, 'name', locale),
+    zone: getLocalizedObject(data, 'zone', locale),
+    developer: getLocalizedObject(data, 'developer', locale),
+    units: data.units?.map(unit => ({
+      ...unit,
+      title: getLocalizedObject(unit, 'title', locale),
+      unitType: getLocalizedObject(unit, 'unitType', locale)
+    })) || []
+  };
+
+console.log(localizedProject);
 
   return (
-    <>
+    <div dir={locale === 'ar' ? 'rtl' : 'ltr'}>
       <ImageBG />
 
       <div className="relative z-10 min-h-screen pt-24 bg-black/60">
@@ -96,8 +114,8 @@ console.log(data);
                 pagination={{ clickable: true }}
                 className="w-full"
               >
-                {(data?.image?.length ?? 0) > 0 ? (
-                  data.image.map((img, i) => (
+                {(localizedProject?.image?.length ?? 0) > 0 ? (
+                  localizedProject.image.map((img, i) => (
                     <SwiperSlide key={i}>
                       <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px]">
                         <Image
@@ -124,9 +142,9 @@ console.log(data);
               </Swiper>
             </div>
 
-            {data?.image && data.image.length > 1 && (
+            {localizedProject?.image && localizedProject.image.length > 1 && (
               <div className="grid grid-cols-4 gap-2 max-w-4xl mx-auto">
-                {data.image.slice(0, 4).map((img, i) => (
+                {localizedProject.image.slice(0, 4).map((img, i) => (
                   <div
                     key={i}
                     className="bg-black/50 backdrop-blur-md rounded-lg overflow-hidden border border-white/20 relative h-20 sm:h-24"
@@ -159,39 +177,38 @@ console.log(data);
                 <span className="text-sm sm:text-base bg-[#b70501] text-white px-3 py-1 rounded-full font-medium">
                   {t('project')}
                 </span>
-                {data.isUnique && (
+                {localizedProject.isUnique && (
                   <span className="text-sm sm:text-base bg-[#b70501] text-white px-3 py-1 rounded-full font-bold">
                     مميز
                   </span>
                 )}
               </div>
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">{data.name}</h2>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">{localizedProject.name}</h2>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <DetailCard icon={<FaBuilding />} label={t('developer')} value={data.developer} />
-              <DetailCard icon={<FaMapMarkerAlt />} label={t('zone')} value={data.zone} />
-              <DetailCard icon={<FaHome />} label={t('unitsCount')} value={`${data.units?.length || 0} وحدة`} />
+              <DetailCard icon={<FaBuilding />} label={t('developer')} value={localizedProject.developer ?? ''} />
+              <DetailCard icon={<FaMapMarkerAlt />} label={t('zone')} value={localizedProject.zone ?? ''} />
+              <DetailCard icon={<FaHome />} label={t('unitsCount')} value={locale === 'ar' ? `${localizedProject.units?.length || 0} وحدة` : `${localizedProject.units?.length || 0} unit${(localizedProject.units?.length || 0) === 1 ? '' : 's'}`} />
               <DetailCard
                 icon={<FaMoneyBillWave />}
                 label={t('priceRange')}
                 value={
-                  data.units && data.units.length > 0
-                    ? `${Math.min(...data.units.map((u) => u.price)).toLocaleString()} - ${Math.max(
-                        ...data.units.map((u) => u.price),
-                      ).toLocaleString()} ج.م`
-                    : 'غير متوفر'
+                  localizedProject.units && localizedProject.units.length > 0 && localizedProject.units.some((u) => u.price)
+                    ? `${Math.min(...localizedProject.units.filter((u) => u.price).map((u) => u.price)).toLocaleString()} - ${Math.max(
+                        ...localizedProject.units.filter((u) => u.price).map((u) => u.price),
+                      ).toLocaleString()} ${locale === 'ar' ? 'جنيه' : 'EGP'}`
+                    : t('notAvailable')
                 }
               />
             </div>
 
             <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
               <p className="text-white/90 text-lg sm:text-base leading-relaxed font-bold">
-                مشروع {data.name} من تطوير {data.developer} في منطقة {data.zone}.
-                يحتوي المشروع على {data.units?.length || 0} وحدة سكنية متنوعة في المساحات والأسعار.
-                {data.units && data.units.length > 0 && (
-                  <> يبدأ السعر من {Math.min(...data.units.map((u) => u.price)).toLocaleString()} جنيه مصري.</>
-                )}
+                {locale === 'ar'
+                  ? `مشروع ${localizedProject.name} من تطوير ${localizedProject.developer} في منطقة ${localizedProject.zone}. يحتوي المشروع على ${localizedProject.units?.length || 0} وحدة سكنية متنوعة في المساحات والأسعار.${localizedProject.units && localizedProject.units.length > 0 && localizedProject.units.some((u) => u.price) ? ` يبدأ السعر من ${Math.min(...localizedProject.units.filter((u) => u.price).map((u) => u.price)).toLocaleString()} جنيه.` : ' السعر غير متوفر.'}`
+                  : `Project ${localizedProject.name} by ${localizedProject.developer} in ${localizedProject.zone} area. The project contains ${localizedProject.units?.length || 0} residential unit${(localizedProject.units?.length || 0) === 1 ? '' : 's'} of various sizes and prices.${localizedProject.units && localizedProject.units.length > 0 && localizedProject.units.some((u) => u.price) ? ` Starting price from ${Math.min(...localizedProject.units.filter((u) => u.price).map((u) => u.price)).toLocaleString()} EGP.` : ' Price not available.'}`
+                }
               </p>
             </div>
 
@@ -200,7 +217,7 @@ console.log(data);
               <p className="text-white text-sm sm:text-base mb-4 text-center">{t('contactForDetails')}</p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link
-                  href={`https://wa.me/201111993383?text=مرحبًا، مهتم بمشروع ${data.name}`}
+                  href={`https://wa.me/201111993383?text=مرحبًا، مهتم بمشروع ${localizedProject.name}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 font-medium shadow-lg hover:shadow-xl border-2 border-green-400/30"
@@ -221,7 +238,7 @@ console.log(data);
         </div>
 
         {/* Units */}
-        {data.units && data.units.length > 0 && (
+        {localizedProject.units && localizedProject.units.length > 0 && (
           <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] max-w-none z-20 px-4 sm:px-6 py-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -234,75 +251,80 @@ console.log(data);
               </h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {data.units.map((unit) => (
-                  <Link
-                    key={unit._id}
-                    href={`/units/${unit._id}`}
-                    className="card-3d-interactive relative h-80 rounded-2xl overflow-hidden shadow-xl block cursor-pointer"
-                  >
-                    <Image
-                      src={unit.images?.[0] || '/images/no-image.png'}
-                      alt={unit.title}
-                      fill
-                      className="object-cover z-0 group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10" />
-                    <div className="card-glare"></div>
+                {localizedProject.units.map((unit) => {
+                  // ترجم العنوان والنوع مع fallback
+                  const unitTitle = getLocalizedObject(unit, 'title', locale);
+                  const unitType = getLocalizedObject(unit, 'unitType', locale);
+                  return (
+                    <Link
+                      key={unit._id}
+                      href={`/units/${unit._id}`}
+                      className="card-3d-interactive relative h-80 rounded-2xl overflow-hidden shadow-xl block cursor-pointer"
+                    >
+                      <Image
+                        src={unit.images?.[0] || '/images/no-image.png'}
+                        alt={unitTitle}
+                        fill
+                        className="object-cover z-0 group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10" />
+                      <div className="card-glare"></div>
 
-                    <div className="relative z-20 p-6 pb-0">
-                      <h4 className="text-lg font-bold text-white mb-2 group-hover:text-[#b70501] transition-colors duration-300">
-                        {unit.title}
-                      </h4>
-                    </div>
+                      <div className="relative z-20 p-6 pb-0">
+                        <h4 className="text-lg font-bold text-white bg-black/45 w-fit p-3 rounded-3xl mb-2 group-hover:text-[#b70501] transition-colors duration-300">
+                          {unitTitle}
+                        </h4>
+                      </div>
 
-                    <div className="absolute bottom-0 left-0 right-0 z-20">
-                      <div className="bg-black/70 backdrop-blur-sm p-4">
-                        <div className="flex items-center justify-between">
-                          <div className="text-white text-sm space-y-1">
-                            <div className="flex items-center gap-2">
-                              <FaBed className="text-white" />
-                              <span>{unit.bedrooms}</span>
-                              <FaBath className="text-white ml-2" />
-                              <span>{unit.bathrooms}</span>
+                      <div className="absolute bottom-0 left-0 right-0 z-20">
+                        <div className="bg-black/70 backdrop-blur-sm p-4">
+                          <div className="flex items-center justify-between">
+                            <div className="text-white text-sm space-y-1">
+                              <div className="flex items-center gap-2">
+                                <FaBed className="text-white" />
+                                <span>{unit.bedrooms}</span>
+                                <FaBath className="text-white ml-2" />
+                                <span>{unit.bathrooms}</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <FaRulerCombined className="text-white" />
+                                <span>{unit.area} {locale === 'ar' ? 'م²' : 'm²'}</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <span>{locale === 'ar' ? 'السعر:' : 'Price:'}</span>
+                                <span>{unit.price?.toLocaleString()} {locale === 'ar' ? 'جنيه' : 'EGP'}</span>
+                              </div>
                             </div>
-                            <div className="flex items-center gap-2">
-                              <FaRulerCombined className="text-white" />
-                              <span>{unit.area} م²</span>
+                            <div
+                              className="bg-green-500 p-3 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 hover:scale-110"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                window.open(
+                                  `https://wa.me/201111993383?text=${locale === 'ar' ? 'أنا مهتم بالوحدة:' : 'I am interested in the unit:'} ${unitTitle}`,
+                                  '_blank'
+                                );
+                              }}
+                            >
+                              <FaWhatsapp size={16} />
                             </div>
-                            <div className="flex items-center gap-2">
-                              <span>السعر:</span>
-                              <span>{unit.price?.toLocaleString()} ج.م</span>
-                            </div>
-                          </div>
-                          <div
-                            className="bg-green-500 p-3 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 hover:scale-110"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              window.open(
-                                `https://wa.me/201111993383?text=أنا مهتم بالوحدة: ${unit.title}`,
-                                '_blank'
-                              );
-                            }}
-                          >
-                            <FaWhatsapp size={16} />
                           </div>
                         </div>
                       </div>
-                    </div>
 
-                    {unit.isUnique && (
-                      <div className="absolute top-4 right-4 bg-[#b70501] text-white text-xs px-3 py-1 rounded-full font-bold z-20">
-                        مميز
-                      </div>
-                    )}
-                  </Link>
-                ))}
+                      {unit.isUnique && (
+                        <div className="absolute top-4 right-4 bg-[#b70501] text-white text-xs px-3 py-1 rounded-full font-bold z-20">
+                          {locale === 'ar' ? 'مميز' : 'Featured'}
+                        </div>
+                      )}
+                    </Link>
+                  );
+                })}
               </div>
             </motion.div>
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

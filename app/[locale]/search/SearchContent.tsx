@@ -150,9 +150,12 @@ export default function SearchContent() {
   };
 
   const getDisplayInfo = (item: InventoryItem) => {
-    const region = item.region || item.projectId?.region || 'غير محدد';
-    const project = item.project || item.projectId?.name || 'غير محدد';
-    return { region, project };
+    const region = item.region || item.projectId?.region;
+    const project = item.project || item.projectId?.name;
+    return {
+      region: region && region.trim() !== '' ? region : (locale === 'ar' ? 'غير محدد' : 'Not found'),
+      project: project && project.trim() !== '' ? project : (locale === 'ar' ? 'غير محدد' : 'Not found'),
+    };
   };
 
   return (
@@ -286,7 +289,7 @@ export default function SearchContent() {
                                       </div>
                                       <div className="flex items-center gap-1">
                                         <FiDollarSign className="text-white" />
-                                        <span className="font-bold">{localizedItem.price?.toLocaleString()} ج.م</span>
+                                        <span className="font-bold">{localizedItem.price?.toLocaleString()} {locale === 'ar' ? 'ج.م' : 'EGP'}</span>
                                       </div>
                                     </div>
                                   </div>
@@ -480,7 +483,7 @@ export default function SearchContent() {
                         step={10000}
                         values={priceRange}
                         onChange={setPriceRange}
-                        formatValue={(value: number) => `${value.toLocaleString()} جنيه`}
+                        formatValue={(value: number) => `${value.toLocaleString()} ${locale === 'ar' ?'جنيه': 'EGP' } `}
                         label={t('priceRange')}
                         className="space-y-2"
                       />

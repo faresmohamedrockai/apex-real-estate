@@ -55,7 +55,7 @@ const Footer = () => {
           <div className="flex-1 flex flex-col items-center md:items-start">
             <h3 className="text-xl font-bold mb-4 text-[#b70501]">{t('contactTitle')}</h3>
             <ul className="space-y-3 text-base font-medium text-white/90">
-              <li className="flex items-start gap-2"><span className="mt-1"></span><span><strong className="text-white">{t('addressLabel')}</strong> شارع المليونير، برج الألماس، الدور 99، مدينة الأحلام، محافظة الخيال</span></li>
+              <li className="flex items-start gap-2"><span className="mt-1"></span><span><strong className="text-white">{t('addressLabel')}</strong>  {t("addAs")}</span></li>
               <li className="flex items-center gap-2"><span></span><span><strong className="text-white">{t('emailLabel')}</strong> info@fake-realestate-spam.com</span></li>
               <li className="flex items-center gap-2"><span></span><span><strong className="text-white">{t('mobileLabel')}</strong> +20 111 199 3383</span></li>
               <li className="flex items-center gap-2"><span></span><span><strong className="text-white">{t('phoneLabel')}</strong> +20 111 199 3383</span></li>

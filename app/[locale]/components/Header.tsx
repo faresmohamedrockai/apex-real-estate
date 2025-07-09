@@ -179,7 +179,7 @@ export default function Header() {
                 href="https://wa.me/201111993383"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-[#25D366] text-white w-14 h-14 flex items-center justify-center rounded-full hover:bg-white hover:text-[#25D366] transition-all duration-300 shadow-lg hover:scale-110"
+                className="bg-[#25D366] text-white w-14 h-14 flex items-center justify-center rounded-full  transition-all duration-300 shadow-lg hover:scale-110"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="23.178" height="23.178" viewBox="0 0 23.178 23.178">
                   <path id="Icon_awesome-phone-alt" data-name="Icon awesome-phone-alt" d="M22.517,16.379l-5.07-2.173a1.086,1.086,0,0,0-1.268.312l-2.245,2.743A16.78,16.78,0,0,1,5.912,9.24L8.656,6.995a1.084,1.084,0,0,0,.312-1.268L6.795.657A1.094,1.094,0,0,0,5.55.028L.842,1.114A1.086,1.086,0,0,0,0,2.173,21,21,0,0,0,21.005,23.178a1.086,1.086,0,0,0,1.059-.842l1.086-4.708a1.1,1.1,0,0,0-.634-1.249Z" transform="translate(0 0)" fill="#fff" />

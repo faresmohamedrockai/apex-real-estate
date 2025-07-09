@@ -81,7 +81,7 @@ export default function DeveloperDetailsContent() {
   }));
 
   return (
-    <>
+    <div dir={locale === 'ar' ? 'rtl' : 'ltr'}>
       <ImageBG />
 
       <div className="relative z-10 min-h-screen pt-20 sm:pt-24 bg-black/80">
@@ -256,6 +256,6 @@ export default function DeveloperDetailsContent() {
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 } 

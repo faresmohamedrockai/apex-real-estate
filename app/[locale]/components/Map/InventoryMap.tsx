@@ -3,6 +3,7 @@
 import { useEffect, useState, useId } from 'react';
 import { useAppContext } from '@/app/[locale]/context/contextData';
 import { useCurrentLocale, getLocalizedObject } from '../../utils/localeUtils';
+import { Link } from '@/i18n/navigation';
 
 // Dynamic import for React Leaflet components
 let MapContainer: React.ComponentType<any> | null = null;
@@ -139,7 +140,7 @@ const InventoryMap: React.FC<InventoryMapProps> = ({
       <div className="h-full w-full bg-black/80 backdrop-blur-md rounded-lg flex items-center justify-center">
         <div className="text-white text-center">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-white mb-2"></div>
-          <p>جاري تحميل الخريطة...</p>
+          <p>{locale==='ar' ? '...جاري تحميل الخريطة':"Map Is Loading..." }</p>
         </div>
       </div>
     );
@@ -181,10 +182,20 @@ const InventoryMap: React.FC<InventoryMapProps> = ({
                   style={{ width: '100%', height: 90, objectFit: 'cover', borderRadius: 8, marginBottom: 8 }}
                 />
                 <strong>{getLocalizedObject(item, 'title', locale)}</strong><br />
-                {locale === 'ar' ? 'النوع' : 'Type'}: {getLocalizedObject(item, 'unitType', locale)}<br />
-                {locale === 'ar' ? 'السعر' : 'Price'}: {item.price?.toLocaleString()} {locale === 'ar' ? 'جنيه' : 'EGP'}
+                {getLocalizedObject(item, 'unitType', locale) && (<>
+                  {locale === 'ar' ? 'النوع' : 'Type'}: {getLocalizedObject(item, 'unitType', locale)}<br />
+                </>)}
+                {typeof item.price === 'number' && !isNaN(item.price) && item.price > 0 ? (
+                  <>
+                    {locale === 'ar' ? 'السعر' : 'Price'}: {item.price.toLocaleString()} {locale === 'ar' ? 'جنيه' : 'EGP'}
+                  </>
+                ) : (
+                  <>
+                    {locale === 'ar' ? 'السعر' : 'Price'}: {locale === 'ar' ? 'غير متوفر' : 'Not available'}
+                  </>
+                )}
                 <div style={{ marginTop: 8, textAlign: 'center' }}>
-                  <a
+                  <Link
                     href={`/units/${item._id}`}
                     style={{
                       display: 'inline-block',
@@ -201,8 +212,8 @@ const InventoryMap: React.FC<InventoryMapProps> = ({
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    تفاصيل الوحدة
-                  </a>
+                    {locale === 'ar' ? 'تفاصيل الوحدة' : 'Get More'}
+                  </Link>
                 </div>
               </div>
             </mapComponents.Popup>
