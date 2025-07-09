@@ -221,7 +221,9 @@
     "projects": "Projects",
     "egp": "EGP",
     "InfoHi":"Welcom In APEX",
-    "notAvailable": "Not available"
+    "notAvailable": "Not available",
+    "contactUs": "Contact Us",
+    "contactDescription": "For more information or inquiries about this project, contact us via WhatsApp or phone."
   },
   "reviews": {
     "title": "Customer Reviews",
