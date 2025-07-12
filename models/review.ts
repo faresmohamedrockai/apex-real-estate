@@ -55,6 +55,11 @@ const reviewSchema = new mongoose.Schema({
     enum: ['Residential', 'Commercial', 'Office', 'Administrative'],
     default: 'Residential'
   },
+  avatar: {
+    type: String,
+    trim: true,
+    default: ''
+  },
   createdAt: {
     type: Date,
     default: Date.now

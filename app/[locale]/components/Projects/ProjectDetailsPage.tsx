@@ -265,7 +265,7 @@ console.log(localizedProject);
                 </span>
                 {localizedProject.isUnique && (
                   <span className="text-sm sm:text-base bg-[#b70501] text-white px-3 py-1 rounded-full font-bold">
-                    مميز
+                    {t("unique")}
                   </span>
                 )}
               </div>
@@ -311,13 +311,13 @@ console.log(localizedProject);
                   <FaWhatsapp size={18} className="text-white" />
                   {t('whatsapp')}
                 </Link>
-                <a
+                <Link
                   href="tel:201111993383"
                   className="bg-[#b70501] hover:bg-[#a00401] text-white px-6 py-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 font-medium"
                 >
                   <FaMapMarkerAlt size={18} />
                   {t('callNow')}
-                </a>
+                </Link>
               </div>
             </div>
           </motion.div>

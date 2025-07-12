@@ -14,6 +14,7 @@ export interface IConsultation extends Document {
   };
   notes?: string;
   notes_en?: string;
+  read:boolean
   status: string;
   createdAt: Date;
   updatedAt: Date;
@@ -34,7 +35,7 @@ const ConsultationSchema: Schema = new Schema(
     },
     notes: { type: String, default: '' },
     notes_en: { type: String, default: '' },
-    status: { type: String, default: 'pending' },
+    read: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

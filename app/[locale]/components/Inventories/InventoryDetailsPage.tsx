@@ -53,12 +53,14 @@ const InventoryDetailsPage = ({ data }: { data: InventoryType }) => {
     ...data,
     title: getLocalizedObject(data, 'title', locale),
     unitType: getLocalizedObject(data, 'unitType', locale),
+    description: getLocalizedObject(data, 'description', locale),
     projectId: {
       ...data.projectId,
       name: getLocalizedObject(data.projectId, 'name', locale),
       zone: getLocalizedObject(data.projectId, 'zone', locale)
     }
   };
+  
 
   // Safely define images, initialImages, extraImages
   const images = localizedData.images || [];
@@ -350,10 +352,7 @@ const InventoryDetailsPage = ({ data }: { data: InventoryType }) => {
             {/* Description */}
             <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
               <p className="text-white/90 text-sm sm:text-base leading-relaxed">
-                {locale === 'ar'
-                  ? `وحدة ${localizedData.unitType} مميزة في مشروع ${localizedData.projectId.name} بمنطقة ${localizedData.projectId.zone}. تتميز بمساحة ${localizedData.area} متر مربع مع ${localizedData.bedrooms} غرف نوم و${localizedData.bathrooms} حمامات. السعر ${localizedData.price.toLocaleString()} جنيه مصري.`
-                  : `${localizedData.unitType} unit in ${localizedData.projectId.name} project in ${localizedData.projectId.zone} area. Features ${localizedData.area} square meters with ${localizedData.bedrooms} bedrooms and ${localizedData.bathrooms} bathrooms. Price ${localizedData.price.toLocaleString()} Egyptian Pounds.`
-                }
+              {localizedData.description}
               </p>
             </div>
 

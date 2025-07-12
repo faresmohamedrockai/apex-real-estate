@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
 import connectDB from '@/lib/DBConection';
 import User from '@/models/user';
+import bcrypt from "bcrypt";
+
+
+
+
+
 
 async function isAdmin(adminId) {
   const user = await User.findById(adminId);
@@ -11,96 +17,88 @@ async function isAdmin(adminId) {
 export async function GET() {
   await connectDB();
   const users = await User.find();
+
   return NextResponse.json(users, { status: 200 });
 }
 
-// ➕ Create New User
+
+
+
+
+
+
+
+
+
+
+
+// ✅ POST: إنشاء مستخدم جديد
 export async function POST(req) {
-  await connectDB();
-  const body = await req.json();
+  try {
+    await connectDB();
+    const body = await req.json();
+    const { username, username_en, email, password, role } = body;
 
-  const { adminId, userData } = body;
+    // ✅ التحقق من الحقول المطلوبة
+    if (!username || !email || !password || !role) {
+      return NextResponse.json({ message: "جميع الحقول مطلوبة." }, { status: 400 });
+    }
 
-  if (!await isAdmin(adminId)) {
-    return NextResponse.json({ message: "Unauthorized - Admins only" }, { status: 403 });
+    // ✅ التأكد إن الإيميل غير مستخدم من قبل
+    const existingUser = await User.findOne({
+      $or: [
+        { email: email.trim().toLowerCase() },
+        { username: username.trim() },
+        ...(username_en ? [{ username_en: username_en.trim() }] : [])
+      ]
+    });
+    if (existingUser) {
+      let message = "";
+      if (existingUser.email === email.trim().toLowerCase()) message = "هذا البريد الإلكتروني مستخدم بالفعل.";
+      else if (existingUser.username === username.trim()) message = "اسم المستخدم مستخدم بالفعل.";
+      else if (username_en && existingUser.username_en === username_en.trim()) message = "اسم المستخدم الإنجليزي مستخدم بالفعل.";
+      else message = "هناك بيانات مستخدمة بالفعل.";
+      return NextResponse.json({ message }, { status: 409 });
+    }
+
+    // ✅ تشفير كلمة المرور
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // ✅ إنشاء المستخدم
+    const newUser = await User.create({
+      username: username.trim(),
+      username_en: username_en?.trim(),
+      email: email.trim().toLowerCase(),
+      password: hashedPassword,
+      role,
+    });
+
+    return NextResponse.json(
+      {
+        message: "تم إنشاء المستخدم بنجاح",
+        user: {
+          id: newUser._id,
+          username: newUser.username,
+          email: newUser.email,
+          role: newUser.role,
+        },
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error("خطأ أثناء إضافة المستخدم:", error);
+    return NextResponse.json({ message: "حدث خطأ في الخادم" }, { status: 500 });
   }
-
-  if (!userData || !userData.username || !userData.email || !userData.password) {
-    return NextResponse.json({ message: "Missing required user fields" }, { status: 400 });
-  }
-
-  const newUser = await User.create({
-    username: userData.username.trim(),
-    username_en: userData.username_en?.trim() || '',
-    email: userData.email.trim().toLowerCase(),
-    password: userData.password,
-    role: userData.role || 'user',
-  });
-
-  return NextResponse.json({
-    message: "User created successfully",
-    user: newUser,
-    status: 201,
-  });
 }
 
-// ✏️ Update User
-export async function PATCH(req) {
-  await connectDB();
-  const body = await req.json();
 
-  const { adminId, userData } = body;
 
-  if (!await isAdmin(adminId)) {
-    return NextResponse.json({ message: "Unauthorized - Admins only" }, { status: 403 });
-  }
 
-  const { id, ...updateData } = userData;
 
-  if (!id) {
-    return NextResponse.json({ message: "User ID is required" }, { status: 400 });
-  }
 
-  // Optional: trim fields if they exist
-  if (updateData.username) updateData.username = updateData.username.trim();
-  if (updateData.username_en) updateData.username_en = updateData.username_en.trim();
-  if (updateData.email) updateData.email = updateData.email.trim().toLowerCase();
 
-  const updatedUser = await User.findByIdAndUpdate(id, updateData, { new: true });
 
-  if (!updatedUser) {
-    return NextResponse.json({ message: "User not found" }, { status: 404 });
-  }
 
-  return NextResponse.json({
-    message: "User updated successfully",
-    user: updatedUser,
-  });
-}
 
-// ❌ Delete User
-export async function DELETE(req) {
-  await connectDB();
-  const body = await req.json();
 
-  const { adminId, userId } = body;
 
-  if (!await isAdmin(adminId)) {
-    return NextResponse.json({ message: "Unauthorized - Admins only" }, { status: 403 });
-  }
-
-  if (!userId) {
-    return NextResponse.json({ message: "User ID is required" }, { status: 400 });
-  }
-
-  const deletedUser = await User.findByIdAndDelete(userId);
-
-  if (!deletedUser) {
-    return NextResponse.json({ message: "User not found" }, { status: 404 });
-  }
-
-  return NextResponse.json({
-    message: "User deleted successfully",
-    user: deletedUser,
-  });
-}

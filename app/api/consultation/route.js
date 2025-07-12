@@ -88,3 +88,33 @@ export async function POST(request) {
     );
   }
 }
+
+export async function GET() {
+  try {
+    await connectDB();
+    const consultations = await Consultation.find({}).sort({ createdAt: -1 });
+    // Return all fields
+    const result = consultations.map(c => ({
+      _id: c._id,
+      name: c.name,
+      name_en: c.name_en,
+      phone: c.phone,
+      project: c.project,
+      project_en: c.project_en,
+      unitType: c.unitType,
+      unitType_en: c.unitType_en,
+      priceRange: c.priceRange,
+      notes: c.notes,
+      notes_en: c.notes_en,
+      status: c.status,
+      message: c.notes, // for backward compatibility
+      read: typeof c.read === 'boolean' ? c.read : false,
+      createdAt: c.createdAt,
+      updatedAt: c.updatedAt,
+      email: c.email
+    }));
+    return NextResponse.json(result, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ error: 'حدث خطأ أثناء جلب الاستشارات' }, { status: 500 });
+  }
+}

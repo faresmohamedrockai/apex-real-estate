@@ -21,7 +21,7 @@ export async function POST(req) {
   try {
     await connectDB();
     const body = await req.json();
-    const { name, logo, description, projects } = body;
+    const { name, logo, description, projects ,description_en} = body;
 
     // Validation
     if (!name || name.trim() === '') {
@@ -35,6 +35,7 @@ export async function POST(req) {
       name: name.trim(),
       logo,
       description,
+      description_en,
       projects: projects || []
     });
 

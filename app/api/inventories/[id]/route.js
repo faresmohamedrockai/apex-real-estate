@@ -22,6 +22,12 @@ export async function GET(req, { params }) {
   return NextResponse.json({ success: true, data: item }, { status: 200 });
 }
 
+
+
+
+
+
+
 // 🟡 PATCH - تعديل بيانات وحدة
 export async function PATCH(req, { params }) {
   await connectDB();

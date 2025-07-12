@@ -39,7 +39,7 @@ export async function POST(request) {
     await connectDB();
 
     const body = await request.json();
-    const { name, image, zone, developerId, latitude, longitude } = body;
+    const { name, image, zone, developerId, latitude, longitude ,name_en,zone_en} = body;
 
     // Validation
     if (!name) {
@@ -72,6 +72,8 @@ export async function POST(request) {
       image,
       zone,
       developerId,
+      name_en,
+      zone_en,
       latitude,
       longitude
     });

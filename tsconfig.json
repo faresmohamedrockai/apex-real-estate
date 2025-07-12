@@ -29,7 +29,7 @@
     ".next/types/**/*.ts",
     "lib/DBConection.js",
     "app/api/projects/route.js",
-    "types/declarations.d.ts" 
-  ],
+    "types/next-auth.d.ts" 
+, "app/api/auth/[...nextauth].js"  ],
   "exclude": ["node_modules"]
 }

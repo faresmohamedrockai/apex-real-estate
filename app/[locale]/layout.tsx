@@ -1,4 +1,4 @@
-
+// import { headers } from 'next/headers';
 import { NextIntlClientProvider, hasLocale } from 'next-intl'
 import { notFound } from 'next/navigation'
 import { getMessages } from 'next-intl/server'
@@ -9,8 +9,10 @@ import PageTransition from './components/PageTransation'
 import Footer from './components/Footer'
 import { AppProvider } from './context/contextData'
 import GlobalLoading from './components/GlobalLoading'
-
+import { useRouter } from 'next/navigation';
 import { Cairo } from 'next/font/google'
+import ConditionalLayout from '@/app/showpathname';
+
 
 const cairo = Cairo({
   subsets: ['arabic'],
@@ -34,6 +36,7 @@ export default async function LocaleLayout({
 
   const messages = await getMessages()
 
+  
   return (
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'} className={cairo.variable}>
       <head>
@@ -45,9 +48,11 @@ export default async function LocaleLayout({
             <AppProvider>
               <GlobalLoading />
               <PageTransition>
-                <Header />
-                {children}
-                <Footer />
+               <ConditionalLayout>
+                
+                  {children}
+               
+                </ConditionalLayout>
               </PageTransition>
             </AppProvider>
           </NextIntlClientProvider>

@@ -61,6 +61,8 @@ const InventorySchema = new Schema({
     type: String,
     required: false,
   },
+  decription:String,
+  description_en:String,
 
   isUnique: Boolean,
 

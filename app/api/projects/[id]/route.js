@@ -6,40 +6,26 @@ import mongoose from 'mongoose';
 
 export async function GET(request, { params }) {
   await connectDB();
+  const { id } = params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return NextResponse.json({ success: false, error: 'معرف المشروع غير صحيح' }, { status: 400 });
+  }
 
   try {
-    const { id } = params;
-
-    // التحقق من صحة الـ ID
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return NextResponse.json(
-        { success: false, error: 'معرف المشروع غير صحيح' },
-        { status: 400 }
-      );
-    }
-
-    // البحث عن المشروع مع المطور
     const project = await Project.findById(id).populate('developerId');
-    
-    if (!project) {
-      return NextResponse.json(
-        { success: false, error: 'المشروع غير موجود' },
-        { status: 404 }
-      );
-    }
+    if (!project) return NextResponse.json({ success: false, error: 'المشروع غير موجود' }, { status: 404 });
 
-    // البحث عن جميع العقارات المرتبطة بالمشروع
     const units = await Inventory.find({ projectId: id });
-
-    // تجميع البيانات
     const projectData = {
       _id: project._id,
       name: project.name,
       name_en: project.name_en,
       zone: project.zone,
       zone_en: project.zone_en,
-      developer: project.developerId?.name || 'غير محدد',
-      developer_en: project.developerId?.name_en || '',
+      developer: project.developerId
+        ? { _id: project.developerId._id, name: project.developerId.name }
+        : null,
       image: project.image || [],
       isUnique: project.isUnique || false,
       units: units.map(unit => ({
@@ -57,15 +43,47 @@ export async function GET(request, { params }) {
       }))
     };
 
-    return NextResponse.json(
-      { success: true, data: projectData },
-      { status: 200 }
-    );
+    return NextResponse.json({ success: true, data: projectData }, { status: 200 });
+
   } catch (err) {
     console.error('❌ Error fetching project:', err);
-    return NextResponse.json(
-      { success: false, error: err.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
   }
-} 
+}
+
+// ✅ دعم التعديل (PATCH)
+export async function PATCH(request, { params }) {
+  await connectDB();
+  const { id } = params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return NextResponse.json({ success: false, error: 'معرف المشروع غير صالح' }, { status: 400 });
+  }
+
+  try {
+    const body = await request.json();
+    const updated = await Project.findByIdAndUpdate(id, body, { new: true });
+    return NextResponse.json({ success: true, data: updated });
+  } catch (err) {
+    console.error('❌ PATCH error:', err);
+    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+  }
+}
+
+// ✅ دعم الحذف (DELETE)
+export async function DELETE(request, { params }) {
+  await connectDB();
+  const { id } = params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return NextResponse.json({ success: false, error: 'معرف المشروع غير صالح' }, { status: 400 });
+  }
+
+  try {
+    await Project.findByIdAndDelete(id);
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error('❌ DELETE error:', err);
+    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+  }
+}
