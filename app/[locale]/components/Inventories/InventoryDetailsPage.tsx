@@ -85,7 +85,7 @@ const InventoryDetailsPage = ({ data }: { data: InventoryType }) => {
     <>
       <ImageBG />
 
-      <div className="relative z-10 min-h-screen pt-24 bg-black/60">
+      <div className="relative z-10 min-h-screen pt-24 bg-black/60 w-screen">
         {/* Header with Back Button */}
         <div className="relative z-30 px-4 sm:px-6">
           <motion.div

@@ -19,10 +19,14 @@ export default function ConditionalLayout({ children }: { children: ReactNode })
   return (
     <>
     <SidebarProvider>
-      {!hideLayout && <Header />}
-     
-      {children}
-      {!hideLayout && <Footer />}
+      <div className="flex flex-col min-h-screen">
+        {!hideLayout && <Header />}
+       
+        <main className="flex-1 w-full">
+          {children}
+        </main>
+        {!hideLayout && <Footer />}
+      </div>
       </SidebarProvider>
     </>
   );

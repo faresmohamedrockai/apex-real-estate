@@ -14,7 +14,7 @@ const Footer = () => {
     <>
       {/* ✅ فوتر عصري */}
       <footer className="bg-neutral-900 text-white pt-12 pb-6 border-t-4 border-[#b70501] ">
-        <div className="max-w-7xl mx-auto px-4  md:flex-row md:justify-between gap-10 md:gap-0 flex flex-col justify-between items-center ">
+        <div className="w-full px-4  md:flex-row md:justify-between gap-10 md:gap-0 flex flex-col justify-around items-center ">
           {/* تعريف الشركة مع اللوجو */}
           <div className="flex-1 flex flex-col items-center md:items-start mb-8 md:mb-0">
             <Image

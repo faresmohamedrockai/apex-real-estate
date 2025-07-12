@@ -59,6 +59,7 @@ export default function UnitDialog({ unit, children, onUnitUpdated, onUnitDelete
   const [message, setMessage] = useState("");
   const [form, setForm] = useState({
     title: unit.title || "",
+    title_en: unit.title_en || "",
     price: unit.price || 0,
     unitType: unit.unitType || "Apartment",
     bedrooms: unit.bedrooms || 1,
@@ -202,10 +203,14 @@ export default function UnitDialog({ unit, children, onUnitUpdated, onUnitDelete
 
 
 
-            <form className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 text-right p-5 overflow-y-auto scrollbar-hidden w-full" dir="ltr" onSubmit={handleSubmit}>
+            <form className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 text-right p-5 overflow-y-auto scrollbar-hidden w-full" dir="rtl" onSubmit={handleSubmit}>
               <div>
                 <Label htmlFor="title" className="block text-base text-right">اسم الوحدة</Label>
                 <Input id="title" name="title" value={form.title} onChange={handleChange} className="bg-white/10 text-white border-white/20 focus:ring-white text-right" required />
+              </div>
+              <div>
+                <Label htmlFor="title_en" className="block text-base text-right">اسم الوحدة بالانجليزي</Label>
+                <Input id="title_en" name="title_en" value={form.title_en} onChange={handleChange} className="bg-white/10 text-white border-white/20 focus:ring-white text-right" required />
               </div>
               <div>
                 <Label htmlFor="description" className="block text-base text-right">وصف الوحدة</Label>
@@ -219,7 +224,7 @@ export default function UnitDialog({ unit, children, onUnitUpdated, onUnitDelete
                 />
               </div>
               <div>
-                <Label htmlFor="project_en" className="block text-base text-left">وصف المشروع (بالإنجليزية)</Label>
+                <Label htmlFor="project_en" className="block text-base text-left">وصف الوحدة (بالإنجليزية)</Label>
                 <Textarea
                   id="project_en"
                   name="project_en"
@@ -416,7 +421,7 @@ export default function UnitDialog({ unit, children, onUnitUpdated, onUnitDelete
                     <p className="text-sm leading-relaxed">{unit.description}</p>
                   </div>
                 )}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 ">
                   <span>السعر:</span>
                   <span>{unit.price.toLocaleString()} ج.م</span>
                 </div>

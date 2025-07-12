@@ -20,6 +20,7 @@ function isValidCloudinaryUrl(url: string | undefined | null): url is string {
 
 const AddUnitDialog = ({ open, onClose, onUnitAdded }: { open: boolean; onClose: () => void; onUnitAdded?: () => void }) => {
   const [title, setTitle] = useState("");
+  const [title_en, setTitle_en] = useState("");
   const [price, setPrice] = useState("");
   const [unitType, setUnitType] = useState("Apartment");
   const [bedrooms, setBedrooms] = useState(1);
@@ -89,6 +90,7 @@ const AddUnitDialog = ({ open, onClose, onUnitAdded }: { open: boolean; onClose:
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title,
+          title_en,
           price: Number(price),
           unitType,
           bedrooms: Number(bedrooms),
@@ -134,6 +136,10 @@ const AddUnitDialog = ({ open, onClose, onUnitAdded }: { open: boolean; onClose:
           <div>
             <Label htmlFor="title" className="mb-2.5 block text-base text-right">اسم الوحدة</Label>
             <Input id="title" value={title} onChange={e => setTitle(e.target.value)} className="bg-white/10 text-white border-white/20 focus:ring-white text-right" required />
+          </div>
+          <div>
+            <Label htmlFor="title_en" className="mb-2.5 block text-base text-right"> اسم الوحدة بالانجليزية</Label>
+            <Input id="title_en" value={title_en} onChange={e => setTitle_en(e.target.value)} className="bg-white/10 text-white border-white/20 focus:ring-white text-right" required />
           </div>
 
           <div>

@@ -95,7 +95,7 @@ console.log(localizedProject);
     <div dir={locale === 'ar' ? 'rtl' : 'ltr'}>
       <ImageBG />
 
-      <div className="relative z-10 min-h-screen pt-24 bg-black/60">
+      <div className="relative z-10 min-h-screen pt-24 bg-black/60 w-screen">
         {/* Header */}
         <div className="relative z-30 px-4 sm:px-6">
           <motion.div
@@ -273,7 +273,17 @@ console.log(localizedProject);
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <DetailCard icon={<FaBuilding />} label={t('developer')} value={localizedProject.developer ?? ''} />
+              <DetailCard
+                icon={<FaBuilding />}
+                label={t('developer')}
+                value={
+                  typeof localizedProject.developer === 'object' &&
+                  localizedProject.developer !== null &&
+                  'name' in localizedProject.developer
+                    ? (localizedProject.developer as any).name
+                    : (localizedProject.developer ?? '')
+                }
+              />
               <DetailCard icon={<FaMapMarkerAlt />} label={t('zone')} value={localizedProject.zone ?? ''} />
               <DetailCard icon={<FaHome />} label={t('unitsCount')} value={locale === 'ar' ? `${localizedProject.units?.length || 0} وحدة` : `${localizedProject.units?.length || 0} unit${(localizedProject.units?.length || 0) === 1 ? '' : 's'}`} />
               <DetailCard
@@ -292,8 +302,16 @@ console.log(localizedProject);
             <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
               <p className="text-white/90 text-lg sm:text-base leading-relaxed font-bold">
                 {locale === 'ar'
-                  ? `مشروع ${localizedProject.name} من تطوير ${localizedProject.developer} في منطقة ${localizedProject.zone}. يحتوي المشروع على ${localizedProject.units?.length || 0} وحدة سكنية متنوعة في المساحات والأسعار.${localizedProject.units && localizedProject.units.length > 0 && localizedProject.units.some((u) => u.price) ? ` يبدأ السعر من ${Math.min(...localizedProject.units.filter((u) => u.price).map((u) => u.price)).toLocaleString()} جنيه.` : ' السعر غير متوفر.'}`
-                  : `Project ${localizedProject.name} by ${localizedProject.developer} in ${localizedProject.zone} area. The project contains ${localizedProject.units?.length || 0} residential unit${(localizedProject.units?.length || 0) === 1 ? '' : 's'} of various sizes and prices.${localizedProject.units && localizedProject.units.length > 0 && localizedProject.units.some((u) => u.price) ? ` Starting price from ${Math.min(...localizedProject.units.filter((u) => u.price).map((u) => u.price)).toLocaleString()} EGP.` : ' Price not available.'}`
+                  ? `مشروع ${localizedProject.name} من تطوير ${
+                      typeof localizedProject.developer === 'object' && localizedProject.developer !== null && 'name' in localizedProject.developer
+                        ? (localizedProject.developer as any).name
+                        : localizedProject.developer ?? ''
+                    } في منطقة ${localizedProject.zone}. يحتوي المشروع على ${localizedProject.units?.length || 0} وحدة سكنية متنوعة في المساحات والأسعار.${localizedProject.units && localizedProject.units.length > 0 && localizedProject.units.some((u) => u.price) ? ` يبدأ السعر من ${Math.min(...localizedProject.units.filter((u) => u.price).map((u) => u.price)).toLocaleString()} جنيه.` : ' السعر غير متوفر.'}`
+                  : `Project ${localizedProject.name} by ${
+                      typeof localizedProject.developer === 'object' && localizedProject.developer !== null && 'name' in localizedProject.developer
+                        ? (localizedProject.developer as any).name
+                        : localizedProject.developer ?? ''
+                    } in ${localizedProject.zone} area. The project contains ${localizedProject.units?.length || 0} residential unit${(localizedProject.units?.length || 0) === 1 ? '' : 's'} of various sizes and prices.${localizedProject.units && localizedProject.units.length > 0 && localizedProject.units.some((u) => u.price) ? ` Starting price from ${Math.min(...localizedProject.units.filter((u) => u.price).map((u) => u.price)).toLocaleString()} EGP.` : ' Price not available.'}`
                 }
               </p>
             </div>

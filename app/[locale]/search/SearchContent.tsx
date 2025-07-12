@@ -162,8 +162,8 @@ export default function SearchContent() {
     <>
       <ImageBG />
 
-      <div className="relative z-10 min-h-screen pt-20 sm:pt-24 bg-black/80">
-        <div className="max-w-[1920px] mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8">
+      <div className="relative z-10 pt-20 sm:pt-24 bg-black/80 min-h-[calc(100vh-200px)] w-screen">
+        <div className="w-full px-0 py-4 sm:py-6 md:py-8">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -184,9 +184,9 @@ export default function SearchContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="max-w-4xl mx-auto mb-4 sm:mb-6 md:mb-8"
+            className="w-full mb-4 sm:mb-6 md:mb-8"
           >
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-[50%] m-auto">
               <div className="relative flex-1">
                 <FiSearch className="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 text-white/60 text-lg sm:text-xl" />
                 <input
@@ -207,14 +207,14 @@ export default function SearchContent() {
             </div>
           </motion.div>
 
-          {/* Main Content - 2 Columns Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
+          {/* Main Content - Full Width Layout */}
+          <div className="grid grid-cols-2 gap-4 sm:gap-6">
             {/* ✅ عمود نتائج البحث */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="lg:col-span-8 bg-transparent rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6"
+              className="w-full bg-transparent rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6"
               style={{ scrollBehavior: 'smooth' }}
             >
               {/* العنوان وعدد النتائج */}
@@ -229,7 +229,7 @@ export default function SearchContent() {
               {!loading && !error && (
                 <>
                   {inventory.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 rounded-2xl">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 rounded-2xl justify-items-end">
                       {inventory.map((item) => {
                         // تجهيز البيانات حسب اللغة
                         const localizedItem = {
@@ -251,7 +251,7 @@ export default function SearchContent() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.3 }}
-                            className={`group relative aspect-square w-full rounded-3xl overflow-hidden shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer bg-transparent border-0`}
+                            className={`group relative aspect-square w-full max-w-md mx-auto rounded-3xl overflow-hidden shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer bg-transparent border-0`}
                             dir={locale === 'ar' ? 'rtl' : 'ltr'}
                           >
                             <div className="relative w-full h-full rounded-3xl">
@@ -348,7 +348,7 @@ export default function SearchContent() {
             </motion.div>
 
             {/* ✅ عمود الخريطة في الديسكتوب - sticky مضمون */}
-            <div className="hidden lg:block lg:col-span-4">
+            <div className="hidden lg:block w-[90%]">
               <div className="sticky top-28 z-30">
                 <div className="bg-black/70 backdrop-blur-md rounded-xl border border-white/20 overflow-hidden">
                   <div className="h-[650px] w-full">

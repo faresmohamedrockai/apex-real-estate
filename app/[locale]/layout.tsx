@@ -42,7 +42,7 @@ export default async function LocaleLayout({
       <head>
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body className="relative min-h-screen overflow-x-hidden font-sans">
+      <body className="relative min-h-screen overflow-x-hidden font-sans flex flex-col">
        
           <NextIntlClientProvider locale={locale} messages={messages}>
             <AppProvider>

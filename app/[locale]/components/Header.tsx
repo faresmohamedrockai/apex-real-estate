@@ -40,7 +40,7 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-transparent min-h-[60px] flex items-center">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex justify-between items-center">
+      <div className="w-full px-4 sm:px-6 lg:px-8 flex justify-around items-center">
         {/* Logo */}
         <motion.div
           key={pathname + '-logo'}

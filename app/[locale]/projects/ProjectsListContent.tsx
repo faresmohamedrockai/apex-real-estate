@@ -38,8 +38,8 @@ export default function ProjectsListContent() {
       <ImageBG />
       
       {/* المحتوى */}
-      <div className="relative z-10 px-6 py-24 bg-black/80">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-center text-white mb-16 drop-shadow-lg">
+      <div className="relative z-10 px-6 py-24 bg-black/80 w-screen">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-center text-white mb-16 drop-shadow-lg w-full">
           {t('allProjects')}
         </h1>
 

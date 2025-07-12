@@ -34,7 +34,7 @@ export default function DevelopersListContent() {
     <>
       <ImageBG />
 
-      <div className="relative z-10 px-6 py-24 bg-black/80">
+      <div className="relative z-10 px-6 py-24 bg-black/80 min-h-[calc(100vh-200px)] w-screen">
         <h1 className="text-4xl md:text-5xl font-extrabold text-center text-white mb-16 drop-shadow-lg">
           {t('developers')}
         </h1>
@@ -45,8 +45,8 @@ export default function DevelopersListContent() {
             <p className="mt-2">{t('loadingDevelopers')}</p>
           </div>
         ) : (
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <div className="w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
               {localizedDevelopers.map((dev: Developer) => (
                 <div
                   key={dev._id}

@@ -25,7 +25,7 @@ export async function POST(req) {
     await connectDB();
 
     const body = await req.json();
-    const { title, price, unitType, images, bedrooms, bathrooms, area, projectId, isUnique, latitude, longitude,description_en,decription,region_en,region } = body;
+    const { title,title_en, price, unitType, images, bedrooms, bathrooms, area, projectId, isUnique, latitude, longitude,description_en,decription,region_en,region } = body;
 
     // Validation
     if (!title || title.trim() === '') {
@@ -61,6 +61,7 @@ export async function POST(req) {
     // إنشاء الوحدة
     const newInventory = await Inventory.create({
       title: title.trim(),
+      title_en: title_en.trim(),
       price: price || 0,
       unitType: unitType || 'Apartment',
       images: images || [],
