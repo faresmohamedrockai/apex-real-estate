@@ -66,10 +66,7 @@ export default function ConsultationForm() {
         project_en: formData.project,
         unitType_en: formData.unitType,
         notes_en: formData.notes,
-        name: '', // يمكن تسيبه فاضي لو الباك يدعم ده لكن نوضح أدناه الأفضل
-        project: '',
-        unitType: '',
-        notes: '',
+        // لا تفرغ الحقول الأساسية
         priceRange: {
           min: priceRange[0],
           max: priceRange[1]

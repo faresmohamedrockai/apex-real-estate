@@ -94,13 +94,14 @@ export default function ContactForm() {
 
 
       if (formType === 'consultation' && locale === 'en') {
-        // فقط أضف النسخ الإنجليزية ولا تفرغ الحقول
+        // فقط أضف النسخ الإنجليزية ولا تفرغ الحقول الأساسية
         payload.name_en = formData.name;
         payload.project_en = formData.project;
         payload.unitType_en = formData.unitType;
         payload.notes_en = formData.notes;
         payload.priceRange = { min: priceRange[0], max: priceRange[1] };
         payload.phone_type = formData.phone_type;
+        // لا تفرغ الحقول الأساسية أبداً
       }
       payload.phone = formData.phone
 
