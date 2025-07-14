@@ -6,6 +6,7 @@ import HomeVideo from './components/HomeVideo';
 import DeveloperMarquee from './components/marquee';
 import { useAppContext } from './context/contextData';
 import { FaWhatsapp, FaMapMarkerAlt, FaBuilding, FaBed, FaBath } from 'react-icons/fa';
+import { Ruler } from 'lucide-react';
 import ImageBG from './components/ImageBG';
 import ReviewsSlider from './sections/review';
 import { useEffect } from 'react';
@@ -29,6 +30,7 @@ interface Unit {
   images?: string[];
   bedrooms: number;
   bathrooms: number;
+  area: number;
   price: number;
   isUnique?: boolean;
 }
@@ -239,6 +241,7 @@ export default function HomePageContent() {
                     const localizedUnit = {
                       ...unitItem,
                       title: getLocalizedObject(unitItem, 'title', locale)
+                
                     };
                     return (
                       <Link
@@ -278,6 +281,10 @@ export default function HomePageContent() {
                                     <span>{localizedUnit.bathrooms}</span>
                                   </div>
                                 </div>
+                                 <div className="flex items-center gap-1">
+                                    <Ruler className="text-white" />
+                                    <span>{localizedUnit.area}</span>
+                                  </div>
                                 <div className="font-bold text-lg">
                                   {localizedUnit.price.toLocaleString()} {t('egp')}
                                 </div>

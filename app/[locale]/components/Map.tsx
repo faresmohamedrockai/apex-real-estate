@@ -3,6 +3,9 @@
 import React, { useEffect, useState, useId } from 'react';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import redIconUrl from '/public/icons/red-marker.png'; // ✅ تأكد أن المسار صحيح حسب مشروعك
+
+
 
 // Fix for default markers in react-leaflet
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -11,9 +14,17 @@ L.Icon.Default.mergeOptions({
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
+const customRedIcon = new L.Icon({
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
 
 // Alexandria coordinates
-const ALEXANDRIA_COORDS = [31.2001, 29.9187];
+const ALEXANDRIA_COORDS: [number, number] = [31.207761101548236, 29.949753550235794];
 
 export default function Map() {
   const [isClient, setIsClient] = useState(false);
@@ -25,7 +36,7 @@ export default function Map() {
 
   useEffect(() => {
     setIsClient(true);
-    
+
     // Dynamic import to avoid SSR issues
     const loadMapComponents = async () => {
       try {
@@ -38,7 +49,7 @@ export default function Map() {
         console.error('Failed to load map components:', error);
       }
     };
-    
+
     loadMapComponents();
   }, []);
 
@@ -59,6 +70,7 @@ export default function Map() {
       key={mapId}
       center={ALEXANDRIA_COORDS as [number, number]}
       zoom={8}
+
       style={{ height: '100%', width: '100%' }}
       className="rounded-lg"
     >
@@ -66,7 +78,7 @@ export default function Map() {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={ALEXANDRIA_COORDS as [number, number]}>
+      <Marker position={ALEXANDRIA_COORDS} icon={customRedIcon}>
         <Popup>
           <div className="text-center">
             <h3 className="font-bold text-[#b70501]">APEX Real Estate</h3>
@@ -75,6 +87,7 @@ export default function Map() {
           </div>
         </Popup>
       </Marker>
+
     </MapContainer>
   );
 } 
