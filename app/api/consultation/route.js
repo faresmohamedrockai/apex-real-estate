@@ -180,6 +180,7 @@ export async function GET() {
       name_en: c.name_en,
       email: c.email,
       phone: c.phone,
+      phone_type: c.phone_type,
       project: c.project,
       project_en: c.project_en,
       unitType: c.unitType,

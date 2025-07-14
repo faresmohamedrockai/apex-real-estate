@@ -62,22 +62,23 @@ export default function ConsultationForm() {
     if (locale === 'en') {
       requestData = {
         ...formData,
-        name: '',
-        project: '',
-        unitType: '',
-        notes: '',
         name_en: formData.name,
         project_en: formData.project,
         unitType_en: formData.unitType,
         notes_en: formData.notes,
+        name: '', // يمكن تسيبه فاضي لو الباك يدعم ده لكن نوضح أدناه الأفضل
+        project: '',
+        unitType: '',
+        notes: '',
         priceRange: {
           min: priceRange[0],
           max: priceRange[1]
         }
       };
     }
+    
 
-    console.log('Sending consultation data:', requestData);
+  
 
     try {
       const res = await fetch("/api/consultation", {
