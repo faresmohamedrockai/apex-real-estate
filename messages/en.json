@@ -129,7 +129,9 @@
     "reviewTitle": "Add Your Review",
     "writeReview": "Write your review here",
     "successMessage": "Your consultation has been submitted and is under review.",
-
+  
+    "errorMessage": "An error occurred while submitting the form. Please try again.",
+    "networkError": "A network error occurred. Please try again later.",
     "sendReview": "Send Review",
     "consalte": "Request a consultation",
     "opinion": "Share your opinion",

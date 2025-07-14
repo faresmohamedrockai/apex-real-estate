@@ -79,22 +79,22 @@ export default function ContactForm() {
         ...formData,
         rating: formType === 'review' ? rating : undefined,
         priceRange: formType === 'consultation' ? { min: priceRange[0], max: priceRange[1] } : undefined,
-        // Add English translations for form data
         name_en: formData.name,
         project_en: formData.project,
-        unitType_en: locale === 'ar' ?
-          (formData.unitType === 'سكني' ? 'Residential' :
-            formData.unitType === 'تجاري' ? 'Commercial' : 'Administrative') :
-          formData.unitType,
+        unitType_en: locale === 'ar' ? (
+          formData.unitType === 'سكني' ? 'Residential' :
+            formData.unitType === 'تجاري' ? 'Commercial' : 'Administrative'
+        ) : formData.unitType,
         notes_en: formData.notes,
         review_en: formData.review,
-        phone_type: formData.phone_type
+        phone_type: formData.phone_type,
+        phone: formData.phone, // ✅ تأكد من إرسال الهاتف
       };
+
+
+
       if (formType === 'consultation' && locale === 'en') {
-        payload.name = '';
-        payload.project = '';
-        payload.unitType = '';
-        payload.notes = '';
+        // فقط أضف النسخ الإنجليزية ولا تفرغ الحقول
         payload.name_en = formData.name;
         payload.project_en = formData.project;
         payload.unitType_en = formData.unitType;
@@ -102,6 +102,7 @@ export default function ContactForm() {
         payload.priceRange = { min: priceRange[0], max: priceRange[1] };
         payload.phone_type = formData.phone_type;
       }
+      payload.phone = formData.phone
 
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -359,59 +360,59 @@ export default function ContactForm() {
                       onChange={handleInputChange}
                       className="w-full px-4 py-3 rounded-lg bg-black border border-white/20 text-white focus:outline-none focus:border-[#b70501] transition-colors"
                     >
-                     
-                        <option value="">
-                          {locale === 'ar' ? 'كل الأنواع' : 'All Types'}
-                        </option>
-                        <option value="شقة" className="bg-black text-white">
-                          {locale === 'ar' ? 'شقة' : 'Apartment'}
-                        </option>
-                        <option value="دوبلكس" className="bg-black text-white">
-                          {locale === 'ar' ? 'دوبلكس' : 'Duplex'}
-                        </option>
-                        <option value="توين هاوس" className="bg-black text-white">
-                          {locale === 'ar' ? 'توين هاوس' : 'Twinhouse'}
-                        </option>
-                        <option value="تاون هاوس" className="bg-black text-white">
-                          {locale === 'ar' ? 'تاون هاوس' : 'TownHouse'}
-                        </option>
-                        <option value="فيلا" className="bg-black text-white">
-                          {locale === 'ar' ? 'فيلا' : 'Villa'}
-                        </option>
-                        <option value="فيلا مستقلة" className="bg-black text-white">
-                          {locale === 'ar' ? 'فيلا مستقلة' : 'Standalone Villa'}
-                        </option>
-                        <option value="بنتهاوس" className="bg-black text-white">
-                          {locale === 'ar' ? 'بنتهاوس' : 'Penthouse'}
-                        </option>
-                        <option value="شاليه" className="bg-black text-white">
-                          {locale === 'ar' ? 'شاليه' : 'Chalet'}
-                        </option>
-                        <option value="استوديو" className="bg-black text-white">
-                          {locale === 'ar' ? 'استوديو' : 'Studio'}
-                        </option>
-                        <option value="لوفت" className="bg-black text-white">
-                          {locale === 'ar' ? 'لوفت' : 'Loft'}
-                        </option>
-                        <option value="كابينة" className="bg-black text-white">
-                          {locale === 'ar' ? 'كابينة' : 'Cabin'}
-                        </option>
-                        <option value="مكتب" className="bg-black text-white">
-                          {locale === 'ar' ? 'مكتب' : 'Office'}
-                        </option>
-                        <option value="مكتب اداري" className="bg-black text-white">
-                          {locale === 'ar' ? 'مكتب إداري' : 'Admin Office'}
-                        </option>
-                        <option value="عيادة" className="bg-black text-white">
-                          {locale === 'ar' ? 'عيادة' : 'Clinic'}
-                        </option>
-                        <option value="تجاري" className="bg-black text-white">
-                          {locale === 'ar' ? 'تجاري' : 'Commercial'}
-                        </option>
-                        <option value="عقار" className="bg-black text-white">
-                          {locale === 'ar' ? 'عقار' : 'Building'}
-                        </option>
-                      </select>
+
+                      <option value="">
+                        {locale === 'ar' ? 'كل الأنواع' : 'All Types'}
+                      </option>
+                      <option value="شقة" className="bg-black text-white">
+                        {locale === 'ar' ? 'شقة' : 'Apartment'}
+                      </option>
+                      <option value="دوبلكس" className="bg-black text-white">
+                        {locale === 'ar' ? 'دوبلكس' : 'Duplex'}
+                      </option>
+                      <option value="توين هاوس" className="bg-black text-white">
+                        {locale === 'ar' ? 'توين هاوس' : 'Twinhouse'}
+                      </option>
+                      <option value="تاون هاوس" className="bg-black text-white">
+                        {locale === 'ar' ? 'تاون هاوس' : 'TownHouse'}
+                      </option>
+                      <option value="فيلا" className="bg-black text-white">
+                        {locale === 'ar' ? 'فيلا' : 'Villa'}
+                      </option>
+                      <option value="فيلا مستقلة" className="bg-black text-white">
+                        {locale === 'ar' ? 'فيلا مستقلة' : 'Standalone Villa'}
+                      </option>
+                      <option value="بنتهاوس" className="bg-black text-white">
+                        {locale === 'ar' ? 'بنتهاوس' : 'Penthouse'}
+                      </option>
+                      <option value="شاليه" className="bg-black text-white">
+                        {locale === 'ar' ? 'شاليه' : 'Chalet'}
+                      </option>
+                      <option value="استوديو" className="bg-black text-white">
+                        {locale === 'ar' ? 'استوديو' : 'Studio'}
+                      </option>
+                      <option value="لوفت" className="bg-black text-white">
+                        {locale === 'ar' ? 'لوفت' : 'Loft'}
+                      </option>
+                      <option value="كابينة" className="bg-black text-white">
+                        {locale === 'ar' ? 'كابينة' : 'Cabin'}
+                      </option>
+                      <option value="مكتب" className="bg-black text-white">
+                        {locale === 'ar' ? 'مكتب' : 'Office'}
+                      </option>
+                      <option value="مكتب اداري" className="bg-black text-white">
+                        {locale === 'ar' ? 'مكتب إداري' : 'Admin Office'}
+                      </option>
+                      <option value="عيادة" className="bg-black text-white">
+                        {locale === 'ar' ? 'عيادة' : 'Clinic'}
+                      </option>
+                      <option value="تجاري" className="bg-black text-white">
+                        {locale === 'ar' ? 'تجاري' : 'Commercial'}
+                      </option>
+                      <option value="عقار" className="bg-black text-white">
+                        {locale === 'ar' ? 'عقار' : 'Building'}
+                      </option>
+                    </select>
 
                   </div>
 

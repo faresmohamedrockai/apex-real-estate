@@ -27,8 +27,8 @@ export type Project = {
   developerId?: string;
   latitude?: number;
   longitude?: number;
-  maxPrice?: number;
-  avragePrice?: { minPrice?: number; maxPrice?: number };
+  minPrice?: number;
+
 };
 
 
@@ -56,7 +56,7 @@ export default function ProjectDialog({ project, children, onProjectUpdated, onP
     latitude: project.latitude || 0,
     longitude: project.longitude || 0,
     image: project.image || [],
-    minPrice: project?.avragePrice?.minPrice || "",
+    minPrice: project?.minPrice || "",
    
   });
 
@@ -85,7 +85,7 @@ export default function ProjectDialog({ project, children, onProjectUpdated, onP
       latitude: project.latitude || 0,
       longitude: project.longitude || 0,
       image: project.image || [],
-      minPrice: project?.avragePrice?.minPrice || "",
+      minPrice: project.minPrice || "",
    
     });
   }, [project]);
@@ -351,6 +351,12 @@ export default function ProjectDialog({ project, children, onProjectUpdated, onP
             </form>
           ) : (
             <>
+
+
+
+
+
+
               <div className="relative w-full h-48 mb-4 rounded-xl overflow-hidden">
                 <Image
                   src={project.image?.[0] || "/images/no-image.png"}
@@ -359,9 +365,12 @@ export default function ProjectDialog({ project, children, onProjectUpdated, onP
                   className="object-cover"
                 />
               </div>
+
+
+
               <div className="space-y-2 text-right">
                 {project.zone && (
-                  <div className="mb-4 p-3 bg-white/10 rounded-lg">
+                  <div className="mb-4 p-3 bg-white/10 rounded-lg w-fit flex flex-row gap-2">
                     <h4 className="font-semibold mb-2">المنطقة:</h4>
                     <p className="text-sm leading-relaxed">{project.zone}</p>
                   </div>

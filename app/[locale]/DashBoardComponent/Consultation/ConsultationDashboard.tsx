@@ -42,7 +42,7 @@ const ConsultationDashboard = () => {
     const res = await fetch("/api/consultation");
     const data = await res.json();
     setConsultations(data);
-    console.log(data);
+  
     
     setLoading(false);
   };

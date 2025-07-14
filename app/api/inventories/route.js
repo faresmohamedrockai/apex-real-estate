@@ -25,7 +25,7 @@ export async function POST(req) {
     await connectDB();
 
     const body = await req.json();
-    const { title,title_en, price, unitType, images, bedrooms, bathrooms, area, projectId, isUnique, latitude, longitude,description_en,decription,region_en,region } = body;
+    const { title,title_en, price, unitType, images, bedrooms, bathrooms, area, projectId, isUnique, latitude, longitude,description_en,description,region_en,region } = body;
 
     // Validation
     if (!title || title.trim() === '') {
@@ -70,7 +70,7 @@ export async function POST(req) {
       area: area || 0,
       projectId,
       description_en,
-      decription,
+      description,
       region,
       region_en,
       isUnique: isUnique || false,
