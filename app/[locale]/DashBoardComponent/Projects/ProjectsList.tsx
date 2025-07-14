@@ -33,6 +33,7 @@ export default function ProjectsList({ projects, onProjectUpdated, onProjectDele
                 ? (item.developerId as any).name
                 : item.developerId,
           };
+          const imageSrc = Array.isArray(item.image) && item.image[0] ? item.image[0] : '/images/no-image.png';
           return (
             <ProjectDialog key={item._id} project={projectForDialog} onProjectUpdated={onProjectUpdated} onProjectDeleted={onProjectDeleted}>
               <div
@@ -40,7 +41,7 @@ export default function ProjectsList({ projects, onProjectUpdated, onProjectDele
                 dir="rtl"
               >
                 <Image
-                  src={typeof item.image === "object" && item.image !== null ? item.image[0] : '/images/no-image.png'}
+                  src={imageSrc}
                   alt={typeof item.name === "object" && item.name !== null ? (item.name as any).ar : item.name}
                   fill
                   className="object-cover z-0 group-hover:scale-110 transition-transform duration-500"

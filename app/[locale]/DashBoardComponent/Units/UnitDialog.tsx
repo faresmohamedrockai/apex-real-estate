@@ -163,7 +163,7 @@ export default function UnitDialog({ unit, children, onUnitUpdated, onUnitDelete
       setMessage("❌ لا يمكنك حذف الوحدات. صلاحيات غير كافية.");
       return;
     }
-    
+
     if (!confirm("هل أنت متأكد من حذف الوحدة؟")) return;
     setDeleteLoading(true);
     setMessage("جاري حذف الوحدة، يرجى الانتظار...");
@@ -189,6 +189,10 @@ export default function UnitDialog({ unit, children, onUnitUpdated, onUnitDelete
     }
   };
 
+
+
+
+  
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild className="w-[550px]">{children}</DialogTrigger>
@@ -212,8 +216,9 @@ export default function UnitDialog({ unit, children, onUnitUpdated, onUnitDelete
                 <Label htmlFor="title_en" className="block text-base text-right">اسم الوحدة بالانجليزي</Label>
                 <Input id="title_en" name="title_en" value={form.title_en} onChange={handleChange} className="bg-white/10 text-white border-white/20 focus:ring-white text-right" required />
               </div>
+              {/* Arabic description */}
               <div>
-                <Label htmlFor="description" className="block text-base text-right">وصف الوحدة</Label>
+                <Label htmlFor="description" className="block text-base text-right">وصف الوحدة (عربي)</Label>
                 <Textarea
                   id="description"
                   name="description"
@@ -223,17 +228,19 @@ export default function UnitDialog({ unit, children, onUnitUpdated, onUnitDelete
                   placeholder="أدخل وصف مفصل للوحدة..."
                 />
               </div>
+              {/* English description */}
               <div>
-                <Label htmlFor="project_en" className="block text-base text-left">وصف الوحدة (بالإنجليزية)</Label>
+                <Label htmlFor="description_en" className="block text-base text-right">وصف الوحدة (English)</Label>
                 <Textarea
-                  id="project_en"
-                  name="project_en"
-                  value={form.project_en || ""}
+                  id="description_en"
+                  name="description_en"
+                  value={form.description_en}
                   onChange={handleChange}
-                  className="bg-white/10 text-white border-white/20 focus:ring-white text-right min-h-[60px]"
-                  placeholder="Enter project description in English..."
+                  className="bg-white/10 text-white border-white/20 focus:ring-white text-left min-h-[100px]"
+                  placeholder="Enter unit description in English..."
                 />
               </div>
+             
               <div>
                 <Label htmlFor="price" className="block text-base text-right">السعر</Label>
                 <Input id="price" name="price" type="number" value={form.price} onChange={handleChange} className="bg-white/10 text-white border-white/20 focus:ring-white text-right" />
@@ -263,12 +270,22 @@ export default function UnitDialog({ unit, children, onUnitUpdated, onUnitDelete
                   <SelectContent className="bg-[#b70501] text-white text-right">
                     <SelectItem value="شقة">شقة</SelectItem>
                     <SelectItem value="دوبلكس">دوبلكس</SelectItem>
-                    <SelectItem value="مكتب">مكتب</SelectItem>
-                    <SelectItem value="استوديو">استوديو</SelectItem>
+                    <SelectItem value="توين هاوس">توين هاوس</SelectItem>
+                    <SelectItem value="تاون هاوس">تاون هاوس</SelectItem>
                     <SelectItem value="فيلا">فيلا</SelectItem>
+                    <SelectItem value="فيلا مستقلة">فيلا مستقلة</SelectItem>
+                    <SelectItem value="بنتهاوس">بنتهاوس</SelectItem>
+                    <SelectItem value="شاليه">شاليه</SelectItem>
+                    <SelectItem value="استوديو">استوديو</SelectItem>
+                    <SelectItem value="لوفت">لوفت</SelectItem>
+                    <SelectItem value="كابينة">كابينة</SelectItem>
+                    <SelectItem value="مكتب">مكتب</SelectItem>
                     <SelectItem value="مكتب اداري">مكتب اداري</SelectItem>
+                    <SelectItem value="عيادة">عيادة</SelectItem>
+                    <SelectItem value="تجاري">تجاري</SelectItem>
                     <SelectItem value="عقار">عقار</SelectItem>
                   </SelectContent>
+
                 </Select>
               </div>
 
@@ -394,66 +411,70 @@ export default function UnitDialog({ unit, children, onUnitUpdated, onUnitDelete
 
 
 
-
             <>
-              <div className="relative w-full h-48 mb-4 rounded-xl overflow-hidden " dir="rtl">
-                <Image
-                  src={unit.images?.[0] || "/images/no-image.png"}
-                  alt={unit.title}
-                  fill
-                  className="object-cover"
-                />
-                {unit.unitType && (
-                  <div className="absolute top-2 right-2 bg-black/70 text-white text-xs px-3 py-1 rounded-full shadow">
-                    {unit.unitType}
+              {!editMode && (
+                <>
+                  <div className="relative w-full h-48 mb-4 rounded-xl overflow-hidden" dir="rtl">
+                    <Image
+                      src={unit.images?.[0] || "/images/no-image.png"}
+                      alt={unit.title}
+                      fill
+                      className="object-cover"
+                    />
+                    {unit.unitType && (
+                      <div className="absolute top-2 left-2 bg-black/70 text-white text-xs px-3 py-1 rounded-full shadow">
+                        {unit.unitType}
+                      </div>
+                    )}
+                    {unit.isUnique && (
+                      <div className="absolute top-2 right-2 bg-[#b70501] text-white text-xs px-3 py-1 rounded-full font-bold shadow">
+                        مميز
+                      </div>
+                    )}
                   </div>
-                )}
-                {unit.isUnique && (
-                  <div className="absolute top-2 left-2 bg-[#b70501] text-white text-xs px-3 py-1 rounded-full font-bold shadow">
-                    مميز
+
+                  <div className="space-y-2 text-right" dir="rtl">
+                    {/* Arabic description */}
+                    <div className="mb-2 p-3 bg-white/10 rounded-lg text-right">
+                      <h4 className="font-semibold mb-2 text-right">الوصف (عربي):</h4>
+                      <p className="text-sm leading-relaxed text-right">{unit.description || "لا يوجد وصف باللغة العربية."}</p>
+                    </div>
+                    {/* English description */}
+                    <div className="mb-4 p-3 bg-white/10 rounded-lg text-right">
+                      <h4 className="font-semibold mb-2 text-right">الوصف (English):</h4>
+                      <p className="text-sm leading-relaxed text-right">{unit.description_en || "No English description available."}</p>
+                    </div>
+
+                    <div className="flex items-center gap-2 justify-end text-right">
+                      <span>السعر:</span>
+                      <span>{unit.price.toLocaleString()} ج.م</span>
+                    </div>
+
+                    <div className="flex items-center gap-2 justify-end text-right">
+                      <FaBed />
+                      <span>{unit.bedrooms}</span>
+                      <span>|</span>
+                      <FaBath />
+                      <span>{unit.bathrooms}</span>
+                    </div>
+
+                    {unit.project && (
+                      <div className="flex items-center gap-2 justify-end text-right">
+                        <span className="bg-white/10 text-white border-white/20 rounded px-3 py-2 text-right">
+                          {unit.project}
+                        </span>
+                      </div>
+                    )}
+
+                    {unit.region && (
+                      <div className="flex items-center gap-2 justify-end text-right">
+                        <FaMapMarkerAlt />
+                        <span className="text-right">{unit.region}</span>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-              <div className="space-y-2 text-left">
-                {unit.description && (
-                  <div className="mb-4 p-3 bg-white/10 rounded-lg">
-                    <h4 className="font-semibold mb-2">الوصف:</h4>
-                    <p className="text-sm leading-relaxed">{unit.description}</p>
-                  </div>
-                )}
-                <div className="flex items-center gap-2 ">
-                  <span>السعر:</span>
-                  <span>{unit.price.toLocaleString()} ج.م</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <FaBed />
-                  <span>{unit.bedrooms}</span>
-                  <span>|</span>
-                  <FaBath />
-                  <span>{unit.bathrooms}</span>
-                </div>
-                {/* Project name (read-only) */}
-                {unit.project && (
-                  <div className="flex items-center gap-2">
-                    <span className="bg-white/10 text-white border-white/20 rounded px-3 py-2 text-right">{unit.project}</span>
-                  </div>
-                )}
-                {unit.region && (
-                  <div className="flex items-center gap-2">
-                    <FaMapMarkerAlt />
-                    <span>{unit.region}</span>
-                  </div>
-                )}
-              </div>
-
-
-
-
-
-
-
-
-
+                </>
+              )}
               {message && <div className="text-white bg-red-600 p-2 rounded text-center mt-2">{message}</div>}
               <div className="flex gap-2 mt-6">
                 <Button onClick={() => setEditMode(true)} className="bg-blue-700 hover:bg-blue-800 text-white w-[50%] py-1 px-2 text-sm">تعديل</Button>

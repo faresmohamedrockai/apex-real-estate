@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 const AddDeveloperDialog = ({ open, onClose, onDeveloperAdded }: { open: boolean; onClose: () => void; onDeveloperAdded: () => void }) => {
   const [name, setName] = useState("");
+  const [name_en, setNameEN] = useState("");
   const [description, SetDescription] = useState("");
   const [description_en, setDescription_en] = useState("");
   const [logo, setLogo] = useState<string>("");
@@ -40,13 +41,22 @@ const AddDeveloperDialog = ({ open, onClose, onDeveloperAdded }: { open: boolean
       const res = await fetch("/api/Developers", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, logo: logoUrl,description,description_en }),
+        body: JSON.stringify({ name,name_en, logo: logoUrl,description,description_en }),
       });
       const data = await res.json();
+      
       if (res.ok && data.success) {
         setMessage("تمت إضافة المطور بنجاح");
         onDeveloperAdded();
         onClose();
+        setName("");
+        setNameEN("");
+        SetDescription("");
+        setDescription_en("");
+        setLogo("");
+        setSelectedFile(null);
+        setDisplayLogo("");
+        setTimeout(() => setMessage("") , 1000);
       } else {
         setMessage(data.error || "حدث خطأ أثناء الإضافة");
       }
@@ -70,6 +80,10 @@ const AddDeveloperDialog = ({ open, onClose, onDeveloperAdded }: { open: boolean
           <div>
             <Label htmlFor="name" className="mb-2.5 block text-base text-right">اسم المطور</Label>
             <Input id="name" value={name} onChange={e => setName(e.target.value)} className="bg-white/10 text-white border-white/20 focus:ring-white text-right" required />
+          </div>
+          <div>
+            <Label htmlFor="name_en" className="mb-2.5 block text-base text-left">اسم المطور بالإنجليزية</Label>
+            <Input id="name_en" value={name_en} onChange={e => setNameEN(e.target.value)} className="bg-white/10 text-white border-white/20 focus:ring-white text-left" required />
           </div>
           <div>
             <Label htmlFor="description" className="mb-2.5 block text-base text-right"> معلومات عن المطور </Label>

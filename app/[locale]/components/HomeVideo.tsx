@@ -61,7 +61,7 @@ const HomeVideo = () => {
       </div>
 
       {/* طبقة شفافة */}
-      <div className="absolute inset-0 w-full h-[100vh] bg-[#b70501]/40 z-10" />
+      <div className="absolute inset-0 w-full h-[100vh] bg-black/60 z-10" />
 
 <div className="relative z-20 h-[90vh] flex items-center justify-center px-4 pt-6">
   <div

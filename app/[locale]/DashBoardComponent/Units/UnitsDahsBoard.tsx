@@ -45,9 +45,11 @@ const AddUnitDialog = ({ open, onClose, onUnitAdded }: { open: boolean; onClose:
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [project_en, setProjectEn] = useState("");
   const [uniqueMsg, setUniqueMsg] = useState("");
+  const [projectError, setProjectError] = useState("");
+  const [imageError, setImageError] = useState("");
 
   const { projects } = useAppContext()
-// console.log(projects);
+  // console.log(projects);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;
@@ -68,6 +70,25 @@ const AddUnitDialog = ({ open, onClose, onUnitAdded }: { open: boolean; onClose:
     e.preventDefault();
     setLoading(true);
     setMessage("");
+    let hasError = false;
+    // Project required
+    if (!projectId) {
+      setProjectError("من فضلك اختر المشروع");
+      hasError = true;
+    } else {
+      setProjectError("");
+    }
+    // Images required
+    if (displayImages.length + selectedFiles.length === 0) {
+      setImageError("يجب اختيار صورة واحدة على الأقل");
+      hasError = true;
+    } else {
+      setImageError("");
+    }
+    if (hasError) {
+      setLoading(false);
+      return;
+    }
     try {
       let uploadedImages: string[] = [];
       let failedUploads = 0;
@@ -185,12 +206,22 @@ const AddUnitDialog = ({ open, onClose, onUnitAdded }: { open: boolean; onClose:
               <SelectContent className="bg-[#b70501] text-white text-right">
                 <SelectItem value="شقة">شقة</SelectItem>
                 <SelectItem value="دوبلكس">دوبلكس</SelectItem>
-                <SelectItem value="مكتب">مكتب</SelectItem>
-                <SelectItem value="استوديو">استوديو</SelectItem>
+                <SelectItem value="توين هاوس">توين هاوس</SelectItem>
+                <SelectItem value="تاون هاوس">تاون هاوس</SelectItem>
                 <SelectItem value="فيلا">فيلا</SelectItem>
+                <SelectItem value="فيلا مستقلة">فيلا مستقلة</SelectItem>
+                <SelectItem value="بنتهاوس">بنتهاوس</SelectItem>
+                <SelectItem value="شاليه">شاليه</SelectItem>
+                <SelectItem value="استوديو">استوديو</SelectItem>
+                <SelectItem value="لوفت">لوفت</SelectItem>
+                <SelectItem value="كابينة">كابينة</SelectItem>
+                <SelectItem value="مكتب">مكتب</SelectItem>
                 <SelectItem value="مكتب اداري">مكتب اداري</SelectItem>
+                <SelectItem value="عيادة">عيادة</SelectItem>
+                <SelectItem value="تجاري">تجاري</SelectItem>
                 <SelectItem value="عقار">عقار</SelectItem>
               </SelectContent>
+
             </Select>
           </div>
           <div className="flex gap-4">
@@ -210,27 +241,28 @@ const AddUnitDialog = ({ open, onClose, onUnitAdded }: { open: boolean; onClose:
           {/* Project selection */}
           <div>
             <Label htmlFor="projectId" className="block text-base text-right">المشروع</Label>
-            <Select value={projectId} onValueChange={setProjectId}>
+            <Select value={projectId} onValueChange={value => { setProjectId(value); setProjectError(""); }}>
               <SelectTrigger className="w-full bg-white/10 text-white border-white/20 focus:ring-white text-left">
-                <SelectValue placeholder="اختر المشروع" className="text-white"/>
+                <SelectValue placeholder="اختر المشروع" className="text-white" />
               </SelectTrigger>
               <SelectContent className="bg-[#b70501] text-white text-left placeholder:text-white">
-                {(projects as { _id: string; name: string; image?: string }[]).map((proj) => {
+                {(projects as { _id: string; name: string; image?: string[] }[]).map((proj) => {
                   return (
                     <SelectItem key={proj._id} value={proj._id} className="flex items-center gap-2">
-                      {proj.image && (
-                        <img
-                          src={proj.image}
-                          alt={proj.name}
-                          className="w-6 h-6 object-cover rounded"
-                        />
-                      )}
+                      <img
+                        src={Array.isArray(proj.image) && proj.image[0] ? proj.image[0] : '/images/no-image.png'}
+                        alt={proj.name}
+                        className="w-6 h-6 object-cover rounded"
+                      />
                       {proj.name}
                     </SelectItem>
                   )
                 })}
               </SelectContent>
             </Select>
+            {projectError && (
+              <div className="text-red-500 text-sm mt-1 text-right">{projectError}</div>
+            )}
           </div>
           {/* Unique switch */}
           <div>
@@ -238,7 +270,7 @@ const AddUnitDialog = ({ open, onClose, onUnitAdded }: { open: boolean; onClose:
             <Switch id="isUnique" checked={isUnique} onCheckedChange={(checked: boolean) => {
               setIsUnique(checked);
               setUniqueMsg(checked ? "تم اختيار الوحدة كمميزة" : "تم إلغاء تمييز الوحدة");
-              setTimeout(() => setUniqueMsg("") , 2000);
+              setTimeout(() => setUniqueMsg(""), 2000);
             }} className="ml-2" />
             {uniqueMsg && <div className="text-xs text-green-400 mt-1">{uniqueMsg}</div>}
           </div>
@@ -283,12 +315,15 @@ const AddUnitDialog = ({ open, onClose, onUnitAdded }: { open: boolean; onClose:
                 </div>
               ))}
             </div>
+            {imageError && (
+              <div className="text-red-500 text-sm mt-1 text-right">{imageError}</div>
+            )}
           </div>
           {message && <div className="text-white bg-red-600 p-2 rounded text-center">{message}</div>}
           <Button type="submit" className="mt-4 bg-white/20 hover:bg-white/30 text-white w-full" disabled={loading}>
             {loading ? "جاري الإضافة..." : "إضافة الوحدة"}
           </Button>
-        
+
         </form>
       </SheetContent>
     </Sheet>
@@ -370,7 +405,7 @@ const UnitsDahsBoard = () => {
                 <SheetTrigger asChild>
                   <Button
                     variant="outline"
-                    className="text-sm text-white border-white/30 hover:bg-neutral-800 hover:text-white rounded-2xl font-bold px-6 py-2"
+                    className="text-sm text-white border-white/30 bg-[#b70501] hover:bg-[#b70501]/90 hover:text-white rounded-2xl font-bold px-6 py-2 cursor-pointer"
                     onClick={() => setOpenAdd(true)}
                   >
                     إضافة وحدة

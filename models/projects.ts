@@ -24,7 +24,7 @@ const ProjectSchema = new Schema({
 
   developerId: {
     type: Schema.Types.ObjectId,
-    ref: 'Developer', 
+    ref: 'Developer',
     required: false
   },
 
@@ -32,6 +32,8 @@ const ProjectSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Inventory'
   }],
+
+  minPrice:Number, 
 
   latitude: {
     type: Number,

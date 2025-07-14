@@ -122,12 +122,14 @@ export function UsersTable() {
 
               <TableCell className="px-4 py-3">
                 <div className="flex justify-center gap-4 items-center">
-                  <AppSheet usersData={user} />
+                  <div className="cursor-pointer"><AppSheet usersData={user} /></div>
+
                   <Trash2
                     size={26}
                     onClick={() => handleDelete(user._id)}
-                    className="cursor-pointer text-red-500 hover:text-red-700 transition-colors"
+                    className={`cursor-pointer ${session?.user?.name === user.username ?`hidden`  :`block`} text-red-500 hover:text-red-700 transition-colors`}
                   />
+
                 </div>
               </TableCell>
             </TableRow>

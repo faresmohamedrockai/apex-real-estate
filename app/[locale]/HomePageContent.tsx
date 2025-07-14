@@ -12,7 +12,8 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCurrentLocale, getLocalizedObject } from './utils/localeUtils';
-
+import ConsultationForm from './contact_us/ConsultationForm';
+import { motion } from 'framer-motion'
 interface Project {
   _id: string;
   name: string;
@@ -43,30 +44,30 @@ export default function HomePageContent() {
 
   useEffect(() => {
     const cards = document.querySelectorAll('.card-3d-interactive');
-    
+
     cards.forEach((card) => {
       const handleMouseMove = (e: Event) => {
         const mouseEvent = e as MouseEvent;
         const rect = card.getBoundingClientRect();
         const x = mouseEvent.clientX - rect.left;
         const y = mouseEvent.clientY - rect.top;
-        
+
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
-        
+
         const rotateX = (y - centerY) / 10;
         const rotateY = (centerX - x) / 10;
-        
+
         (card as HTMLElement).style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
       };
-      
+
       const handleMouseLeave = () => {
         (card as HTMLElement).style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
       };
-      
+
       card.addEventListener('mousemove', handleMouseMove);
       card.addEventListener('mouseleave', handleMouseLeave);
-      
+
       return () => {
         card.removeEventListener('mousemove', handleMouseMove);
         card.removeEventListener('mouseleave', handleMouseLeave);
@@ -79,14 +80,24 @@ export default function HomePageContent() {
       {/* HomeVideo Component في البداية */}
       <HomeVideo />
 
-      {/* من نحن */}
-      <section className="relative py-16 sm:py-20 md:py-28 px-2 sm:px-4 md:px-8 font-[Playpen_Sans_Arabic]">
+      <motion.div
+        initial={{ opacity: 0, x: 200 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1, ease: 'easeOut' }}
+        viewport={{ once: false, amount: 0.4 }}
+
+
+        className="relative py-16 sm:py-20 md:py-28 px-2 sm:px-4 md:px-8 font-[Playpen_Sans_Arabic]">
         <ApexIntro />
-      </section>
+      </motion.div>
+
+
+
 
       {/* الأقسام الثلاثة بخلفية واحدة ثابتة */}
-      <ImageBG />
+     
       <section className="relative w-full min-h-[180vh] overflow-hidden">
+        <ImageBG/>
         <div className="relative z-20">
           {/* شركاء النجاح */}
           <div className="relative z-20 px-2 sm:px-4 md:px-8 py-10 sm:py-16 w-full">
@@ -99,12 +110,33 @@ export default function HomePageContent() {
               <DeveloperMarquee />
             </div>
           </div>
-          
+          {/* الاستشارات المراد ادخالها */}
+
+
+          <motion.div
+            initial={{ opacity: 0, x: -200 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, ease: 'easeOut' }}
+            viewport={{ once: true, amount: 0.4 }}
+
+
+            className="w-full h-fit bg-transparent flex justify-center items-center flex-col">
+            <h1 className='text-4xl text-white font-extrabold'>{locale === 'ar' ? "شارك معنا استشارتك " : "Share Your Consultation"}</h1>
+            <div>
+              <ConsultationForm />
+            </div>
+          </motion.div>
+
+
+
+
+
+
           {/* شبكة كروت المشاريع */}
           <div className="py-12 px-2 sm:px-4 md:px-8">
             <div className="text-center mb-8">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">{t('allProjects')}</h2>
-              
+
             </div>
             {loading ? (
               <div className="text-center text-white">
@@ -123,60 +155,60 @@ export default function HomePageContent() {
                       developer: getLocalizedObject(projectItem, 'developer', locale)
                     };
                     return (
-                    <Link
-                      key={localizedProject._id}
-                      href={`/projects/${localizedProject._id}`}
-                      className="card-3d-interactive relative h-80 rounded-2xl overflow-hidden shadow-xl block cursor-pointer"
-                      dir={locale === 'ar' ? 'rtl' : 'ltr'}
-                    >
-                      <Image
-                        src={localizedProject.image?.[0] || '/images/no-image.png'}
-                        alt={localizedProject.name}
-                        fill
-                        className="object-cover z-0 group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10" />
-                      <div className="card-glare"></div>
-                      
-                      {/* Title at top */}
-                      <div className={`relative z-20 p-6 pb-0 flex flex-end w-full ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
-                        <h2 className="text-xl font-bold w-fit text-end text-white bg-black/45 rounded-4xl p-3 mb-2 group-hover:text-[#b70501] transition-colors duration-300">
-                          {localizedProject.name}
-                        </h2>
-                       
-                      </div>
+                      <Link
+                        key={localizedProject._id}
+                        href={`/projects/${localizedProject._id}`}
+                        className="card-3d-interactive relative h-80 rounded-2xl overflow-hidden shadow-xl block cursor-pointer"
+                        dir={locale === 'ar' ? 'rtl' : 'ltr'}
+                      >
+                        <Image
+                          src={localizedProject.image?.[0] || '/images/no-image.png'}
+                          alt={localizedProject.name}
+                          fill
+                          className="object-cover z-0 group-hover:scale-110 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10" />
+                        <div className="card-glare"></div>
 
-                      {/* Info section at bottom with black overlay */}
-                      <div className="absolute bottom-0 left-0 right-0 z-20">
-                        <div className="bg-black/70 backdrop-blur-sm p-4">
-                          <div className="flex items-center justify-between">
-                            <div className="text-white text-sm space-y-1">
-                              <div className="flex items-center gap-2">
-                                <FaMapMarkerAlt className="text-white" />
-                                <span>{localizedProject.zone}</span>
-                              </div>
-                              {localizedProject.developer && (
+                        {/* Title at top */}
+                        <div className={`relative z-20 p-6 pb-0 flex flex-end w-full ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
+                          <h2 className="text-xl font-bold w-fit text-end text-white bg-black/45 rounded-4xl p-3 mb-2 group-hover:text-[#b70501] transition-colors duration-300">
+                            {localizedProject.name}
+                          </h2>
+
+                        </div>
+
+                        {/* Info section at bottom with black overlay */}
+                        <div className="absolute bottom-0 left-0 right-0 z-20">
+                          <div className="bg-black/70 backdrop-blur-sm p-4">
+                            <div className="flex items-center justify-between">
+                              <div className="text-white text-sm space-y-1">
                                 <div className="flex items-center gap-2">
-                                  <FaBuilding className="text-white" />
-                                  <span>{localizedProject.developer}</span>
+                                  <FaMapMarkerAlt className="text-white" />
+                                  <span>{localizedProject.zone}</span>
                                 </div>
-                              )}
-                            </div>
-                            <div
-                              className="bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl border-2 border-green-400/30 cursor-pointer hover:rotate-12"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                window.open(`https://wa.me/201111993383?text=${locale === 'ar' ? 'أنا مهتم بمشروع' : 'I am interested in project'} ${localizedProject.name}`, '_blank');
-                              }}
-                            >
-                              <FaWhatsapp size={18} className="text-white" />
+                                {localizedProject.developer && (
+                                  <div className="flex items-center gap-2">
+                                    <FaBuilding className="text-white" />
+                                    <span>{typeof localizedProject.developer === 'object' && localizedProject.developer !== null ? (localizedProject.developer as { name?: string }).name : localizedProject.developer || ''}</span>
+                                  </div>
+                                )}
+                              </div>
+                              <div
+                                className="bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl border-2 border-green-400/30 cursor-pointer hover:rotate-12"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  window.open(`https://wa.me/201111993383?text=${locale === 'ar' ? 'أنا مهتم بمشروع' : 'I am interested in project'} ${localizedProject.name}`, '_blank');
+                                }}
+                              >
+                                <FaWhatsapp size={18} className="text-white" />
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </Link>
-                  );
+                      </Link>
+                    );
                   }) : (
                     <div className="col-span-full text-center py-12">
                       <div className="text-6xl mb-4">🏗️</div>
@@ -223,7 +255,7 @@ export default function HomePageContent() {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10" />
                         <div className="card-glare"></div>
-                        
+
                         {/* Title at top */}
                         <div className={`relative z-20 p-6 pb-0 ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
                           <h2 className="text-xl font-bold w-fit text-white bg-black/55 rounded-4xl p-3 mb-2 group-hover:text-[#b70501] transition-colors duration-300">

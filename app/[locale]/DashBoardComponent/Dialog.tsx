@@ -90,7 +90,7 @@ const AppSheet = ({ usersData }: UserProps) => {
             <SheetTrigger asChild>
                 <Button
                     variant="outline"
-                    className="text-sm text-white border-white/30 hover:bg-neutral-800 hover:text-white"
+                    className="text-sm text-white border-white/30 bg-[#b70501] hover:bg-[#b70501]/90 hover:text-white cursor-pointer"
                 >
                     تعديل المستخدم
                 </Button>
@@ -166,7 +166,7 @@ const AppSheet = ({ usersData }: UserProps) => {
                     <Button
                         onClick={handleUpdate}
                         disabled={loading}
-                        className="mt-4 bg-white/20 hover:bg-white/30 text-white"
+                        className="mt-4 bg-white/20 hover:bg-white/30 text-white cursor-pointer"
                     >
                         {loading ? "جاري التحديث..." : "حفظ التعديلات"}
                     </Button>

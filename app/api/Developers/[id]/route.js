@@ -59,7 +59,9 @@ export async function PATCH(req, { params }) {
     const {id} = params;
     const body = await req.json();
     const updateData = {};
+   
     if (body.name) updateData.name = body.name;
+    if (body.name_en) updateData.name = body.name_en;
     if (body.logo) updateData.logo = body.logo;
     if (body.description) updateData.description = body.description;
     if (body.description_en) updateData.description_en = body.description_en;

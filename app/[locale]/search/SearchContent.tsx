@@ -229,7 +229,7 @@ export default function SearchContent() {
               {!loading && !error && (
                 <>
                   {inventory.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 rounded-2xl justify-items-end">
+                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 rounded-xl justify-items-end">
                       {inventory.map((item) => {
                         // تجهيز البيانات حسب اللغة
                         const localizedItem = {
@@ -347,16 +347,17 @@ export default function SearchContent() {
               )}
             </motion.div>
 
-            {/* ✅ عمود الخريطة في الديسكتوب - sticky مضمون */}
-            <div className="hidden lg:block w-[90%]">
+            {/* ✅ عمود الخريطة - ديسكتوب فقط */}
+            <div className="hidden lg:block w-full xl:w-[90%] ">
               <div className="sticky top-28 z-30">
                 <div className="bg-black/70 backdrop-blur-md rounded-xl border border-white/20 overflow-hidden">
-                  <div className="h-[650px] w-full">
+                  <div className="h-[650px] w-full"> {/* تم تصغير الحجم من 650px إلى 450px */}
                     <MapComponent inventory={inventory} />
                   </div>
                 </div>
               </div>
             </div>
+
           </div>
 
           {/* في الموبايل فقط، أظهر الخريطة تحت النتائج */}
@@ -483,7 +484,7 @@ export default function SearchContent() {
                         step={10000}
                         values={priceRange}
                         onChange={setPriceRange}
-                        formatValue={(value: number) => `${value.toLocaleString()} ${locale === 'ar' ?'جنيه': 'EGP' } `}
+                        formatValue={(value: number) => `${value.toLocaleString()} ${locale === 'ar' ? 'جنيه' : 'EGP'} `}
                         label={t('priceRange')}
                         className="space-y-2"
                       />

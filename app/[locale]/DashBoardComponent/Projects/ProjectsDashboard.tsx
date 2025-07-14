@@ -48,10 +48,10 @@ const ProjectsDashboard = () => {
       )}
       <div className="flex justify-end mb-4">
         <Sheet open={openAdd} onOpenChange={setOpenAdd}>
-          <SheetTrigger asChild>
+          <SheetTrigger asChild className=" bg-[#b70501]">
             <Button
               variant="outline"
-              className="text-sm text-white border-white/30 hover:bg-neutral-800 hover:text-white rounded-2xl font-bold px-6 py-2"
+              className="text-sm text-white border-white/30 bg-[#b70501]  hover:bg-[#b70501]/90 hover:text-white rounded-2xl font-bold px-6 py-2 cursor-pointer"
               onClick={() => setOpenAdd(true)}
             >
               إضافة مشروع

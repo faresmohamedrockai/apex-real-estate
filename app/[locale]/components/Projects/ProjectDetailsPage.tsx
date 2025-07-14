@@ -36,6 +36,7 @@ type ProjectType = {
   developer_en?: string;
   image: string[];
   isUnique: boolean;
+  minPrice?: number | null;
   units: Array<{
     _id: string;
     title: string;
@@ -63,6 +64,7 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
     ...data,
     name: getLocalizedObject(data, 'name', locale),
     zone: getLocalizedObject(data, 'zone', locale),
+
     developer: getLocalizedObject(data, 'developer', locale),
     units: data.units?.map(unit => ({
       ...unit,
@@ -71,7 +73,7 @@ const ProjectDetailsPage = ({ data }: { data: ProjectType }) => {
     })) || []
   };
 
-console.log(localizedProject);
+
 
   // Safely define images, initialImages, extraImages
   const images = localizedProject.image || [];
@@ -161,89 +163,89 @@ console.log(localizedProject);
                   )}
                 </Swiper>
               </div>
-            ) :  (
-            // Desktop: Main image + vertical thumbnails (identical to InventoryDetailsPage)
-            <div className="flex flex-row items-start justify-around w-full h-[400px] ">
-              {/* Main Image */}
-              <div className="bg-black/70 backdrop-blur-md rounded-md border gap-2 border-white/20 overflow-hidden w-[50%] md:w-[56%] h-[350px] md:h-[400px] flex-shrink-0 relative">
-                <Image
-                  src={images[selectedImage] || '/images/no-image.png'}
-                  alt={`main-image-${selectedImage}`}
-                  fill
-                  className="object-fill transition-all duration-300"
-                />
-              </div>
+            ) : (
+              // Desktop: Main image + vertical thumbnails (identical to InventoryDetailsPage)
+              <div className="flex flex-row items-start justify-around w-full h-[400px] ">
+                {/* Main Image */}
+                <div className="bg-black/70 backdrop-blur-md rounded-md border gap-2 border-white/20 overflow-hidden w-[50%] md:w-[56%] h-[350px] md:h-[400px] flex-shrink-0 relative">
+                  <Image
+                    src={images[selectedImage] || '/images/no-image.png'}
+                    alt={`main-image-${selectedImage}`}
+                    fill
+                    className="object-fill transition-all duration-300"
+                  />
+                </div>
 
-              {/* Thumbnails Column */}
-              {images.length > 1 && (() => {
-                return (
-                  <div className="flex flex-col w-[40%] max-h-[400px] overflow-y-auto scrollbar-hidden p-4 gap-2">
-                    {/* الصور الأساسية */}
-                    <div className="flex flex-wrap gap-2">
-                      {initialImages.map((img, i) => (
+                {/* Thumbnails Column */}
+                {images.length > 1 && (() => {
+                  return (
+                    <div className="flex flex-col w-[40%] max-h-[400px] overflow-y-auto scrollbar-hidden p-4 gap-2">
+                      {/* الصور الأساسية */}
+                      <div className="flex flex-wrap gap-2">
+                        {initialImages.map((img, i) => (
+                          <button
+                            key={i}
+                            className={`bg-black/50 backdrop-blur-md rounded-md cursor-pointer transition-all duration-100 ease-out delay-75 overflow-hidden border border-white/20 relative h-[200px] ${i === 0 ? 'w-full' : 'w-[49%]'
+                              } focus:outline-none ${selectedImage === i ? 'ring-2 ring-[#b70501]' : ''}`}
+                            onClick={() => setSelectedImage(i)}
+                            tabIndex={0}
+                            aria-label={`Show image ${i + 1}`}
+                          >
+                            <Image
+                              src={img}
+                              alt={`thumbnail-${i}`}
+                              fill
+                              className="object-cover"
+                            />
+                          </button>
+                        ))}
+
+                        {/* الصور الإضافية - تظهر فقط عند الضغط على "Show more" */}
+                        <AnimatePresence>
+                          {showMore &&
+                            extraImages.map((img, i) => (
+                              <motion.button
+                                key={i + 3}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.9 }}
+                                transition={{ duration: 0.3 }}
+                                className={`bg-black/50 backdrop-blur-md rounded-md cursor-pointer overflow-hidden border border-white/20 relative h-[200px] w-[48%] focus:outline-none ${selectedImage === i + 3 ? 'ring-2 ring-[#b70501]' : ''}`}
+                                onClick={() => setSelectedImage(i + 3)}
+                                tabIndex={0}
+                                aria-label={`Show image ${i + 4}`}
+                              >
+                                <Image
+                                  src={img}
+                                  alt={`thumbnail-${i + 3}`}
+                                  fill
+                                  className="object-cover"
+                                />
+                              </motion.button>
+                            ))}
+                        </AnimatePresence>
+                      </div>
+
+                      {/* زر التحكم */}
+                      {images.length > 3 && (
                         <button
-                          key={i}
-                          className={`bg-black/50 backdrop-blur-md rounded-md cursor-pointer transition-all duration-100 ease-out delay-75 overflow-hidden border border-white/20 relative h-[200px] ${i === 0 ? 'w-full' : 'w-[49%]'
-                            } focus:outline-none ${selectedImage === i ? 'ring-2 ring-[#b70501]' : ''}`}
-                          onClick={() => setSelectedImage(i)}
-                          tabIndex={0}
-                          aria-label={`Show image ${i + 1}`}
+                          onClick={() => setShowMore(!showMore)}
+                          className="mt-2 self-center text-white bg-[#b70501] font-extrabold cursor-pointer hover:bg-[#a00400] px-4 py-2 rounded-md text-sm"
                         >
-                          <Image
-                            src={img}
-                            alt={`thumbnail-${i}`}
-                            fill
-                            className="object-cover"
-                          />
+                          {showMore
+                            ? isArabic
+                              ? 'إخفاء الصور'
+                              : 'Show less'
+                            : isArabic
+                              ? 'شاهد المزيد'
+                              : 'Show more'}
                         </button>
-                      ))}
-
-                      {/* الصور الإضافية - تظهر فقط عند الضغط على "Show more" */}
-                      <AnimatePresence>
-                        {showMore &&
-                          extraImages.map((img, i) => (
-                            <motion.button
-                              key={i + 3}
-                              initial={{ opacity: 0, scale: 0.9 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              exit={{ opacity: 0, scale: 0.9 }}
-                              transition={{ duration: 0.3 }}
-                              className={`bg-black/50 backdrop-blur-md rounded-md cursor-pointer overflow-hidden border border-white/20 relative h-[200px] w-[48%] focus:outline-none ${selectedImage === i + 3 ? 'ring-2 ring-[#b70501]' : ''}`}
-                              onClick={() => setSelectedImage(i + 3)}
-                              tabIndex={0}
-                              aria-label={`Show image ${i + 4}`}
-                            >
-                              <Image
-                                src={img}
-                                alt={`thumbnail-${i + 3}`}
-                                fill
-                                className="object-cover"
-                              />
-                            </motion.button>
-                          ))}
-                      </AnimatePresence>
+                      )}
                     </div>
+                  );
+                })()}
 
-                    {/* زر التحكم */}
-                    {images.length > 3 && (
-                      <button
-                        onClick={() => setShowMore(!showMore)}
-                        className="mt-2 self-center text-white bg-[#b70501] font-extrabold cursor-pointer hover:bg-[#a00400] px-4 py-2 rounded-md text-sm"
-                      >
-                        {showMore
-                          ? isArabic
-                            ? 'إخفاء الصور'
-                            : 'Show less'
-                          : isArabic
-                            ? 'شاهد المزيد'
-                            : 'Show more'}
-                      </button>
-                    )}
-                  </div>
-                );
-              })()}
-
-            </div>
+              </div>
             )}
           </motion.div>
         </div>
@@ -278,8 +280,8 @@ console.log(localizedProject);
                 label={t('developer')}
                 value={
                   typeof localizedProject.developer === 'object' &&
-                  localizedProject.developer !== null &&
-                  'name' in localizedProject.developer
+                    localizedProject.developer !== null &&
+                    'name' in localizedProject.developer
                     ? (localizedProject.developer as any).name
                     : (localizedProject.developer ?? '')
                 }
@@ -290,28 +292,29 @@ console.log(localizedProject);
                 icon={<FaMoneyBillWave />}
                 label={t('priceRange')}
                 value={
-                  localizedProject.units && localizedProject.units.length > 0 && localizedProject.units.some((u) => u.price)
-                    ? `${Math.min(...localizedProject.units.filter((u) => u.price).map((u) => u.price)).toLocaleString()} - ${Math.max(
-                        ...localizedProject.units.filter((u) => u.price).map((u) => u.price),
-                      ).toLocaleString()} ${locale === 'ar' ? 'جنيه' : 'EGP'}`
+                  data.minPrice != null
+                    ? locale === 'ar'
+                      ? `هذا المشروع يبدأ الأسعار فيه من ${data.minPrice.toLocaleString()} جنيه`
+                      : `This project starts from ${data.minPrice.toLocaleString()} EGP`
                     : t('notAvailable')
                 }
               />
+
+
+
             </div>
 
             <div className="bg-black/50 backdrop-blur-md rounded-xl p-4 border border-white/20">
               <p className="text-white/90 text-lg sm:text-base leading-relaxed font-bold">
                 {locale === 'ar'
-                  ? `مشروع ${localizedProject.name} من تطوير ${
-                      typeof localizedProject.developer === 'object' && localizedProject.developer !== null && 'name' in localizedProject.developer
-                        ? (localizedProject.developer as any).name
-                        : localizedProject.developer ?? ''
-                    } في منطقة ${localizedProject.zone}. يحتوي المشروع على ${localizedProject.units?.length || 0} وحدة سكنية متنوعة في المساحات والأسعار.${localizedProject.units && localizedProject.units.length > 0 && localizedProject.units.some((u) => u.price) ? ` يبدأ السعر من ${Math.min(...localizedProject.units.filter((u) => u.price).map((u) => u.price)).toLocaleString()} جنيه.` : ' السعر غير متوفر.'}`
-                  : `Project ${localizedProject.name} by ${
-                      typeof localizedProject.developer === 'object' && localizedProject.developer !== null && 'name' in localizedProject.developer
-                        ? (localizedProject.developer as any).name
-                        : localizedProject.developer ?? ''
-                    } in ${localizedProject.zone} area. The project contains ${localizedProject.units?.length || 0} residential unit${(localizedProject.units?.length || 0) === 1 ? '' : 's'} of various sizes and prices.${localizedProject.units && localizedProject.units.length > 0 && localizedProject.units.some((u) => u.price) ? ` Starting price from ${Math.min(...localizedProject.units.filter((u) => u.price).map((u) => u.price)).toLocaleString()} EGP.` : ' Price not available.'}`
+                  ? `مشروع ${localizedProject.name} من تطوير ${typeof localizedProject.developer === 'object' && localizedProject.developer !== null && 'name' in localizedProject.developer
+                    ? (localizedProject.developer as any).name
+                    : localizedProject.developer ?? ''
+                  } في منطقة ${localizedProject.zone}. يحتوي المشروع على ${localizedProject.units?.length || 0} وحدة سكنية متنوعة في المساحات والأسعار.${localizedProject.units && localizedProject.units.length > 0 && localizedProject.units.some((u) => u.price) ? ` يبدأ السعر من ${Math.min(...localizedProject.units.filter((u) => u.price).map((u) => u.price)).toLocaleString()} جنيه.` : ' السعر غير متوفر.'}`
+                  : `Project ${localizedProject.name} by ${typeof localizedProject.developer === 'object' && localizedProject.developer !== null && 'name' in localizedProject.developer
+                    ? (localizedProject.developer as any).name
+                    : localizedProject.developer ?? ''
+                  } in ${localizedProject.zone} area. The project contains ${localizedProject.units?.length || 0} residential unit${(localizedProject.units?.length || 0) === 1 ? '' : 's'} of various sizes and prices.${localizedProject.units && localizedProject.units.length > 0 && localizedProject.units.some((u) => u.price) ? ` Starting price from ${Math.min(...localizedProject.units.filter((u) => u.price).map((u) => u.price)).toLocaleString()} EGP.` : ' Price not available.'}`
                 }
               </p>
             </div>

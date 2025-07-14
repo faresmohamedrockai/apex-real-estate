@@ -34,9 +34,11 @@ export default function ContactForm() {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
+    phone_type: 'phone',
     project: '',
     unitType: locale === 'ar' ? 'سكني' : 'Residential',
     notes: '',
+    email: "",
     review: ''
   });
 
@@ -73,20 +75,33 @@ export default function ContactForm() {
 
     try {
       const endpoint = formType === 'consultation' ? '/api/consultation' : '/api/review';
-      const payload = {
+      let payload: any = {
         ...formData,
         rating: formType === 'review' ? rating : undefined,
         priceRange: formType === 'consultation' ? { min: priceRange[0], max: priceRange[1] } : undefined,
         // Add English translations for form data
-        name_en: formData.name, // For now, using same name for both languages
+        name_en: formData.name,
         project_en: formData.project,
-        unitType_en: locale === 'ar' ? 
-          (formData.unitType === 'سكني' ? 'Residential' : 
-           formData.unitType === 'تجاري' ? 'Commercial' : 'Administrative') : 
+        unitType_en: locale === 'ar' ?
+          (formData.unitType === 'سكني' ? 'Residential' :
+            formData.unitType === 'تجاري' ? 'Commercial' : 'Administrative') :
           formData.unitType,
         notes_en: formData.notes,
-        review_en: formData.review
+        review_en: formData.review,
+        phone_type: formData.phone_type
       };
+      if (formType === 'consultation' && locale === 'en') {
+        payload.name = '';
+        payload.project = '';
+        payload.unitType = '';
+        payload.notes = '';
+        payload.name_en = formData.name;
+        payload.project_en = formData.project;
+        payload.unitType_en = formData.unitType;
+        payload.notes_en = formData.notes;
+        payload.priceRange = { min: priceRange[0], max: priceRange[1] };
+        payload.phone_type = formData.phone_type;
+      }
 
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -107,6 +122,8 @@ export default function ContactForm() {
         setFormData({
           name: '',
           phone: '',
+          phone_type: 'phone',
+          email: "",
           project: '',
           unitType: locale === 'ar' ? 'سكني' : 'Residential',
           notes: '',
@@ -133,10 +150,10 @@ export default function ContactForm() {
   return (
     <>
       <ImageBG />
-      
+
       <div className="relative z-10 min-h-screen pt-20 sm:pt-24 bg-black/80 w-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-          
+
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -210,11 +227,10 @@ export default function ContactForm() {
                   key={type}
                   variants={fadeInUp}
                   onClick={() => setFormType(type as 'consultation' | 'review')}
-                  className={`px-6 py-2 rounded-xl border text-lg font-medium transition-all duration-300 ${
-                    formType === type
-                      ? 'bg-[#b70501] text-white border-[#b70501]'
-                      : 'border-[#b70501] text-[#b70501] bg-white hover:bg-[#b70501] hover:text-white'
-                  }`}
+                  className={`px-6 py-2 rounded-xl border text-lg font-medium transition-all duration-300 ${formType === type
+                    ? 'bg-[#b70501] text-white border-[#b70501]'
+                    : 'border-[#b70501] text-[#b70501] bg-white hover:bg-[#b70501] hover:text-white'
+                    }`}
                 >
                   {type === 'consultation' ? t('consalte') : t('opinion')}
                 </motion.button>
@@ -228,9 +244,8 @@ export default function ContactForm() {
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
-                  className={`mb-6 p-4 rounded-lg text-center ${
-                    message.type === 'success' ? 'bg-green-500/20 text-green-300' : 'bg-red-500/20 text-red-300'
-                  }`}
+                  className={`mb-6 p-4 rounded-lg text-center ${message.type === 'success' ? 'bg-green-500/20 text-green-300' : 'bg-red-500/20 text-red-300'
+                    }`}
                 >
                   {message.text}
                 </motion.div>
@@ -258,19 +273,60 @@ export default function ContactForm() {
                     </div>
                     <div>
                       <label className="block text-white text-sm font-medium mb-2">
-                        {t('phone')} *
+                        {t('phone')}*
                       </label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:border-[#b70501] transition-colors"
-                        placeholder={t('enterPhone')}
-                      />
+                      <div className="flex gap-2">
+                        <div className="relative min-w-[120px]">
+                          <select
+                            name="phone_type"
+                            value={formData.phone_type}
+                            onChange={handleInputChange}
+                            className="w-full px-4 py-3 pr-10 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:border-[#b70501] transition-colors text-sm appearance-none cursor-pointer"
+                          >
+                            <option value="phone" className="bg-black text-white flex items-center gap-2">
+                              {locale === 'ar' ? 'هاتف' : 'Phone'}
+                            </option>
+                            <option value="whatsapp" className="bg-black text-white flex items-center gap-2">
+                              {locale === 'ar' ? 'واتساب' : 'WhatsApp'}
+                            </option>
+                          </select>
+                          <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            {formData.phone_type === 'whatsapp' ? (
+                              <FaWhatsapp className="text-white/70 text-sm" />
+                            ) : (
+                              <FaPhone className="text-white/70 text-sm" />
+                            )}
+                          </div>
+                        </div>
+                        <input
+                          type="tel"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          required
+                          className="flex-1 px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:border-[#b70501] transition-colors"
+                          placeholder={t('enterPhone')}
+                        />
+                      </div>
                     </div>
                   </div>
+
+
+                  <div>
+                    <label className="block text-white text-sm font-medium mb-2">
+                      {t('email')} *
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+
+                      className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:border-[#b70501] transition-colors"
+                      placeholder={t('enterEmail')}
+                    />
+                  </div>
+
 
                   {/* Project Selection */}
                   <div>
@@ -303,10 +359,60 @@ export default function ContactForm() {
                       onChange={handleInputChange}
                       className="w-full px-4 py-3 rounded-lg bg-black border border-white/20 text-white focus:outline-none focus:border-[#b70501] transition-colors"
                     >
-                      <option value={locale === 'ar' ? 'سكني' : 'Residential'} className="bg-black text-white">{t('residential')}</option>
-                      <option value={locale === 'ar' ? 'تجاري' : 'Commercial'} className="bg-black text-white">{t('commercial')}</option>
-                      <option value={locale === 'ar' ? 'إداري' : 'Administrative'} className="bg-black text-white">{t('administrative')}</option>
-                    </select>
+                     
+                        <option value="">
+                          {locale === 'ar' ? 'كل الأنواع' : 'All Types'}
+                        </option>
+                        <option value="شقة" className="bg-black text-white">
+                          {locale === 'ar' ? 'شقة' : 'Apartment'}
+                        </option>
+                        <option value="دوبلكس" className="bg-black text-white">
+                          {locale === 'ar' ? 'دوبلكس' : 'Duplex'}
+                        </option>
+                        <option value="توين هاوس" className="bg-black text-white">
+                          {locale === 'ar' ? 'توين هاوس' : 'Twinhouse'}
+                        </option>
+                        <option value="تاون هاوس" className="bg-black text-white">
+                          {locale === 'ar' ? 'تاون هاوس' : 'TownHouse'}
+                        </option>
+                        <option value="فيلا" className="bg-black text-white">
+                          {locale === 'ar' ? 'فيلا' : 'Villa'}
+                        </option>
+                        <option value="فيلا مستقلة" className="bg-black text-white">
+                          {locale === 'ar' ? 'فيلا مستقلة' : 'Standalone Villa'}
+                        </option>
+                        <option value="بنتهاوس" className="bg-black text-white">
+                          {locale === 'ar' ? 'بنتهاوس' : 'Penthouse'}
+                        </option>
+                        <option value="شاليه" className="bg-black text-white">
+                          {locale === 'ar' ? 'شاليه' : 'Chalet'}
+                        </option>
+                        <option value="استوديو" className="bg-black text-white">
+                          {locale === 'ar' ? 'استوديو' : 'Studio'}
+                        </option>
+                        <option value="لوفت" className="bg-black text-white">
+                          {locale === 'ar' ? 'لوفت' : 'Loft'}
+                        </option>
+                        <option value="كابينة" className="bg-black text-white">
+                          {locale === 'ar' ? 'كابينة' : 'Cabin'}
+                        </option>
+                        <option value="مكتب" className="bg-black text-white">
+                          {locale === 'ar' ? 'مكتب' : 'Office'}
+                        </option>
+                        <option value="مكتب اداري" className="bg-black text-white">
+                          {locale === 'ar' ? 'مكتب إداري' : 'Admin Office'}
+                        </option>
+                        <option value="عيادة" className="bg-black text-white">
+                          {locale === 'ar' ? 'عيادة' : 'Clinic'}
+                        </option>
+                        <option value="تجاري" className="bg-black text-white">
+                          {locale === 'ar' ? 'تجاري' : 'Commercial'}
+                        </option>
+                        <option value="عقار" className="bg-black text-white">
+                          {locale === 'ar' ? 'عقار' : 'Building'}
+                        </option>
+                      </select>
+
                   </div>
 
                   {/* Price Range for Consultation */}
@@ -342,9 +448,8 @@ export default function ContactForm() {
                             key={star}
                             type="button"
                             onClick={() => setRating(star)}
-                            className={`text-2xl transition-colors ${
-                              star <= rating ? 'text-yellow-400' : 'text-white/30'
-                            }`}
+                            className={`text-2xl transition-colors ${star <= rating ? 'text-yellow-400' : 'text-white/30'
+                              }`}
                           >
                             <FaStar />
                           </button>

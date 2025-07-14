@@ -4,6 +4,7 @@ export interface IConsultation extends Document {
   name: string;
   name_en?: string;
   phone: string;
+  phone_type?: string;
   project?: string;
   project_en?: string;
   unitType?: string;
@@ -14,7 +15,7 @@ export interface IConsultation extends Document {
   };
   notes?: string;
   notes_en?: string;
-  read:boolean
+  read: boolean
   status: string;
   createdAt: Date;
   updatedAt: Date;
@@ -24,7 +25,9 @@ const ConsultationSchema: Schema = new Schema(
   {
     name: { type: String, required: true },
     name_en: { type: String, default: '' },
+    email: { type: String, default: '' },
     phone: { type: String, required: true },
+    phone_type: { type: String, default:"phone" },
     project: { type: String, default: '' },
     project_en: { type: String, default: '' },
     unitType: { type: String, default: 'سكني' },

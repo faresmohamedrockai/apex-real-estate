@@ -11,6 +11,7 @@ import { useSession } from "next-auth/react";
 export type Developer = {
   _id: string;
   name: string;
+  name_en: string;
   logo?: string;
   description: string;
   description_en?: string;
@@ -31,6 +32,7 @@ export default function DeveloperDialog({ developer, children, onDeveloperUpdate
   const [message, setMessage] = useState("");
   const [form, setForm] = useState({
     name: developer.name || "",
+    name_en: developer.name_en || "",
     logo: developer.logo || "",
     description: developer.description || "",
     description_en: developer.description_en || "",
@@ -72,6 +74,7 @@ export default function DeveloperDialog({ developer, children, onDeveloperUpdate
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: form.name,
+          name_en: form.name_en,
           logo: logoUrl,
           description: form.description,
           description_en: form.description_en
@@ -82,11 +85,16 @@ export default function DeveloperDialog({ developer, children, onDeveloperUpdate
       
       if (res.ok) {
         setMessage("✅ تم حفظ التعديلات بنجاح");
+
+        setTimeout(() => {
+          setMessage("");
+        }, 1000);
         setEditMode(false);
         
         const updatedDeveloper: Developer = {
           ...developer,
           name: form.name,
+          name_en: form.name_en,
           logo: logoUrl,
           description: form.description,
           description_en: form.description_en,
@@ -111,7 +119,7 @@ export default function DeveloperDialog({ developer, children, onDeveloperUpdate
     
     if (!confirm("هل أنت متأكد من حذف المطور؟")) return;
     setLoading(true);
-    setMessage("");
+    setMessage("جاري الحذف...");
     
     try {
       const res = await fetch(`/api/Developers/${developer._id}`, {
@@ -121,7 +129,11 @@ export default function DeveloperDialog({ developer, children, onDeveloperUpdate
       
       if (res.ok) {
         setMessage("✅ تم حذف المطور بنجاح");
-        onDeveloperDeleted && onDeveloperDeleted();
+        if (onDeveloperDeleted) {
+          setTimeout(() => {
+            onDeveloperDeleted();
+          }, 800);
+        }
       } else {
         setMessage(data.message || "❌ حدث خطأ أثناء الحذف");
       }
@@ -135,8 +147,8 @@ export default function DeveloperDialog({ developer, children, onDeveloperUpdate
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-w-2xl w-full bg-black/90 text-white border-white/20 rounded-2xl p-10 overflow-y-auto scrollbar-hidden">
-        <DialogHeader>
+      <DialogContent className="max-w-2xl w-full bg-black/90 text-white border-white/20 rounded-2xl p-10 overflow-y-auto scrollbar-hidden text-right" dir="rtl">
+        <DialogHeader className="text-right">
           <DialogTitle className="text-2xl font-bold mb-2 text-right">
             {developer.name}
           </DialogTitle>
@@ -152,6 +164,17 @@ export default function DeveloperDialog({ developer, children, onDeveloperUpdate
                 value={form.name} 
                 onChange={handleChange} 
                 className="bg-white/10 text-white border-white/20 focus:ring-white text-right" 
+                required 
+              />
+            </div>
+            <div>
+              <Label htmlFor="name_en" className="block text-base text-right">اسم المطور بالانجليزية</Label>
+              <Input 
+                id="name_en" 
+                name="name_en" 
+                value={form.name_en} 
+                onChange={handleChange} 
+                className="bg-white/10 text-white border-white/20 focus:ring-white text-left" 
                 required 
               />
             </div>
@@ -205,14 +228,14 @@ export default function DeveloperDialog({ developer, children, onDeveloperUpdate
             </div>
             
             {message && (
-              <div className={`p-2 rounded text-center ${
+              <div className={`p-2 rounded text-right ${
                 message.includes("✅") ? "bg-green-600" : "bg-red-600"
               }`}>
                 {message}
               </div>
             )}
             
-            <div className="flex gap-2 mt-4">
+            <div className="flex gap-2 mt-4 text-right">
               <Button 
                 type="submit" 
                 className="bg-white/20 hover:bg-white/30 text-white w-[50%] py-1 px-2 text-sm" 
@@ -253,14 +276,14 @@ export default function DeveloperDialog({ developer, children, onDeveloperUpdate
             </div>
             
             {message && (
-              <div className={`p-2 rounded text-center ${
+              <div className={`p-2 rounded text-right ${
                 message.includes("✅") ? "bg-green-600" : "bg-red-600"
               }`}>
                 {message}
               </div>
             )}
             
-            <div className="flex gap-2 mt-4">
+            <div className="flex gap-2 mt-4 text-right">
               <Button 
                 type="button" 
                 className="bg-white/20 hover:bg-white/30 text-white w-[50%] py-1 px-2 text-sm" 

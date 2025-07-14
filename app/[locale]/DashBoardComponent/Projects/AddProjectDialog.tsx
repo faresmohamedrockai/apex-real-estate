@@ -23,6 +23,7 @@ const AddProjectDialog = ({ open, onClose, onProjectAdded }: AddProjectDialogPro
   const [developerId, setDeveloperId] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
+  const [minPrice, setMinPrice] = useState("");
   const [images, setImages] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [displayImages, setDisplayImages] = useState<string[]>([]);
@@ -63,6 +64,12 @@ const AddProjectDialog = ({ open, onClose, onProjectAdded }: AddProjectDialogPro
       setLoading(false);
       return;
     }
+    // if (minPrice && maxPrice && Number(minPrice) > Number(maxPrice)) {
+    //   setMessage("أقل سعر لا يمكن أن يكون أكبر من أعلى سعر");
+    //   setLoading(false);
+    //   return;
+    // }
+
     try {
       let uploadedImages: string[] = [];
       let failedUploads = 0;
@@ -89,14 +96,32 @@ const AddProjectDialog = ({ open, onClose, onProjectAdded }: AddProjectDialogPro
           developerId,
           latitude: latitude ? Number(latitude) : undefined,
           longitude: longitude ? Number(longitude) : undefined,
-          image: uploadedImages
+          image: uploadedImages,
+          minPrice:Number(minPrice)
         }),
+
       });
       const data = await res.json();
       if (res.ok && data.success) {
         setMessage("تمت إضافة المشروع بنجاح");
+        setTimeout(() => {
+          setMessage("")
+        }, 2000)
         onProjectAdded();
         onClose();
+        // Clear form fields
+        setName("");
+        setNameEn("");
+        setZone("");
+        setZoneEn("");
+        setDeveloperId("");
+        setLatitude("");
+        setLongitude("");
+        setImages([]);
+        
+        setMinPrice("");
+        setSelectedFiles([]);
+        setDisplayImages([]);
       } else {
         setMessage(data.error || "حدث خطأ أثناء الإضافة");
       }
@@ -133,6 +158,24 @@ const AddProjectDialog = ({ open, onClose, onProjectAdded }: AddProjectDialogPro
             <Label htmlFor="zone_en" className="mb-2.5 block text-base text-left">المنطقة (بالإنجليزية)</Label>
             <Input id="zone_en" value={zone_en} onChange={e => setZoneEn(e.target.value)} className="bg-white/10 text-white border-white/20 focus:ring-white text-left" dir="ltr" />
           </div>
+
+
+          <div className="flex gap-4">
+            <div className="flex-1">
+              <Label htmlFor="minPrice" className="block text-base text-right">أقل سعر</Label>
+              <Input
+                id="minPrice"
+                type="number"
+                value={minPrice}
+                onChange={e => setMinPrice(e.target.value)}
+                className="bg-white/10 text-white border-white/20 focus:ring-white text-right"
+              />
+            </div>
+          
+          </div>
+
+
+
           <div>
             <Label htmlFor="developerId" className="mb-2.5 block text-base text-right">المطور</Label>
             <Select value={developerId} onValueChange={setDeveloperId} required>
@@ -189,8 +232,8 @@ const AddProjectDialog = ({ open, onClose, onProjectAdded }: AddProjectDialogPro
             </div>
           </div>
           {message && <div className="text-white bg-red-600 p-2 rounded text-center">{message}</div>}
-          <Button type="submit" className="mt-4 bg-white/20 hover:bg-white/30 text-white w-full" disabled={loading}>
-            {loading ? "جاري الإضافة..." : "إضافة المشروع"}
+          <Button type="submit" className="mt-4 bg-[#b70501] hover:bg-[#950401] text-white w-full cursor-pointer" disabled={loading}>
+            {loading ? "جاري إضافة المشروع..." : "إضافة المشروع"}
           </Button>
         </form>
       </SheetContent>

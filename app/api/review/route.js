@@ -15,7 +15,7 @@ export async function POST(request) {
     await connectDB();
 
     const body = await request.json();
-    const { name, phone, rating, review, project, unitType } = body;
+    const { name, phone, phone_type, rating, review, project, unitType } = body;
 
     // Validation
     if (!name || !phone || !review) {
@@ -71,6 +71,7 @@ export async function POST(request) {
     const newReview = new Review({
       name: name.trim(),
       phone: phone.trim(),
+      phone_type: phone_type || 'phone',
       rating,
       review: review.trim(),
       project: project?.trim() || '',

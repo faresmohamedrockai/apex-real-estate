@@ -24,8 +24,8 @@ const DeveloperMarquee = () => {
 
   // 🟢 نكرر العناصر فقط لو أقل من 6 لتفادي الفراغ
   const finalItems =
-    slicedItems.length < 6
-      ? [...slicedItems, ...slicedItems]
+    slicedItems.length > 0 
+      ? [...slicedItems, ...slicedItems,...slicedItems,...slicedItems,...slicedItems,...slicedItems,...slicedItems]
       : slicedItems;
 
   return (
@@ -38,7 +38,7 @@ const DeveloperMarquee = () => {
           initial={{ x: reversed ? '100%' : '-100%' }}
           animate={{ x: reversed ? '-100%' : '100%' }}
           transition={{
-            duration: 40, // كلما زاد الرقم كلما كان أبطأ
+            duration: 50, // كلما زاد الرقم كلما كان أبطأ
             repeat: Infinity,
             ease: 'linear',
           }}

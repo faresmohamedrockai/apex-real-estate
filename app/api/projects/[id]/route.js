@@ -17,6 +17,10 @@ export async function GET(request, { params }) {
     if (!project) return NextResponse.json({ success: false, error: 'المشروع غير موجود' }, { status: 404 });
 
     const units = await Inventory.find({ projectId: id });
+    
+
+
+
     const projectData = {
       _id: project._id,
       name: project.name,
@@ -28,6 +32,7 @@ export async function GET(request, { params }) {
         : null,
       image: project.image || [],
       isUnique: project.isUnique || false,
+      minPrice:project.minPrice,
       units: units.map(unit => ({
         _id: unit._id,
         title: unit.title,

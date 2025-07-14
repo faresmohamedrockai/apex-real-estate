@@ -110,7 +110,9 @@
     "name": "Name",
     "enterName": "Enter your name",
     "phone": "Phone Number",
+    "email":"Email",
     "enterPhone": "Enter your phone number",
+    "enterEmail":"Enter Email Address Here",
     "project": "Project Name",
     "selectProject": "Select a project",
     "unitType": "Unit Type",
@@ -126,6 +128,8 @@
     "notesPlaceholder": "Enter any additional notes here",
     "reviewTitle": "Add Your Review",
     "writeReview": "Write your review here",
+    "successMessage": "Your consultation has been submitted and is under review.",
+
     "sendReview": "Send Review",
     "consalte": "Request a consultation",
     "opinion": "Share your opinion",

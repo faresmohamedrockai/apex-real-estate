@@ -9,7 +9,7 @@ const ImageBG = () => {
           fill
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-[#b70501]/60" />
+        <div className="absolute inset-0 bg-black/60" />
       </div>
   )
 }

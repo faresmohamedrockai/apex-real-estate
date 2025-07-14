@@ -1,4 +1,23 @@
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+
+export interface IReview extends Document {
+  name: string;
+  phone: string;
+  phone_type: string;
+  rating: number;
+  review: string;
+  review_en?: string;
+  canShow: boolean;
+  isApproved: boolean;
+  project?: string;
+  project_en?: string;
+  unitType: string;
+  unitType_en: string;
+  avatar?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  formattedDate: string;
+}
 
 const reviewSchema = new mongoose.Schema({
   name: {
@@ -10,6 +29,11 @@ const reviewSchema = new mongoose.Schema({
     type: String,
     required: [true, 'رقم الهاتف مطلوب'],
     trim: true
+  },
+  phone_type: {
+    type: String,
+    enum: ['phone', 'whatsapp'],
+    default: 'phone'
   },
   rating: {
     type: Number,

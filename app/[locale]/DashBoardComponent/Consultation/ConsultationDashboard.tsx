@@ -12,7 +12,9 @@ type Consultation = {
   _id: string;
   name: string;
   name_en?: string;
+  email?:string
   phone?: string;
+  phone_type?:string;
   project?: string;
   project_en?: string;
   unitType?: string;
@@ -134,43 +136,51 @@ const ConsultationDashboard = () => {
                 <div className="space-y-2">
                   <div>
                     <span className="font-bold text-red-400">الاسم: </span>
-                    <span className="font-normal">{item.name}</span>
+                    <span className="font-normal">{item.name || item.name_en || '-'}</span>
                   </div>
                   <div>
                     <span className="font-bold text-red-400">الاسم بالإنجليزية: </span>
-                    <span className="font-normal">{item.name_en}</span>
+                    <span className="font-normal">{item.name_en || item.name || '-'}</span>
                   </div>
                   <div>
                     <span className="font-bold text-red-400">رقم الهاتف: </span>
                     <span className="font-normal">{item.phone}</span>
                   </div>
                   <div>
+                    <span className="font-bold text-red-400">نوع رقم الهاتف:</span>
+                    <span className="font-normal">{item.phone_type}</span>
+                  </div>
+                  <div>
+                    <span className="font-bold text-red-400"> البريد الالكتروني: </span>
+                    <span className="font-normal">{item.email}</span>
+                  </div>
+                  <div>
                     <span className="font-bold text-red-400">المشروع: </span>
-                    <span className="font-normal">{item.project}</span>
+                    <span className="font-normal">{item.project || item.project_en || '-'}</span>
                   </div>
                   <div>
                     <span className="font-bold text-red-400">المشروع (بالإنجليزية): </span>
-                    <span className="font-normal">{item.project_en}</span>
+                    <span className="font-normal">{item.project_en || item.project || '-'}</span>
                   </div>
                   <div>
                     <span className="font-bold text-red-400">نوع الوحدة: </span>
-                    <span className="font-normal">{item.unitType}</span>
+                    <span className="font-normal">{item.unitType || item.unitType_en || '-'}</span>
                   </div>
                   <div>
                     <span className="font-bold text-red-400">نوع الوحدة (بالإنجليزية): </span>
-                    <span className="font-normal">{item.unitType_en}</span>
+                    <span className="font-normal">{item.unitType_en || item.unitType || '-'}</span>
                   </div>
                   <div>
                     <span className="font-bold text-red-400">الميزانية: </span>
-                    <span className="font-normal">{item.priceRange?.min} - {item.priceRange?.max}</span>
+                    <span className="font-normal">{(item.priceRange?.min ?? '-') + ' - ' + (item.priceRange?.max ?? '-')}</span>
                   </div>
                   <div>
                     <span className="font-bold text-red-400">ملاحظات: </span>
-                    <span className="font-normal">{item.notes}</span>
+                    <span className="font-normal">{item.notes || item.notes_en || '-'}</span>
                   </div>
                   <div>
                     <span className="font-bold text-red-400">ملاحظات (بالإنجليزية): </span>
-                    <span className="font-normal">{item.notes_en}</span>
+                    <span className="font-normal">{item.notes_en || item.notes || '-'}</span>
                   </div>
                   <div>
                     <span className="font-bold text-red-400">الحالة: </span>

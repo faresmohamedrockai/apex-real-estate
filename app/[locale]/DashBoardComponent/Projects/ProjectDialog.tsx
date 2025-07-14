@@ -27,7 +27,10 @@ export type Project = {
   developerId?: string;
   latitude?: number;
   longitude?: number;
+  maxPrice?: number;
+  avragePrice?: { minPrice?: number; maxPrice?: number };
 };
+
 
 interface ProjectDialogProps {
   project: Project;
@@ -47,22 +50,28 @@ export default function ProjectDialog({ project, children, onProjectUpdated, onP
     name_en: project.name_en || "",
     zone: project.zone || "",
     zone_en: project.zone_en || "",
-    developerId: project.developerId || "",
+    developerId: typeof project.developerId === "object" && project.developerId !== null
+      ? (project.developerId as { _id?: string; id?: string })._id || (project.developerId as { id?: string }).id || ""
+      : project.developerId || "",
     latitude: project.latitude || 0,
     longitude: project.longitude || 0,
     image: project.image || [],
+    minPrice: project?.avragePrice?.minPrice || "",
+   
   });
+
   const [displayImages, setDisplayImages] = useState<string[]>(project.image || []);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [developers, setDevelopers] = useState<{ _id: string; name: string }[]>([]);
+  const [developerError, setDeveloperError] = useState("");
+  const [imageError, setImageError] = useState("");
 
   useEffect(() => {
     fetch("/api/Developers")
       .then((res) => res.json())
       .then((data) => setDevelopers(data));
   }, []);
-
 
   useEffect(() => {
     setForm({
@@ -76,8 +85,11 @@ export default function ProjectDialog({ project, children, onProjectUpdated, onP
       latitude: project.latitude || 0,
       longitude: project.longitude || 0,
       image: project.image || [],
+      minPrice: project?.avragePrice?.minPrice || "",
+   
     });
   }, [project]);
+
 
 
   function isValidCloudinaryUrl(url: string | undefined | null): url is string {
@@ -106,8 +118,22 @@ export default function ProjectDialog({ project, children, onProjectUpdated, onP
     e.preventDefault();
     setLoading(true);
     setMessage("");
-    if (!form.developerId) {
-      setMessage("يجب اختيار المطور");
+    let hasError = false;
+    if (!form.developerId || !developers.some(dev => dev._id === form.developerId)) {
+      setDeveloperError("من فضلك اختر المطور");
+      hasError = true;
+    } else {
+      setDeveloperError("");
+    }
+    // Check images: must have at least one image (either existing or selected)
+    const allImagesCount = displayImages.length + selectedFiles.length;
+    if (allImagesCount === 0) {
+      setImageError("يجب اختيار صورة واحدة على الأقل");
+      hasError = true;
+    } else {
+      setImageError("");
+    }
+    if (hasError) {
       setLoading(false);
       return;
     }
@@ -126,19 +152,34 @@ export default function ProjectDialog({ project, children, onProjectUpdated, onP
       if (failedUploads > 0) {
         setMessage(`فشل رفع ${failedUploads} صورة. يرجى المحاولة مرة أخرى.`);
       }
+      // Only keep valid cloudinary/existing images
       const oldImages = displayImages.filter(img => img.startsWith('http') || img.includes('cloudinary'));
       const allImages = [...oldImages, ...uploadedImages];
+
+      // Send minPrice and maxPrice as avragePrice
+      const patchBody = {
+        ...form,
+        developerId: form.developerId,
+        image: allImages,
+        minPrice:form.minPrice
+      };
+
+
+
+
+      
 
       const res = await fetch(`/api/projects/${project._id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, image: allImages }),
+        body: JSON.stringify(patchBody),
       });
       const data = await res.json();
       if (res.ok && data.success) {
-        setMessage("تم حفظ التعديلات بنجاح");
+        setMessage("تم إضافة مطور بنجاح");
         setEditMode(false);
         onProjectUpdated && onProjectUpdated();
+        setTimeout(() => setMessage(""), 2000);
       } else {
         setMessage(data.error || "حدث خطأ أثناء التعديل");
       }
@@ -154,7 +195,7 @@ export default function ProjectDialog({ project, children, onProjectUpdated, onP
       setMessage("❌ لا يمكنك حذف المشاريع. صلاحيات غير كافية.");
       return;
     }
-    
+
     if (!confirm("هل أنت متأكد من حذف المشروع؟")) return;
     setLoading(true);
     setMessage("");
@@ -208,24 +249,50 @@ export default function ProjectDialog({ project, children, onProjectUpdated, onP
                 <Label htmlFor="zone_en" className="block text-base text-left">المنطقة (بالإنجليزية)</Label>
                 <Input id="zone_en" name="zone_en" value={form.zone_en} onChange={handleChange} className="bg-white/10 text-white border-white/20 focus:ring-white text-left" dir="ltr" required={false} />
               </div>
+              <div className="flex gap-4">
+                <div className="flex-1">
+                  <Label htmlFor="minPrice" className="block text-base text-right">أقل سعر</Label>
+                  <Input
+                    id="minPrice"
+                    name="minPrice"
+                    type="number"
+                    value={form.minPrice}
+                    onChange={handleChange}
+                    className="bg-white/10 text-white border-white/20 focus:ring-white text-right"
+                  />
+                </div>
+             
+              </div>
+
               <div>
                 <Label htmlFor="developerId" className="block text-base text-right">المطور</Label>
-                {/* Show current developer name if available */}
-                {form.developerId && developers.length > 0 && (
+                {/* Always show current developer name if available */}
+                {project.developerId && (
                   <div className="mb-2 text-sm text-white text-right">
-                    المطور الحالي: <span className="font-bold">{developers.find(dev => dev._id === form.developerId)?.name || "غير محدد"}</span>
+                    المطور الحالي: <span className="font-bold">{typeof project.developerId === "object" && project.developerId !== null ? (project.developerId as { name?: string }).name : project.developerId}</span>
                   </div>
                 )}
-                <Select value={form.developerId} onValueChange={(value) => setForm(prev => ({ ...prev, developerId: value }))} required>
+                <Select value={form.developerId} onValueChange={(value) => { setForm(prev => ({ ...prev, developerId: value })); setDeveloperError(""); }} required>
                   <SelectTrigger className="w-full bg-white/10 text-white border-white/20 focus:ring-white text-right" >
                     <SelectValue placeholder="اختر المطور" />
                   </SelectTrigger>
                   <SelectContent className="bg-[#b70501] text-white text-right">
+                    {/* المطور الحالي أولاً إذا لم يكن في القائمة */}
+                    {form.developerId && !developers.some(dev => dev._id === form.developerId) && (
+                      <SelectItem value={form.developerId}>
+                        {project.developerId && typeof project.developerId === "object"
+                          ? (project.developerId as { name?: string }).name || "مطور غير معروف"
+                          : "مطور غير معروف"}
+                      </SelectItem>
+                    )}
                     {developers.map((dev) => (
                       <SelectItem key={dev._id} value={dev._id}>{dev.name}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
+                {developerError && (
+                  <div className="text-red-500 text-sm mt-1 text-right">{developerError}</div>
+                )}
               </div>
               <div className="flex gap-4">
                 <div className="flex-1">
@@ -268,6 +335,9 @@ export default function ProjectDialog({ project, children, onProjectUpdated, onP
                     </div>
                   ))}
                 </div>
+                {imageError && (
+                  <div className="text-red-500 text-sm mt-1 text-right">{imageError}</div>
+                )}
               </div>
               {message && <div className="text-white bg-red-600 p-2 rounded text-center">{message}</div>}
               <div className="flex gap-2 mt-4">

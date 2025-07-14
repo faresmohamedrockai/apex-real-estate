@@ -58,7 +58,7 @@ export default function Map() {
     <MapContainer
       key={mapId}
       center={ALEXANDRIA_COORDS as [number, number]}
-      zoom={13}
+      zoom={8}
       style={{ height: '100%', width: '100%' }}
       className="rounded-lg"
     >

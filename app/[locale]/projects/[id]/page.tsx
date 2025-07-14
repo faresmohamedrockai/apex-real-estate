@@ -135,7 +135,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function Page({ params }: PageProps) {
   const { id } = await params;
+
   const data = await getProject(id);
+  
   console.log(data);
   return <ProjectDetailsPage data={data} />;
 } 
